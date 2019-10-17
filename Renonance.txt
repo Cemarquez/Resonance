@@ -1,0 +1,19 @@
+1- Clases:
+   - Renonance (Principal): 
+   - Usuario: Chats, Amigos, Bloqueados, Pendientes, Publicaciones, Fotos, Notificaciones, Perfil
+   - UsuarioManager: Grafo, metodos de interacciónn
+   - Chat: Mensajes, Usuarios
+   - Mensaje: Mensaje, Fecha, Stickers,(Foto), OpcionManager
+   - Perfil: Nombre, Usuario, Correo, Direccion, Contraseña, OpcionManager
+   - Publicacion: Herede mensaje
+   - Opcion: Nombre, Estado
+   - OpcionManager: Opciones
+   - Reacciones: Tipo
+   - TipoReaccion: Me enorgullece, Me gusta, No me gusta, Me divierte, Me entristece
+   - Notificacion: Tipo, fecha, Procedencia
+   - TipoNotificacion: Mensaje, Publicacion, Reaccion, Solicitudes
+
+	resonance.usuario: Usuario, perfil, opcion, opcionmanager, Tiponotificacion
+	resonance.texto: Chat, Mensaje, Publicacion, Reaccion, TipoReaccion
+	resonance
+
