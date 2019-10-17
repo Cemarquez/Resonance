@@ -1,2 +1,2 @@
 # Resonance
-Estructura de datos - Proyecto final
+El retumbar de la sociedad en nosotros
