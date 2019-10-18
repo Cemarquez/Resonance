@@ -3,17 +3,22 @@ package resonance.usuario;
 import java.util.ArrayList;
 
 import resonance.excepciones.LimitException;
+import resonance.texto.Chat;
 import resonance.usuario.Relacion.TipoRelacion;
 
 public class Usuario {
+	
 	private String id;
 	private ArrayList<Relacion> relaciones;
 	private int limiteAmigos;
-	private ArrayList<Usuario> conexionesEntrantes;
-
-	public Usuario(String nombre) {
-		conexionesEntrantes = new ArrayList<>();
+    private Perfil perfil;
+    private ArrayList<Chat> chats;
+    //Fotos
+    
+	public Usuario(String nombre, Perfil perfil) {
+		this.setPerfil(perfil);
 		this.id = nombre;
+		setChats(new ArrayList<Chat>());
 		relaciones = new ArrayList<Relacion>();
 		limiteAmigos = 0;
 		relaciones.add(null);
@@ -101,8 +106,22 @@ public class Usuario {
 		return relaciones.get(indice);
 	}
 
-	public int getConexionesEntrantes() {
-		return conexionesEntrantes.size();
+	public Perfil getPerfil() {
+		return perfil;
 	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public ArrayList<Chat> getChats() {
+		return chats;
+	}
+
+	public void setChats(ArrayList<Chat> chats) {
+		this.chats = chats;
+	}
+
+	
 
 }

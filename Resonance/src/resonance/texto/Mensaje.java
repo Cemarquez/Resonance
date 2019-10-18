@@ -2,13 +2,10 @@ package resonance.texto;
 
 import java.util.Date;
 
-import resonance.usuario.OpcionManager;
-
 public class Mensaje {
 
 	private String mensaje;
 	private Date fecha;
-	private OpcionManager opciones;
 	// foto
 	// stickers
 
