@@ -3,132 +3,106 @@ package resonance.usuario;
 import java.util.ArrayList;
 
 import resonance.excepciones.LimitException;
-
+import resonance.usuario.Relacion.TipoRelacion;
 
 public class Usuario {
-	private String name;
-	private Object value;
-	private ArrayList<Usuario> links;
-	private int linksLimits;
+	private String id;
+	private ArrayList<Relacion> relaciones;
+	private int limiteAmigos;
 	private ArrayList<Usuario> conexionesEntrantes;
-	public Usuario(String nombre)
-	{
+
+	public Usuario(String nombre) {
 		conexionesEntrantes = new ArrayList<>();
-		this.name = nombre;
-		links = new ArrayList<Usuario>();
-		linksLimits = 0;
-		links.add(null);
+		this.id = nombre;
+		relaciones = new ArrayList<Relacion>();
+		limiteAmigos = 0;
+		relaciones.add(null);
 	}
 
-	public String getNombre() 
-	{
-		return name;
+	public String getID() {
+		return id;
 	}
 
-	public void setNombre(String nombre) 
-	{
-		this.name = nombre;
+	public int getSize() {
+		return relaciones.size();
 	}
 
-	public Object getDato() 
-	{
-		return value;
+	public int getLimiteAmigos() {
+		return limiteAmigos;
 	}
 
-	public void setDato(Object dato) 
-	{
-		this.value = dato;
-	}
-	
-	public int getSize() 
-	{
-		return links.size();
-	}
-	
-	public int getLimiteEnlaces() 
-	{
-		return linksLimits;
+	public void setLimiteAmigos(int limiteAmigos) {
+		this.limiteAmigos = limiteAmigos;
 	}
 
-	public void setLimiteEnlaces(int limiteEnlaces) 
-	{
-		this.linksLimits = limiteEnlaces;
-	}
+	public void determinarRelacion(Usuario destino, TipoRelacion relacion) throws LimitException {
 
-	public void conectar(int indice, Usuario destino) throws LimitException
-	{
-		if(indice > linksLimits && linksLimits != 0) 
-		{
-			throw new LimitException("No es posible realizar la conexiï¿½n. ï¿½ndice supera el lï¿½mite establecido");
+		if (modificarConexion(destino, relacion)) {
+			return;
 		}
-			
-		if(indice >= links.size())
-		{
-			int n = indice - links.size();
-			
-			for(int i = 0; i < n; i++)
-			{
-				links.add(null);
+		if (relacion == TipoRelacion.AMIGOS) {
+			if (getAmigos().size() > limiteAmigos && limiteAmigos != 0) {
+				throw new LimitException("Excedes el número de amigos permitidos por el administrador.");
+			} else {
+				relaciones.add(new Relacion(relacion, destino));
 			}
-			
-			links.add(destino);
-		}
-		else
-		{
-			links.set(indice, destino);
-		}
-	}
-	
-	
-	public void desconectar(int indice)
-	{
-
-		links.set(indice, null);
-	}
-	
-	public boolean isConected(int indice)
-	{
-		if(indice >= getSize())
-		return false;
-		
-		return links.get(indice) != null;
-	}
-	
-	public Usuario seguirEnlace(int indice)
-	{
-		return links.get(indice);
-	}
-	
-	public String toString() {
-
-		String s = name + ": ";
-		s += "{" + value + "}\n";
-		s += "Enlaces: " + links.size() + "\n";
-
-		for (int i = 0; i < links.size(); i++) {
-
-		s += "[" + i + "]:";
-		if (links.get(i) != null) {
-
-		s += links.get(i).getNombre() + "\n";
-
 		} else {
-
-		s += null + "\n";
-
+			relaciones.add(new Relacion(relacion, destino));
 		}
 
-		}
-		return s;
 	}
 
-	public int getConexionesEntrantes()
-	{
+	public ArrayList<Usuario> getAmigos() {
+		ArrayList<Usuario> amigos = new ArrayList<Usuario>();
+		for (Relacion r : relaciones) {
+			if (r.getTipo() == TipoRelacion.AMIGOS) {
+				amigos.add(r.getUsuario());
+			}
+		}
+		return amigos;
+	}
+
+	public boolean modificarConexion(Usuario usuario, TipoRelacion relacion) {
+		for (Relacion r : relaciones) {
+			if (r.getUsuario() == usuario) {
+				r.setTipo(relacion);
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
+	public boolean eliminarAmigo(Usuario usuario) {
+		for (Relacion r : relaciones) {
+			if (r.getUsuario() == usuario) {
+				relaciones.remove(r);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void desconectar(int indice) {
+
+		relaciones.set(indice, null);
+	}
+
+	public boolean isConected(int indice) {
+		if (indice >= getSize())
+			return false;
+
+		return relaciones.get(indice) != null;
+	}
+
+	public Relacion seguirRelacion(int indice) {
+		return relaciones.get(indice);
+	}
+
+	public int getConexionesEntrantes() {
 		return conexionesEntrantes.size();
 	}
-	
-	
 
-	
-	
 }
