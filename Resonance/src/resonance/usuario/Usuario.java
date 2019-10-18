@@ -13,6 +13,7 @@ public class Usuario {
 	private int limiteAmigos;
     private Perfil perfil;
     private ArrayList<Chat> chats;
+    private boolean admin=false;
     //Fotos
     
 	public Usuario(String nombre, Perfil perfil) {
@@ -28,7 +29,7 @@ public class Usuario {
 		return id;
 	}
 
-	public int getSize() {
+	public int getNumRelaciones() {
 		return relaciones.size();
 	}
 
@@ -36,6 +37,18 @@ public class Usuario {
 		return limiteAmigos;
 	}
 
+	public boolean estaRelacionado(String nombre) {
+		
+		for(Relacion r : relaciones)
+		{
+			if(r.getUsuario().getID().equals(nombre))
+			{
+				return true;
+			}
+		}
+		
+		return false;
+	}
 	public void setLimiteAmigos(int limiteAmigos) {
 		this.limiteAmigos = limiteAmigos;
 	}
@@ -89,14 +102,23 @@ public class Usuario {
 
 		return false;
 	}
+	
 
-	public void desconectar(int indice) {
-
-		relaciones.set(indice, null);
+	public boolean eliminarRelacion(Usuario usuario)
+	{
+		
+		for(Relacion r : relaciones)
+		{
+			if(r.getUsuario() == usuario) {
+				relaciones.remove(r);
+				return true;
+			}
+		}
+		
+		return false;
 	}
-
 	public boolean isConected(int indice) {
-		if (indice >= getSize())
+		if (indice >= getNumRelaciones())
 			return false;
 
 		return relaciones.get(indice) != null;
@@ -120,6 +142,14 @@ public class Usuario {
 
 	public void setChats(ArrayList<Chat> chats) {
 		this.chats = chats;
+	}
+
+	public boolean isAdmin() {
+		return admin;
+	}
+
+	public void setAdmin(boolean admin) {
+		this.admin = admin;
 	}
 
 	

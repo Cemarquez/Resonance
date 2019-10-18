@@ -60,6 +60,18 @@ public class Grafo {
 		
 		return nodo;
 	}
+	
+	
+	 public void modificarLimiteDeAmigos(String nombre, int limite) throws ExistException
+	 {
+		if(grafo.get(nombre) !=null)
+		{
+			grafo.get(nombre).setLimiteAmigos(limite);
+		}else {
+			throw new ExistException("No existe un usuario con el nombre ingresado.");
+		}
+	 }
+	 
 	public void eliminar(String nombre) throws ExistException
 	{
 		if(grafo.get(nombre) != null)
@@ -67,44 +79,24 @@ public class Grafo {
 			Iterator<String> keys = grafo.keySet().iterator();
 			while(keys.hasNext())
 			{
-				Nodo aux = grafo.get(keys.next());
-				aux.desconectarNodo(nombre);
+				Usuario aux = grafo.get(keys.next());
+				aux.eliminarRelacion(grafo.get(nombre));
 			}
 			grafo.remove(nombre);
 		}else {
-			throw new ExistException("No existen un nodo con el nombre ingresado.");
+			throw new ExistException("No existen un usuario con el nombre ingresado.");
 		}
 	}
 	
 	
-	public void setDato(String nombre, Object dato) throws ExistException
-	{
-		if(grafo.get(nombre) != null)
-		{
-			grafo.get(nombre).setDato(dato);
-		}else {
-			throw new ExistException("No existen un nodo con el nombre ingresado.");
-		}
-	}
+
 	
-	public Object getDato(String nombre) throws ExistException
-	{
-		Object obj = null;
-		if(grafo.get(nombre) != null)
-		{
-			obj = grafo.get(nombre).getDato();
-		}else {
-			throw new ExistException("No existen un nodo con el nombre ingresado.");
-		}
-		return obj;
-	}
-	
-	public int getSizeNodo(String nombre) throws ExistException
+	public int getNumRelaciones(String nombre) throws ExistException
 	{
 		int size =0;
 		if(grafo.get(nombre) != null)
 		{
-			size = grafo.get(nombre).getTamañoNoNulas();
+			size = grafo.get(nombre).getNumRelaciones();
 		}else {
 			throw new ExistException("No existen un nodo con el nombre ingresado.");
 		}
@@ -117,40 +109,40 @@ public class Grafo {
 	public String toString()
 	{
 		String s ="";
-		s+= "Estado del Grafo: \n Tamaño: " + getTamanio();
+		s+= "Estado del Grafo: \n Tamaño: " + getCantUsuarios();
 		
 		Iterator<String> ite = grafo.keySet().iterator();
 		while(ite.hasNext())
 		{
 			Object obj = ite.next();
-			Nodo a = grafo.get(obj);
+			Usuario a = grafo.get(obj);
 			s+= "\n" + a.toString();
 		}
 		
 		return s;
 	}
-	public Nodo getNodoInicial() {
+	public Usuario getNodoInicial() {
 		return nodoInicial;
 	}
 
-	public boolean estaConectado (String nombre, int indice) throws ExistException
+	public boolean estaRelacionado (String nombreOrigen, String userDestino) throws ExistException
 	{
-		if(grafo.get(nombre) != null)
+		if(grafo.get(nombreOrigen) != null && grafo.get(userDestino) != null)
 		{
-			if(grafo.get(nombre).isConected(indice))
+			if(grafo.get(nombreOrigen).estaRelacionado(userDestino))
 			return true;
 		}else {
 			throw new ExistException("No existen un nodo con el nombre ingresado.");
 		}
 		return false;
 	}
-	public int getTamanio()
+	public int getCantUsuarios()
 	{
 		return grafo.size();
 	}
 
 
-	public void setNodoInicial(Nodo nodoInicial) {
+	public void setNodoInicial(Usuario nodoInicial) {
 		this.nodoInicial = nodoInicial;
 	}
 	
