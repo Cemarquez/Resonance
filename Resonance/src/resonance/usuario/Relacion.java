@@ -26,6 +26,11 @@ public class Relacion {
 		this.usuario = usuario;
 	}
 
+	public boolean isAmigo()
+	{
+		return tipo == TipoRelacion.AMIGOS;
+	}
+	
 	public enum TipoRelacion {
 		BLOQUEADO, PENDIENTE, AMIGOS
 	}

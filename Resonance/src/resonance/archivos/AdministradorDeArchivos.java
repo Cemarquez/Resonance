@@ -7,9 +7,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import resonance.estructura.RedDeUsuarios;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
-import resonance.usuario.Grafo;
 import resonance.usuario.Usuario;
 
 public class AdministradorDeArchivos {
@@ -59,9 +59,9 @@ public class AdministradorDeArchivos {
 	}
 	
 	
-	public static Grafo deserializarGrafo() {
+	public static RedDeUsuarios deserializarGrafo() {
 		
-		Grafo grafo  = new Grafo ();
+		RedDeUsuarios grafo  = new RedDeUsuarios ();
 		File file = new File(url+ "/Usuarios/");
 		for (File f : file.listFiles())
 		{

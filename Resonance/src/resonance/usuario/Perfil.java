@@ -25,6 +25,7 @@ public class Perfil {
 		this.usuario = usuario;
 		this.correo = correo;
 		this.direccion = direccion;
+		
 		this.contrasena = contrasena;
 		
 		crearOpciones();

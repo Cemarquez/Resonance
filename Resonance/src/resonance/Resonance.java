@@ -1,16 +1,19 @@
 package resonance;
 
+import java.util.ArrayList;
+
+import resonance.estructura.RedDeUsuarios;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
-import resonance.usuario.Grafo;
 import resonance.usuario.Perfil;
+import resonance.usuario.Usuario;
 
 public class Resonance {
- private Grafo administradorDeUsuarios;
+ private RedDeUsuarios administradorDeUsuarios;
  public Resonance()
  {
 	 
-	 administradorDeUsuarios = new Grafo();
+	 administradorDeUsuarios = new RedDeUsuarios();
  }
  
  
@@ -27,5 +30,9 @@ public class Resonance {
  {
 	 administradorDeUsuarios.modificarLimiteDeAmigos(nombre, limite);
  }
+
+	public ArrayList<Usuario> getAmigos(String usuario) {
+		return administradorDeUsuarios.getAmigos(usuario);
+	}
 	
 }

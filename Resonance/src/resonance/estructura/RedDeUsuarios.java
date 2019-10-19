@@ -1,24 +1,25 @@
-package resonance.usuario;
+package resonance.estructura;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
-import resonance.texto.Reaccion.TipoReaccion;
+import resonance.usuario.Perfil;
+import resonance.usuario.Relacion;
+import resonance.usuario.Usuario;
 import resonance.usuario.Relacion.TipoRelacion;
 
 
-public class Grafo {
+public class RedDeUsuarios {
    
 	private HashMap<String, Usuario> grafo;
-	private int limite;
 	private Usuario nodoInicial;
-	public Grafo()
+	public RedDeUsuarios()
 	{
 		grafo = new HashMap<>();
-		limite =0;
 		nodoInicial = null;
 	}
 	
@@ -37,6 +38,14 @@ public class Grafo {
 		
 	
 
+	public ArrayList<Usuario> getAmigos(String usuario) {
+		ArrayList<Usuario> amigos = new ArrayList<Usuario>();
+		if (grafo.get(usuario) != null) {
+			amigos = grafo.get(usuario).getAmigos();
+		}
+
+		return amigos;
+	}
 	public void conectar(String nombreOrigen, String nombreDestino, TipoRelacion tipoRelacion) throws ExistException, LimitException
 	{
 		if(grafo.get(nombreOrigen) != null && grafo.get(nombreDestino) != null){
