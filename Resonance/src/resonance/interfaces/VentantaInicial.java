@@ -163,7 +163,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 	}
 
 	/**
-	 * Cerrar ventana con tecla escape
+	 * Cerrar ventana con tecla escape ESC
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
