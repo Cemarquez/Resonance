@@ -17,7 +17,7 @@ public class Resonance {
  }
  
  
- public void añadirUsuario(String nombre, Perfil perfil) throws LimitException, ExistException
+ public void anadirUsuario(String nombre, Perfil perfil) throws LimitException, ExistException
  {
 	 administradorDeUsuarios.agregar(nombre, perfil);
  }
