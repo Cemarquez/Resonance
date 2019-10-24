@@ -26,7 +26,6 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private JTextField textField;
-	private boolean cerrar = false;
 	public VentantaInicial() {
 
 
@@ -150,9 +149,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		setExtendedState(MAXIMIZED_BOTH);
 
 
-		if (cerrar == true) {
-			System.exit(0);
-		}
+
 
 	}
 
