@@ -162,6 +162,9 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 
 	}
 
+	/**
+	 * Cerrar ventana con tecla escape
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
