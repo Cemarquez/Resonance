@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -19,13 +21,15 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
-public class VentantaInicial extends JFrame implements ActionListener {
+public class VentantaInicial extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
 	private JPasswordField passwordField;
 	private JTextField textField;
-
+	private boolean cerrar = false;
 	public VentantaInicial() {
+
+
 
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = Toolkit.getDefaultToolkit().getScreenSize();
@@ -86,6 +90,7 @@ public class VentantaInicial extends JFrame implements ActionListener {
 		panelInicioSesion.add(separator_1);
 
 		passwordField = new JPasswordField();
+		passwordField.addKeyListener(this);
 		passwordField.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
@@ -102,7 +107,7 @@ public class VentantaInicial extends JFrame implements ActionListener {
 		panelInicioSesion.add(passwordField);
 
 		textField = new JTextField();
-
+		textField.addKeyListener(this);
 		textField.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -144,6 +149,11 @@ public class VentantaInicial extends JFrame implements ActionListener {
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
 
+
+		if (cerrar == true) {
+			System.exit(0);
+		}
+
 	}
 
 	public static void main(String[] args) {
@@ -152,7 +162,29 @@ public class VentantaInicial extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+
+	}
+
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ESCAPE) {
+
+			System.exit(0);
+
+		}
+
+	}
+
+	@Override
+	public void keyReleased(KeyEvent e) {
 		// TODO Auto-generated method stub
 
 	}
+
+	@Override
+	public void keyTyped(KeyEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
 }
