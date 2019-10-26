@@ -11,6 +11,7 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -18,6 +19,8 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+
+import rojeru_san.componentes.RSDateChooser;
 
 /**
  * @author Esteban
@@ -103,7 +106,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		JLabel lblFechaDeNacimiento = new JLabel("Fecha de nacimiento");
 		lblFechaDeNacimiento.setForeground(Color.DARK_GRAY);
 		lblFechaDeNacimiento.setFont(new Font("Segoe UI", Font.PLAIN, 21));
-		lblFechaDeNacimiento.setBounds(104, 438, 214, 33);
+		lblFechaDeNacimiento.setBounds(433, 110, 214, 33);
 		panel.add(lblFechaDeNacimiento);
 
 		JPanel panel_1 = new JPanel();
@@ -118,15 +121,9 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblContinuar.setFont(new Font("Segoe UI", Font.PLAIN, 21));
 		panel_1.add(lblContinuar);
 
-		JSeparator separator_4 = new JSeparator();
-		separator_4.setForeground(SystemColor.controlShadow);
-		separator_4.setBackground(Color.GRAY);
-		separator_4.setBounds(104, 492, 300, 5);
-		panel.add(separator_4);
-
 		JCheckBox chckbxAceptoLosTerminos = new JCheckBox("Acepto los terminos y condiciones");
 		chckbxAceptoLosTerminos.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		chckbxAceptoLosTerminos.setBounds(190, 541, 214, 23);
+		chckbxAceptoLosTerminos.setBounds(190, 507, 214, 23);
 		panel.add(chckbxAceptoLosTerminos);
 
 		textField = new JTextField();
@@ -160,6 +157,19 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		textField_2.setBounds(104, 385, 292, 23);
 		panel.add(textField_2);
 
+		RSDateChooser dateChooser = new RSDateChooser();
+		dateChooser.setColorDiaActual(Color.BLACK);
+		dateChooser.setColorButtonHover(Color.BLACK);
+		dateChooser.setColorForeground(Color.DARK_GRAY);
+		dateChooser.setColorBackground(Color.GRAY);
+		dateChooser.setBounds(433, 157, 240, 24);
+		panel.add(dateChooser);
+
+		JLabel lblLogoIcon = new JLabel("New label");
+		lblLogoIcon.setIcon(new ImageIcon(VentanaRegistro.class.getResource("/imagenes/Logo1Reducido.png")));
+		lblLogoIcon.setBounds(297, 11, 50, 61);
+		panel.add(lblLogoIcon);
+
 	}
 
 
@@ -171,7 +181,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		// TODO Auto-generated method stub
+
 
 	}
 }

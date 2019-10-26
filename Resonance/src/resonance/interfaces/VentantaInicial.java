@@ -46,7 +46,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		lblResonance.setFont(new Font("Century Gothic", Font.PLAIN, 33));
 		lblResonance.setForeground(Color.WHITE);
 		lblResonance.setBackground(Color.WHITE);
-		lblResonance.setBounds(34, 26, 186, 29);
+		lblResonance.setBounds(40, 26, 600, 50);
 		panelBanner.add(lblResonance);
 
 		JPanel panelInicioSesion = new JPanel();
@@ -61,31 +61,31 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		lblIniciaSesionO.setForeground(Color.WHITE);
 		lblIniciaSesionO.setFont(new Font("Century Gothic", Font.PLAIN, 33));
 		lblIniciaSesionO.setBackground(Color.WHITE);
-		lblIniciaSesionO.setBounds(157, 87, 439, 58);
+		lblIniciaSesionO.setBounds((int) (panelInicioSesion.getWidth()/4), 87, 439, panelInicioSesion.getHeight()/10);
 		panelInicioSesion.add(lblIniciaSesionO);
 
 		JLabel lblUsuario = new JLabel("USUARIO");
 		lblUsuario.setForeground(Color.LIGHT_GRAY);
 		lblUsuario.setFont(new Font("Century Gothic", Font.BOLD, 33));
 		lblUsuario.setBackground(Color.WHITE);
-		lblUsuario.setBounds(157, 224, 439, 58);
+		lblUsuario.setBounds(panelInicioSesion.getWidth()/4, 224, 439, panelInicioSesion.getHeight()/9);
 		panelInicioSesion.add(lblUsuario);
 
 		JLabel lblClave = new JLabel("CLAVE");
 		lblClave.setForeground(Color.LIGHT_GRAY);
 		lblClave.setFont(new Font("Century Gothic", Font.BOLD, 33));
 		lblClave.setBackground(Color.WHITE);
-		lblClave.setBounds(157, 338, 439, 58);
+		lblClave.setBounds(panelInicioSesion.getWidth()/4, 338, 439, panelInicioSesion.getHeight()/8);
 		panelInicioSesion.add(lblClave);
 
 		JSeparator separator = new JSeparator();
 		separator.setForeground(Color.WHITE);
-		separator.setBounds(157, 326, 389, 2);
+		separator.setBounds(panelInicioSesion.getWidth() / 4, 326, 389, panelInicioSesion.getHeight() / 8);
 		panelInicioSesion.add(separator);
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);
-		separator_1.setBounds(157, 443, 389, 2);
+		separator_1.setBounds(panelInicioSesion.getWidth()/4, 443, 389, 2);
 		panelInicioSesion.add(separator_1);
 
 		passwordField = new JPasswordField();
@@ -102,7 +102,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		passwordField.setText("password");
 
 		passwordField.setBorder(null);
-		passwordField.setBounds(157, 403, 394, 37);
+		passwordField.setBounds(panelInicioSesion.getWidth()/4, 403, panelInicioSesion.getHeight()/4, 37);
 		panelInicioSesion.add(passwordField);
 
 		textField = new JTextField();
@@ -119,7 +119,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		textField.setText("Ingrese su nombre de usuario");
 		textField.setBorder(null);
 		textField.setBackground(Color.decode("#5B5151"));
-		textField.setBounds(157, 290, 389, 31);
+		textField.setBounds(panelInicioSesion.getWidth()/4, 290, 389, 31);
 		panelInicioSesion.add(textField);
 		textField.setColumns(10);
 
@@ -129,7 +129,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		chckbxNewCheckBox.setBorder(null);
 		chckbxNewCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 15));
 		chckbxNewCheckBox.setBackground(Color.decode("#5B5151"));
-		chckbxNewCheckBox.setBounds(157, 516, 333, 23);
+		chckbxNewCheckBox.setBounds(panelInicioSesion.getWidth()/4, 516, 333, 23);
 		panelInicioSesion.add(chckbxNewCheckBox);
 
 		JPanel panel = new JPanel();
