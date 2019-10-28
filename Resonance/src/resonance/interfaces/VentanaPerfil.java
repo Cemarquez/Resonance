@@ -52,29 +52,35 @@ public class VentanaPerfil extends JFrame {
 		getContentPane().setSize(tamano);
 		getContentPane().setLayout(null);
 	    
-	    JPanel panel = new JPanel();
-	    panel.setBounds(0, 0, 1599, 59);
-	    getContentPane().add(panel);
-	    panel.setLayout(null);
+	    JPanel bannerInicio = new JPanel();
+	    bannerInicio.setBounds(0, 0, 1599, 59);
+	    getContentPane().add(bannerInicio);
+	    bannerInicio.setLayout(null);
 	    
 	    JLabel imgInicio = new JLabel("New label");
 	    imgInicio.setIcon(new ImageIcon(VentanaPerfil.class.getResource("/imagenes/Logo1Reducido.png")));
 	    imgInicio.setBounds(10, 11, 53, 48);
-	    panel.add(imgInicio);
+	    bannerInicio.add(imgInicio);
 	    
 	    JLabel lblInicio = new JLabel("Inicio");
 	    lblInicio.setFont(new Font("Segoe UI", Font.BOLD, 20));
 	    lblInicio.setBounds(73, 15, 52, 31);
-	    panel.add(lblInicio);
+	    bannerInicio.add(lblInicio);
 		
 	
 
 	    
 	  //  getContentPane().add(scrollPane); 
 	    
-	    JPanel panel_1 = new JPanel();
-	    panel_1.setPreferredSize(new Dimension(1564,754));
-	    JScrollPane scroll = new JScrollPane (panel_1,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    JPanel panelScroll = new JPanel();
+	    panelScroll.setPreferredSize(new Dimension(1564,754));
+	    JScrollPane scroll = new JScrollPane (panelScroll,JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+	    panelScroll.setLayout(null);
+	    
+	    JPanel portada = new JPanel();
+	    portada.setBackground(Color.RED);
+	    portada.setBounds(10, 11, 1514, 187);
+	    panelScroll.add(portada);
 	    scroll.setLocation(20, 70);
 	    scroll.setSize(1564,754);
 	    getContentPane().add(scroll);

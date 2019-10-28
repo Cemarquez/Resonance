@@ -26,7 +26,7 @@ public class AdministradorDeArchivos {
 	
 	public static boolean existUser(String name)
 	{
-		File file = new File(url+"/Usuarios/"+name+".dat");
+		File file = new File(url+"/Usuarios/"+name+"/"+name+".dat");
         if(file.exists()) {
         	return true;
         }
@@ -38,7 +38,7 @@ public class AdministradorDeArchivos {
 	{
 		try {
 			
-			FileOutputStream fos = new FileOutputStream(disco() +"/Usuarios/"+user.getID()+".dat");
+			FileOutputStream fos = new FileOutputStream(disco() +"/Usuarios/"+user.getID()+"/"+user.getID()+".dat");
 			ObjectOutputStream oos =  new ObjectOutputStream(fos);
 			oos.writeObject(user);
 			oos.close();
@@ -87,7 +87,7 @@ public class AdministradorDeArchivos {
 		
 		try
 		{
-		FileInputStream fis = new FileInputStream(disco() + "Resonance/Usuarios/"+id+".dat");
+		FileInputStream fis = new FileInputStream(disco() + "Resonance/Usuarios/"+id+"/"+id+".dat");
 		ObjectInputStream ois = new ObjectInputStream(fis);
 		user = (Usuario) ois.readObject();
 		ois.close();
