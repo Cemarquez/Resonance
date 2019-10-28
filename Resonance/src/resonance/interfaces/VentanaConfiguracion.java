@@ -39,7 +39,7 @@ import javax.swing.border.SoftBevelBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.border.CompoundBorder;
 
-public class VentanaConfiguración extends JFrame implements ActionListener
+public class VentanaConfiguracion extends JFrame implements ActionListener
 {
 
 	private static final long serialVersionUID = 1L;
@@ -50,7 +50,7 @@ public class VentanaConfiguración extends JFrame implements ActionListener
 	private JPanel panelPrivacidad;
 	private JPanel panelNotifiaciones;
 	
-	public VentanaConfiguración() 
+	public VentanaConfiguracion() 
 	{
 
 		this.setExtendedState(MAXIMIZED_BOTH);
@@ -74,7 +74,7 @@ public class VentanaConfiguración extends JFrame implements ActionListener
 		panelConfiguracion.add(panel1);
 		panel1.setLayout(null);
 		
-		JLabel lblTitulo = new JLabel("Configuración");
+		JLabel lblTitulo = new JLabel("Configuracion");
 		lblTitulo.setBounds(10, 11, 272, 43);
 		lblTitulo.setFont(new Font("Arial", Font.PLAIN, 40));
 		lblTitulo.setForeground(Color.WHITE);
@@ -194,7 +194,7 @@ public class VentanaConfiguración extends JFrame implements ActionListener
 	}
 
 	public static void main(String[] args) {
-		new VentanaConfiguración().setVisible(true);
+		new VentanaConfiguracion().setVisible(true);
 	}
 
 	@Override

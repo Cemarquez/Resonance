@@ -146,6 +146,28 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		label.setBackground(Color.WHITE);
 		label.setBounds(10, 11, 185, 29);
 		panel.add(label);
+		
+		JPanel registro = new JPanel();
+		registro.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				
+				VentanaRegistro miVRegistro = new VentanaRegistro();
+				miVRegistro.setVisible(true);
+				
+			}
+		});
+		registro.setLayout(null);
+		registro.setBackground(new Color(85, 123, 131));
+		registro.setBounds(430, 595, 189, 47);
+		panelInicioSesion.add(registro);
+		
+		JLabel lblCreaTuCuenta = new JLabel("Crear cuenta");
+		lblCreaTuCuenta.setForeground(Color.WHITE);
+		lblCreaTuCuenta.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+		lblCreaTuCuenta.setBackground(Color.WHITE);
+		lblCreaTuCuenta.setBounds(0, 11, 185, 29);
+		registro.add(lblCreaTuCuenta);
 
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
@@ -188,5 +210,4 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		// TODO Auto-generated method stub
 
 	}
-
 }
