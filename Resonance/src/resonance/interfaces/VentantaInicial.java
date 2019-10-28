@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
+import javax.swing.ImageIcon;
 
 public class VentantaInicial extends JFrame implements ActionListener, KeyListener {
 
@@ -42,11 +43,12 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		getContentPane().add(panelBanner);
 		panelBanner.setLayout(null);
 
-		JLabel lblResonance = new JLabel("Resonance");
+		JLabel lblResonance = new JLabel("");
+		lblResonance.setIcon(new ImageIcon(VentantaInicial.class.getResource("/imagenes/segunda.jpg")));
 		lblResonance.setFont(new Font("Century Gothic", Font.PLAIN, 33));
 		lblResonance.setForeground(Color.WHITE);
 		lblResonance.setBackground(Color.WHITE);
-		lblResonance.setBounds(40, 26, 600, 50);
+		lblResonance.setBounds(0, 0, 683, 738);
 		panelBanner.add(lblResonance);
 
 		JPanel panelInicioSesion = new JPanel();
