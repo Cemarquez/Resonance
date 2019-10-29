@@ -32,7 +32,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 
 
 		this.setExtendedState(MAXIMIZED_BOTH);
-		Dimension tamano = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
 		getContentPane().setLayout(null);
 		getContentPane().setSize(tamano);

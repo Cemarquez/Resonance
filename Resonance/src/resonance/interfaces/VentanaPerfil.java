@@ -47,7 +47,7 @@ public class VentanaPerfil extends JFrame {
 		getContentPane().setBackground(Color.DARK_GRAY);
 
 		this.setExtendedState(MAXIMIZED_BOTH);
-		Dimension tamano = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
 		getContentPane().setSize(tamano);
 		getContentPane().setLayout(null);

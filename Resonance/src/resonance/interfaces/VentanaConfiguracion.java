@@ -54,7 +54,7 @@ public class VentanaConfiguracion extends JFrame implements ActionListener
 	{
 
 		this.setExtendedState(MAXIMIZED_BOTH);
-		Dimension tamano = Toolkit.getDefaultToolkit().getScreenSize();
+		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
 		getContentPane().setLayout(null);
 		getContentPane().setSize(tamano);
@@ -122,25 +122,6 @@ public class VentanaConfiguracion extends JFrame implements ActionListener
 		
 		panelPrivacidad = new JPanel();
 		panelPrivacidad.setVisible(false);
-		panelPrivacidad.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelPrivacidad.setBackground(UIManager.getColor("Button.darkShadow"));
-		panelPrivacidad.setBounds(547, 11, 803, 717);
-		getContentPane().add(panelPrivacidad);
-		panelPrivacidad.setLayout(null);
-		
-		JPanel panel_3 = new JPanel();
-		panel_3.setBounds(0, 0, 803, 71);
-		panel_3.setLayout(null);
-		panel_3.setBorder(new LineBorder(Color.BLACK));
-		panel_3.setBackground(UIManager.getColor("Button.darkShadow"));
-		panelPrivacidad.add(panel_3);
-		
-		JLabel lblPrivacidad = new JLabel("Privacidad y Seguridad");
-		lblPrivacidad.setBounds(10, 11, 473, 43);
-		panel_3.add(lblPrivacidad);
-		lblPrivacidad.setForeground(Color.WHITE);
-		lblPrivacidad.setFont(new Font("Arial", Font.PLAIN, 40));
-		lblPrivacidad.setBackground(Color.WHITE);
 		
 		panelCuenta = new JPanel();
 		panelCuenta.setBounds(547, 11, 803, 717);
@@ -162,6 +143,25 @@ public class VentanaConfiguracion extends JFrame implements ActionListener
 		lblCuenta.setBackground(Color.WHITE);
 		lblCuenta.setBounds(10, 11, 272, 43);
 		panel_2.add(lblCuenta);
+		panelPrivacidad.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelPrivacidad.setBackground(UIManager.getColor("Button.darkShadow"));
+		panelPrivacidad.setBounds(547, 11, 803, 717);
+		getContentPane().add(panelPrivacidad);
+		panelPrivacidad.setLayout(null);
+		
+		JPanel panel_3 = new JPanel();
+		panel_3.setBounds(0, 0, 803, 71);
+		panel_3.setLayout(null);
+		panel_3.setBorder(new LineBorder(Color.BLACK));
+		panel_3.setBackground(UIManager.getColor("Button.darkShadow"));
+		panelPrivacidad.add(panel_3);
+		
+		JLabel lblPrivacidad = new JLabel("Privacidad y Seguridad");
+		lblPrivacidad.setBounds(10, 11, 473, 43);
+		panel_3.add(lblPrivacidad);
+		lblPrivacidad.setForeground(Color.WHITE);
+		lblPrivacidad.setFont(new Font("Arial", Font.PLAIN, 40));
+		lblPrivacidad.setBackground(Color.WHITE);
 		
 		panelNotifiaciones = new JPanel();
 		panelNotifiaciones.setVisible(false);

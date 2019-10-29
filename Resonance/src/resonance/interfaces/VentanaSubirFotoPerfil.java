@@ -49,6 +49,7 @@ public class VentanaSubirFotoPerfil extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSubirFotoPerfil() {
+		getContentPane().setSize(new Dimension(1366, 768));
 		getContentPane().setBackground(Color.DARK_GRAY);
 		getContentPane().setLayout(null);
 		
@@ -124,7 +125,6 @@ public class VentanaSubirFotoPerfil extends JFrame {
 		panelSubirFoto.add(labelTituloSubirFoto);
 
 		this.setExtendedState(MAXIMIZED_BOTH);
-		setSize(new Dimension(1366, 768));
 
 	}
 }
