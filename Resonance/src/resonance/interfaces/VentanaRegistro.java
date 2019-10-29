@@ -10,6 +10,8 @@ import java.awt.SystemColor;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -31,6 +33,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	private JTextField textField_1;
 	private JPasswordField passwordField;
 	private JTextField textField_2;
+
 
 	public VentanaRegistro() {
 		getContentPane().setBackground(Color.DARK_GRAY);
@@ -110,13 +113,27 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		panel.add(lblFechaDeNacimiento);
 
 		JPanel panel_1 = new JPanel();
+		panel_1.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent e) {
+
+				VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil();
+
+				miVFotoPerfil.setVisible(true);
+
+			}
+		});
+
+
+
+
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(505, 483, 142, 47);
 		panel.add(panel_1);
 		panel_1.setLayout(null);
 
 		JLabel lblContinuar = new JLabel("Continuar");
-		lblContinuar.setBounds(23, 11, 91, 29);
+		lblContinuar.setBounds(22, 11, 91, 29);
 		lblContinuar.setForeground(Color.WHITE);
 		lblContinuar.setFont(new Font("Segoe UI", Font.PLAIN, 21));
 		panel_1.add(lblContinuar);
