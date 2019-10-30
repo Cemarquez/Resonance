@@ -3,7 +3,6 @@ package resonance.interfaces;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -13,6 +12,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -20,31 +20,37 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
-import javax.swing.ImageIcon;
 
-public class VentantaInicial extends JFrame implements ActionListener, KeyListener {
+import resonance.Resonance;
+
+public class VentantaLogIN extends JFrame implements ActionListener, KeyListener {
 
 	private static final long serialVersionUID = 1L;
-	private JPasswordField passwordField;
-	private JTextField textField;
-	public VentantaInicial() {
+	private JPasswordField tfContrasena;
+	private JTextField tfUsername;
+	private JPanel panelBanner;
+	private JCheckBox checkCondiciones;
+	private JLabel btnIniciarSesion;
+	private JLabel btnCrearCuenta;
+	private Resonance resonance;
 
+	public VentantaLogIN(Resonance resonance) {
 
-
+		this.resonance = resonance;
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
 		getContentPane().setLayout(null);
 		getContentPane().setSize(tamano);
 		getContentPane().setBackground(Color.decode("#5B5151"));
-		JPanel panelBanner = new JPanel();
+		panelBanner = new JPanel();
 		panelBanner.setBackground(Color.decode("#557B83"));
 		panelBanner.setBounds(0, 0, (int) tamano.getWidth() / 2, (int) tamano.getHeight());
 		getContentPane().add(panelBanner);
 		panelBanner.setLayout(null);
 
 		JLabel lblResonance = new JLabel("");
-		lblResonance.setIcon(new ImageIcon(VentantaInicial.class.getResource("/imagenes/segunda.jpg")));
+		lblResonance.setIcon(new ImageIcon(VentantaLogIN.class.getResource("/imagenes/segunda.jpg")));
 		lblResonance.setFont(new Font("Century Gothic", Font.PLAIN, 33));
 		lblResonance.setForeground(Color.WHITE);
 		lblResonance.setBackground(Color.WHITE);
@@ -54,8 +60,7 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		JPanel panelInicioSesion = new JPanel();
 		panelInicioSesion.setBorder(null);
 		panelInicioSesion.setBackground(Color.decode("#5B5151"));
-		panelInicioSesion.setBounds(711, 0, (int) tamano.getWidth() / 2,
-				(int) tamano.getHeight());
+		panelInicioSesion.setBounds(711, 0, (int) tamano.getWidth() / 2, (int) tamano.getHeight());
 		getContentPane().add(panelInicioSesion);
 		panelInicioSesion.setLayout(null);
 
@@ -63,21 +68,21 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		lblIniciaSesionO.setForeground(Color.WHITE);
 		lblIniciaSesionO.setFont(new Font("Century Gothic", Font.PLAIN, 33));
 		lblIniciaSesionO.setBackground(Color.WHITE);
-		lblIniciaSesionO.setBounds((int) (panelInicioSesion.getWidth()/4), 87, 439, panelInicioSesion.getHeight()/10);
+		lblIniciaSesionO.setBounds(panelInicioSesion.getWidth() / 4, 87, 439, panelInicioSesion.getHeight() / 10);
 		panelInicioSesion.add(lblIniciaSesionO);
 
 		JLabel lblUsuario = new JLabel("USUARIO");
 		lblUsuario.setForeground(Color.LIGHT_GRAY);
 		lblUsuario.setFont(new Font("Century Gothic", Font.BOLD, 33));
 		lblUsuario.setBackground(Color.WHITE);
-		lblUsuario.setBounds(panelInicioSesion.getWidth()/4, 224, 439, panelInicioSesion.getHeight()/9);
+		lblUsuario.setBounds(panelInicioSesion.getWidth() / 4, 224, 439, panelInicioSesion.getHeight() / 9);
 		panelInicioSesion.add(lblUsuario);
 
 		JLabel lblClave = new JLabel("CLAVE");
 		lblClave.setForeground(Color.LIGHT_GRAY);
 		lblClave.setFont(new Font("Century Gothic", Font.BOLD, 33));
 		lblClave.setBackground(Color.WHITE);
-		lblClave.setBounds(panelInicioSesion.getWidth()/4, 338, 439, panelInicioSesion.getHeight()/8);
+		lblClave.setBounds(panelInicioSesion.getWidth() / 4, 338, 439, panelInicioSesion.getHeight() / 8);
 		panelInicioSesion.add(lblClave);
 
 		JSeparator separator = new JSeparator();
@@ -87,52 +92,52 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 
 		JSeparator separator_1 = new JSeparator();
 		separator_1.setForeground(Color.WHITE);
-		separator_1.setBounds(panelInicioSesion.getWidth()/4, 443, 389, 2);
+		separator_1.setBounds(panelInicioSesion.getWidth() / 4, 443, 389, 2);
 		panelInicioSesion.add(separator_1);
 
-		passwordField = new JPasswordField();
-		passwordField.addKeyListener(this);
-		passwordField.addFocusListener(new FocusAdapter() {
+		tfContrasena = new JPasswordField();
+		tfContrasena.addKeyListener(this);
+		tfContrasena.addFocusListener(new FocusAdapter() {
 			@Override
 			public void focusGained(FocusEvent e) {
-				passwordField.setText("");
+				tfContrasena.setText("");
 			}
 		});
-		passwordField.setBackground(Color.decode("#5B5151"));
-		passwordField.setFont(new Font("Century Gothic", Font.PLAIN, 24));
-		passwordField.setForeground(Color.WHITE);
-		passwordField.setText("password");
+		tfContrasena.setBackground(Color.decode("#5B5151"));
+		tfContrasena.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+		tfContrasena.setForeground(Color.WHITE);
+		tfContrasena.setText("password");
 
-		passwordField.setBorder(null);
-		passwordField.setBounds(panelInicioSesion.getWidth()/4, 403, panelInicioSesion.getHeight()/4, 37);
-		panelInicioSesion.add(passwordField);
+		tfContrasena.setBorder(null);
+		tfContrasena.setBounds(panelInicioSesion.getWidth() / 4, 403, panelInicioSesion.getHeight() / 4, 37);
+		panelInicioSesion.add(tfContrasena);
 
-		textField = new JTextField();
-		textField.addKeyListener(this);
-		textField.addMouseListener(new MouseAdapter() {
+		tfUsername = new JTextField();
+		tfUsername.addKeyListener(this);
+		tfUsername.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
-				textField.setText("");
+				tfUsername.setText("");
 			}
 		});
-		textField.setForeground(Color.WHITE);
-		textField.setFont(new Font("Century Gothic", Font.PLAIN, 24));
-		textField.setText("Ingrese su nombre de usuario");
-		textField.setBorder(null);
-		textField.setBackground(Color.decode("#5B5151"));
-		textField.setBounds(panelInicioSesion.getWidth()/4, 290, 389, 31);
-		panelInicioSesion.add(textField);
-		textField.setColumns(10);
+		tfUsername.setForeground(Color.WHITE);
+		tfUsername.setFont(new Font("Century Gothic", Font.PLAIN, 24));
+		tfUsername.setText("Ingrese su nombre de usuario");
+		tfUsername.setBorder(null);
+		tfUsername.setBackground(Color.decode("#5B5151"));
+		tfUsername.setBounds(panelInicioSesion.getWidth() / 4, 290, 389, 31);
+		panelInicioSesion.add(tfUsername);
+		tfUsername.setColumns(10);
 
-		JCheckBox chckbxNewCheckBox = new JCheckBox("Acepto los terminos y condiciones");
-		chckbxNewCheckBox.setSelected(true);
-		chckbxNewCheckBox.setForeground(Color.WHITE);
-		chckbxNewCheckBox.setBorder(null);
-		chckbxNewCheckBox.setFont(new Font("Century Gothic", Font.PLAIN, 15));
-		chckbxNewCheckBox.setBackground(Color.decode("#5B5151"));
-		chckbxNewCheckBox.setBounds(panelInicioSesion.getWidth()/4, 516, 333, 23);
-		panelInicioSesion.add(chckbxNewCheckBox);
+		checkCondiciones = new JCheckBox("Acepto los terminos y condiciones");
+		checkCondiciones.setSelected(true);
+		checkCondiciones.setForeground(Color.WHITE);
+		checkCondiciones.setBorder(null);
+		checkCondiciones.setFont(new Font("Century Gothic", Font.PLAIN, 15));
+		checkCondiciones.setBackground(Color.decode("#5B5151"));
+		checkCondiciones.setBounds(panelInicioSesion.getWidth() / 4, 516, 333, 23);
+		panelInicioSesion.add(checkCondiciones);
 
 		JPanel panel = new JPanel();
 		panel.setBounds(151, 595, 195, 47);
@@ -140,45 +145,38 @@ public class VentantaInicial extends JFrame implements ActionListener, KeyListen
 		panelInicioSesion.add(panel);
 		panel.setLayout(null);
 
-		JLabel label = new JLabel("Iniciar sesion");
-		label.setForeground(Color.WHITE);
-		label.setFont(new Font("Century Gothic", Font.PLAIN, 28));
-		label.setBackground(Color.WHITE);
-		label.setBounds(10, 11, 185, 29);
-		panel.add(label);
-		
+		btnIniciarSesion = new JLabel("Iniciar sesion");
+		btnIniciarSesion.setForeground(Color.WHITE);
+		btnIniciarSesion.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+		btnIniciarSesion.setBackground(Color.WHITE);
+		btnIniciarSesion.setBounds(10, 11, 185, 29);
+		panel.add(btnIniciarSesion);
+
 		JPanel registro = new JPanel();
 		registro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				
+
 				VentanaRegistro miVRegistro = new VentanaRegistro();
 				miVRegistro.setVisible(true);
-				
+
 			}
 		});
 		registro.setLayout(null);
 		registro.setBackground(new Color(85, 123, 131));
 		registro.setBounds(430, 595, 189, 47);
 		panelInicioSesion.add(registro);
-		
-		JLabel lblCreaTuCuenta = new JLabel("Crear cuenta");
-		lblCreaTuCuenta.setForeground(Color.WHITE);
-		lblCreaTuCuenta.setFont(new Font("Century Gothic", Font.PLAIN, 28));
-		lblCreaTuCuenta.setBackground(Color.WHITE);
-		lblCreaTuCuenta.setBounds(0, 11, 185, 29);
-		registro.add(lblCreaTuCuenta);
+
+		btnCrearCuenta = new JLabel("Crear cuenta");
+		btnCrearCuenta.setForeground(Color.WHITE);
+		btnCrearCuenta.setFont(new Font("Century Gothic", Font.PLAIN, 28));
+		btnCrearCuenta.setBackground(Color.WHITE);
+		btnCrearCuenta.setBounds(0, 11, 185, 29);
+		registro.add(btnCrearCuenta);
 
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
 
-
-
-
-	}
-
-	public static void main(String[] args) {
-		new VentantaInicial().setVisible(true);
 	}
 
 	@Override

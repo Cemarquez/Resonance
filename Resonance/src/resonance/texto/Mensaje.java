@@ -1,11 +1,13 @@
 package resonance.texto;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class Mensaje {
 
 	private String mensaje;
 	private Date fecha;
+	private ArrayList<Mensaje> links;
 	// foto
 	// stickers
 
@@ -18,6 +20,8 @@ public class Mensaje {
 	public Mensaje(String mensaje, Date fecha) {
 		this.mensaje = mensaje;
 		this.fecha = fecha;
+
+		links = new ArrayList<Mensaje>();
 	}
 
 	/**
@@ -45,6 +49,18 @@ public class Mensaje {
 	 */
 	public Date getFecha() {
 		return fecha;
+	}
+
+	public void conectar(Mensaje p) {
+		links.set(0, p);
+	}
+
+	public Mensaje seguirEnlace() {
+		return links.get(0);
+	}
+
+	public void desconectar() {
+		links.remove(0);
 	}
 
 }

@@ -2,8 +2,9 @@ package resonance.usuario;
 
 import java.util.ArrayList;
 
+import resonance.estructura.ListaChats;
+import resonance.estructura.ListaPublicaciones;
 import resonance.excepciones.LimitException;
-import resonance.texto.Chat;
 import resonance.texto.Publicacion;
 import resonance.usuario.Relacion.TipoRelacion;
 
@@ -13,9 +14,9 @@ public class Usuario {
 	private ArrayList<Relacion> relaciones;
 	private int limiteAmigos;
 	private Perfil perfil;
-	private ArrayList<Chat> chats;
+	private ListaChats chats;
 	private boolean admin = false;
-	private ArrayList<Publicacion> publicaciones;
+	private ListaPublicaciones publicaciones;
 	// Fotos
 
 	/**
@@ -27,8 +28,8 @@ public class Usuario {
 	public Usuario(String nombre, Perfil perfil) {
 		this.setPerfil(perfil);
 		this.id = nombre;
-		publicaciones = new ArrayList<Publicacion>();
-		setChats(new ArrayList<Chat>());
+		publicaciones = new ListaPublicaciones();
+		chats = new ListaChats();
 		relaciones = new ArrayList<Relacion>();
 		limiteAmigos = 0;
 		relaciones.add(null);
@@ -137,16 +138,14 @@ public class Usuario {
 	 * @param user
 	 * @return
 	 */
-	public ArrayList<Publicacion> getPublicaciones(String user) {
-		ArrayList<Publicacion> pub = new ArrayList<Publicacion>();
+	public ListaPublicaciones getPublicaciones(String user) {
+		ListaPublicaciones lista = new ListaPublicaciones();
 
-		if (!isAmigo(user)) {
-			for (Publicacion p : publicaciones) {
-				pub.add(p);
-			}
+		if (isAmigo(user)) {
+			return publicaciones;
 		}
 
-		return pub;
+		return lista;
 	}
 
 	/**
@@ -155,7 +154,7 @@ public class Usuario {
 	 * @param p
 	 */
 	public void agregarPublicacion(Publicacion p) {
-		publicaciones.add(p);
+		publicaciones.agregar(p);
 	}
 
 	/**
@@ -164,7 +163,7 @@ public class Usuario {
 	 * @param p
 	 */
 	public void eliminarPublicacion(Publicacion p) {
-		publicaciones.remove(p);
+		publicaciones.eliminar(p);
 	}
 
 	/**
@@ -195,7 +194,6 @@ public class Usuario {
 		return relaciones.get(indice);
 	}
 
-
 	// Getters and setters
 
 	public Perfil getPerfil() {
@@ -206,12 +204,8 @@ public class Usuario {
 		this.perfil = perfil;
 	}
 
-	public ArrayList<Chat> getChats() {
+	public ListaChats getChats() {
 		return chats;
-	}
-
-	public void setChats(ArrayList<Chat> chats) {
-		this.chats = chats;
 	}
 
 	public boolean isAdmin() {

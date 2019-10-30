@@ -1,83 +1,66 @@
 package resonance.texto;
 
 import java.util.ArrayList;
-import java.util.List;
 
+import resonance.estructura.ListaMensajes;
 import resonance.usuario.Usuario;
 
 public class Chat {
 
-	private List<Mensaje> mensajes; 
+	private ListaMensajes mensajes;
 	private Usuario usuario;
-	
-	public Chat(List<Mensaje> mensajes, Usuario usuario) {
-		this.mensajes = mensajes;
+	private ArrayList<Chat> links;
+
+	public Chat(Usuario usuario) {
+		this.mensajes = new ListaMensajes();
 		this.usuario = usuario;
-		mensajes = new ArrayList<Mensaje>();
+		links = new ArrayList<Chat>();
+
 	}
-	
-	
-	
-	
-	
-	
-	
-	
+
 	/**
-	 *  Metodo que elimina mensaje del chat
+	 * Metodo que elimina mensaje del chat
+	 * 
 	 * @param mensaje
 	 * @return
 	 */
-	
+
 	public boolean eliminarMensaje(Mensaje mensaje) {
-		
-		
-		for(Mensaje m : mensajes)
-		{
-			if(m.getMensaje().equals(mensaje.getMensaje()) && m.getFecha().compareTo(mensaje.getFecha())==0 ) {
-				
-				mensajes.remove(mensaje);
-				
-				return true;
-				
-			}
-		}
-		
-		
-		return false;
-		
-		
-		
-		
+
+		return mensajes.eliminar(mensaje);
 	}
-	
+
+	public void conectar(Chat p) {
+		links.set(0, p);
+	}
+
+	public Chat seguirEnlace() {
+		return links.get(0);
+	}
+
+	public void desconectar() {
+		links.remove(0);
+	}
+
 	/**
 	 * Metodo que agrega mensaje al chat
+	 * 
 	 * @param mensaje
 	 */
-	public void anadirMensaje (Mensaje mensaje) {
-		
-		mensajes.add(mensaje);
-		
-		
+	public void anadirMensaje(Mensaje mensaje) {
+
+		mensajes.agregar(mensaje);
+
 	}
-	
-	
-	
+
 	// Getters y Setters
 
-
-	public List<Mensaje> getMensajes() {
+	public ListaMensajes getMensajes() {
 		return mensajes;
 	}
-	public void setMensajes(List<Mensaje> mensajes) {
-		this.mensajes = mensajes;
-	}
+
 	public Usuario getUsuario() {
 		return usuario;
 	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-	
+
 }

@@ -7,7 +7,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.SystemColor;
-import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -34,15 +33,13 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	private JPasswordField passwordField;
 	private JTextField textField_2;
 
-
 	public VentanaRegistro() {
-		getContentPane().setBackground(Color.DARK_GRAY);
-
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
 		getContentPane().setLayout(null);
 		getContentPane().setSize(tamano);
+		getContentPane().setBackground(Color.decode("#5B5151"));
 
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
@@ -124,9 +121,6 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 			}
 		});
 
-
-
-
 		panel_1.setBackground(Color.GRAY);
 		panel_1.setBounds(505, 483, 142, 47);
 		panel.add(panel_1);
@@ -189,16 +183,12 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 
 	}
 
-
-	
 	public static void main(String[] args) {
 		new VentanaRegistro().setVisible(true);
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-
 
 	}
 }
