@@ -22,6 +22,10 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import resonance.Resonance;
+import resonance.archivos.AdministradorDeArchivos;
+import resonance.excepciones.ExistException;
+import resonance.excepciones.LimitException;
+import resonance.usuario.Usuario;
 
 public class VentantaLogIN extends JFrame implements ActionListener, KeyListener {
 
@@ -33,9 +37,12 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 	private JLabel btnIniciarSesion;
 	private JLabel btnCrearCuenta;
 	private Resonance resonance;
+	private VentantaLogIN instance;
+	private Usuario userLogin;
 
 	public VentantaLogIN(Resonance resonance) {
 
+		instance = this;
 		this.resonance = resonance;
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
@@ -139,26 +146,60 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 		checkCondiciones.setBounds(panelInicioSesion.getWidth() / 4, 516, 333, 23);
 		panelInicioSesion.add(checkCondiciones);
 
-		JPanel panel = new JPanel();
-		panel.setBounds(151, 595, 195, 47);
-		panel.setBackground(Color.decode("#557B83"));
-		panelInicioSesion.add(panel);
-		panel.setLayout(null);
+		JPanel panelSesion = new JPanel();
+		panelSesion.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				String username = tfUsername.getText();
+				String password = tfContrasena.getText();
+				userLogin = null;
+				if (resonance.alreadyExist(username)) {
+					userLogin = resonance.obtenerUsuario(username);
+				} else if (AdministradorDeArchivos.existUser(username)) {
+					userLogin = AdministradorDeArchivos.deserializarUser(username);
+					try {
+						resonance.anadirUsuario(username, userLogin);
+					} catch (LimitException | ExistException e) {
+
+						e.printStackTrace();
+					}
+
+				}
+
+				if (userLogin == null) {
+					// Mensaje de error que no existe un usuario con ese nombre de usuario en la
+					// base de datos.
+					System.out.println("nonas");
+				} else {
+					if (password.equals(userLogin.getPerfil().getContrasena())) {
+						VentanaTotal vTotal = new VentanaTotal(instance);
+						vTotal.setVisible(true);
+						instance.dispose();
+					}
+				}
+
+			}
+		});
+		panelSesion.setBounds(151, 595, 195, 47);
+		panelSesion.setBackground(Color.decode("#557B83"));
+		panelInicioSesion.add(panelSesion);
+		panelSesion.setLayout(null);
 
 		btnIniciarSesion = new JLabel("Iniciar sesion");
 		btnIniciarSesion.setForeground(Color.WHITE);
 		btnIniciarSesion.setFont(new Font("Century Gothic", Font.PLAIN, 28));
 		btnIniciarSesion.setBackground(Color.WHITE);
 		btnIniciarSesion.setBounds(10, 11, 185, 29);
-		panel.add(btnIniciarSesion);
+		panelSesion.add(btnIniciarSesion);
 
 		JPanel registro = new JPanel();
 		registro.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 
-				VentanaRegistro miVRegistro = new VentanaRegistro();
+				VentanaRegistro miVRegistro = new VentanaRegistro(instance);
 				miVRegistro.setVisible(true);
+				instance.dispose();
 
 			}
 		});
@@ -208,4 +249,34 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 		// TODO Auto-generated method stub
 
 	}
+
+	public Usuario getUserLogin() {
+
+		return userLogin;
+	}
+
+	public boolean isLogin() {
+		if (userLogin != null)
+			return true;
+
+		return false;
+	}
+
+	public void setUserLogin(Usuario user) {
+		this.userLogin = user;
+	}
+
+	public void anadirUsuario(String nombre, Usuario perfil) {
+		try {
+			resonance.anadirUsuario(nombre, perfil);
+		} catch (LimitException | ExistException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
+	public boolean alreadyExist(String name) {
+		return resonance.alreadyExist(name);
+	}
+
 }

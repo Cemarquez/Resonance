@@ -28,12 +28,14 @@ public class VentanaSubirFotoPerfil extends JFrame {
 	private JLabel iconoSubirFotoPerfil;
 	private BufferedImage img;
 	private BufferedImage imgBoton;
+	private VentantaLogIN vLogin;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
 					VentanaSubirFotoPerfil frame = new VentanaSubirFotoPerfil();
@@ -52,7 +54,7 @@ public class VentanaSubirFotoPerfil extends JFrame {
 		getContentPane().setSize(new Dimension(1366, 768));
 		getContentPane().setBackground(Color.DARK_GRAY);
 		getContentPane().setLayout(null);
-		
+
 		JPanel panelSubirFoto = new JPanel();
 		panelSubirFoto.setBackground(Color.WHITE);
 		panelSubirFoto.setForeground(Color.LIGHT_GRAY);
@@ -60,7 +62,7 @@ public class VentanaSubirFotoPerfil extends JFrame {
 		panelSubirFoto.setBounds(114, 78, 1151, 568);
 		getContentPane().add(panelSubirFoto);
 		panelSubirFoto.setLayout(null);
-		
+
 		iconoSubirFotoPerfil = new JLabel("New label");
 		iconoSubirFotoPerfil
 				.setIcon(new ImageIcon(VentanaSubirFotoPerfil.class.getResource("/imagenes/fotoperfil_icono.png")));
@@ -72,16 +74,13 @@ public class VentanaSubirFotoPerfil extends JFrame {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de imagen jpg, png, gif", "jpg",
-						"png", "gif",
-						"jpeg");
+						"png", "gif", "jpeg");
 
 				file = new JFileChooser();
 				file.setFileFilter(filter);
 				file.showOpenDialog(panelBtnSubirFoto);
 
 				File archivo = file.getSelectedFile();
-
-
 
 				if (archivo != null) {
 
@@ -91,8 +90,6 @@ public class VentanaSubirFotoPerfil extends JFrame {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-
-
 
 					Image img2 = img.getScaledInstance(iconoSubirFotoPerfil.getHeight(),
 							iconoSubirFotoPerfil.getWidth(), Image.SCALE_SMOOTH);

@@ -216,6 +216,10 @@ public class Usuario {
 		return id;
 	}
 
+	public ArrayList<Relacion> getRelaciones() {
+		return relaciones;
+	}
+
 	public int getNumRelaciones() {
 		return relaciones.size();
 	}

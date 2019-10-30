@@ -6,6 +6,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import resonance.estructura.RedDeUsuarios;
 import resonance.excepciones.ExistException;
@@ -68,13 +71,32 @@ public class AdministradorDeArchivos {
 		for (File f : file.listFiles()) {
 			Usuario aux = deserializarUser(obtenerIdUser(f.getName()));
 			try {
-				grafo.agregar(obtenerIdUser(f.getName()), aux.getPerfil());
+				grafo.agregar(obtenerIdUser(f.getName()), aux);
 			} catch (LimitException | ExistException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
 		return grafo;
+	}
+
+	public static void cambiarFotoPerfil(File file, String username) {
+		File fileDestino = new File(url + "/Usuarios/" + username);
+		try {
+			Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(fileDestino.getAbsolutePath()),
+					StandardCopyOption.REPLACE_EXISTING);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		File fileFoto = new File(url + "/Usuarios/" + username + "/" + file.getName());
+		fileFoto.renameTo(new File("FotoPerfil." + getFormatoFoto(fileFoto)));
+
+	}
+
+	public static String getFormatoFoto(File file) {
+		String name = file.getName();
+		return name.substring(name.length() - 3, name.length());
 	}
 
 	public static Usuario deserializarUser(String id) {

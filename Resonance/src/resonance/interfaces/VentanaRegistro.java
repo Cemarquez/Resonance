@@ -11,6 +11,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
@@ -21,6 +22,9 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
+import resonance.archivos.AdministradorDeArchivos;
+import resonance.usuario.Perfil;
+import resonance.usuario.Usuario;
 import rojeru_san.componentes.RSDateChooser;
 
 /**
@@ -28,12 +32,18 @@ import rojeru_san.componentes.RSDateChooser;
  *
  */
 public class VentanaRegistro extends JFrame implements ActionListener {
-	private JTextField textField;
-	private JTextField textField_1;
-	private JPasswordField passwordField;
-	private JTextField textField_2;
+	private JTextField tfNombre;
+	private JTextField tfUsername;
+	private JPasswordField tfContrasena;
+	private JTextField tfCorreo;
+	private VentantaLogIN vLogin;
+	private RSDateChooser dateChooser;
+	private JCheckBox checkCondiciones;
+	private VentanaRegistro instance;
 
-	public VentanaRegistro() {
+	public VentanaRegistro(VentantaLogIN vLogin) {
+		instance = this;
+		this.vLogin = vLogin;
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
@@ -109,66 +119,89 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblFechaDeNacimiento.setBounds(433, 110, 214, 33);
 		panel.add(lblFechaDeNacimiento);
 
-		JPanel panel_1 = new JPanel();
-		panel_1.addMouseListener(new MouseAdapter() {
+		JPanel panelContinuar = new JPanel();
+		panelContinuar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent e) {
 
-				VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil();
+				String nombre = tfNombre.getText();
+				String username = tfUsername.getText();
+				String contrasena = tfContrasena.getText();
+				String correo = tfCorreo.getText();
+				Date fechaNacimiento = dateChooser.getDatoFecha();
 
-				miVFotoPerfil.setVisible(true);
+				if (nombre.equals("") || username.equals("") || contrasena.equals("") || correo.equals("")) {
+					// Mensaje de error de campo faltante
+				} else {
+					if (AdministradorDeArchivos.existUser(username)) {
+						// Mensaje de error de usuario ya existente
+					} else {
+						Perfil perfil = new Perfil(nombre, username, correo, "", contrasena);
+						Usuario userLogin = new Usuario(username, perfil);
+						vLogin.anadirUsuario(username, userLogin);
+						vLogin.setUserLogin(userLogin);
+						AdministradorDeArchivos.crearCarpetaUsuario(username);
+						AdministradorDeArchivos.serializarUser(userLogin);
+
+//						VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil(VentantaLogIN vLogin);
+//						miVFotoPerfil.setVisible(true);
+
+						instance.dispose();
+
+					}
+				}
 
 			}
 		});
 
-		panel_1.setBackground(Color.GRAY);
-		panel_1.setBounds(505, 483, 142, 47);
-		panel.add(panel_1);
-		panel_1.setLayout(null);
+		panelContinuar.setBackground(Color.GRAY);
+		panelContinuar.setBounds(505, 483, 142, 47);
+		panel.add(panelContinuar);
+		panelContinuar.setLayout(null);
 
 		JLabel lblContinuar = new JLabel("Continuar");
 		lblContinuar.setBounds(22, 11, 91, 29);
 		lblContinuar.setForeground(Color.WHITE);
 		lblContinuar.setFont(new Font("Segoe UI", Font.PLAIN, 21));
-		panel_1.add(lblContinuar);
+		panelContinuar.add(lblContinuar);
 
-		JCheckBox chckbxAceptoLosTerminos = new JCheckBox("Acepto los terminos y condiciones");
-		chckbxAceptoLosTerminos.setFont(new Font("Segoe UI", Font.PLAIN, 11));
-		chckbxAceptoLosTerminos.setBounds(190, 507, 214, 23);
-		panel.add(chckbxAceptoLosTerminos);
+		checkCondiciones = new JCheckBox("Acepto los terminos y condiciones");
+		checkCondiciones.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+		checkCondiciones.setBounds(190, 507, 214, 23);
+		panel.add(checkCondiciones);
 
-		textField = new JTextField();
-		textField.setForeground(new Color(0, 0, 0));
-		textField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField.setBounds(104, 151, 292, 23);
-		textField.setBorder(null);
-		panel.add(textField);
-		textField.setColumns(10);
+		tfNombre = new JTextField();
+		tfNombre.setForeground(new Color(0, 0, 0));
+		tfNombre.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		tfNombre.setBounds(104, 151, 292, 23);
+		tfNombre.setBorder(null);
+		panel.add(tfNombre);
+		tfNombre.setColumns(10);
 
-		textField_1 = new JTextField();
-		textField_1.setForeground(Color.BLACK);
-		textField_1.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_1.setColumns(10);
-		textField_1.setBorder(null);
-		textField_1.setBounds(104, 235, 292, 23);
-		panel.add(textField_1);
+		tfUsername = new JTextField();
+		tfUsername.setForeground(Color.BLACK);
+		tfUsername.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		tfUsername.setColumns(10);
+		tfUsername.setBorder(null);
+		tfUsername.setBounds(104, 235, 292, 23);
+		panel.add(tfUsername);
 
-		passwordField = new JPasswordField();
-		passwordField.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		passwordField.setBackground(new Color(255, 255, 255));
-		passwordField.setBounds(104, 312, 292, 20);
-		passwordField.setBorder(null);
-		panel.add(passwordField);
+		tfContrasena = new JPasswordField();
+		tfContrasena.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		tfContrasena.setBackground(new Color(255, 255, 255));
+		tfContrasena.setBounds(104, 312, 292, 20);
+		tfContrasena.setBorder(null);
+		panel.add(tfContrasena);
 
-		textField_2 = new JTextField();
-		textField_2.setForeground(Color.BLACK);
-		textField_2.setFont(new Font("Segoe UI", Font.PLAIN, 18));
-		textField_2.setColumns(10);
-		textField_2.setBorder(null);
-		textField_2.setBounds(104, 385, 292, 23);
-		panel.add(textField_2);
+		tfCorreo = new JTextField();
+		tfCorreo.setForeground(Color.BLACK);
+		tfCorreo.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		tfCorreo.setColumns(10);
+		tfCorreo.setBorder(null);
+		tfCorreo.setBounds(104, 385, 292, 23);
+		panel.add(tfCorreo);
 
-		RSDateChooser dateChooser = new RSDateChooser();
+		dateChooser = new RSDateChooser();
 		dateChooser.setColorDiaActual(Color.BLACK);
 		dateChooser.setColorButtonHover(Color.BLACK);
 		dateChooser.setColorForeground(Color.DARK_GRAY);
@@ -181,10 +214,6 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		lblLogoIcon.setBounds(297, 11, 50, 61);
 		panel.add(lblLogoIcon);
 
-	}
-
-	public static void main(String[] args) {
-		new VentanaRegistro().setVisible(true);
 	}
 
 	@Override
