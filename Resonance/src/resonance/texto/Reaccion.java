@@ -1,8 +1,10 @@
 package resonance.texto;
 
+import java.io.Serializable;
+
 import resonance.usuario.Usuario;
 
-public class Reaccion {
+public class Reaccion implements Serializable {
 
 	private Usuario usuario;
 	private TipoReaccion tipoReaccion;

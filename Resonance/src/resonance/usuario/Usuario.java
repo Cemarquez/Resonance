@@ -1,5 +1,6 @@
 package resonance.usuario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import resonance.estructura.ListaChats;
@@ -8,7 +9,7 @@ import resonance.excepciones.LimitException;
 import resonance.texto.Publicacion;
 import resonance.usuario.Relacion.TipoRelacion;
 
-public class Usuario {
+public class Usuario implements Serializable{
 
 	private String id;
 	private ArrayList<Relacion> relaciones;
@@ -32,7 +33,6 @@ public class Usuario {
 		chats = new ListaChats();
 		relaciones = new ArrayList<Relacion>();
 		limiteAmigos = 0;
-		relaciones.add(null);
 	}
 
 	/**
@@ -70,7 +70,7 @@ public class Usuario {
 		}
 		if (relacion == TipoRelacion.AMIGOS) {
 			if (getAmigos().size() > limiteAmigos && limiteAmigos != 0) {
-				throw new LimitException("Excedes el número de amigos permitidos por el administrador.");
+				throw new LimitException("Excedes el nï¿½mero de amigos permitidos por el administrador.");
 			} else {
 				relaciones.add(new Relacion(relacion, destino));
 			}

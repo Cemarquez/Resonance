@@ -1,10 +1,11 @@
 package resonance.texto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class Publicacion extends Mensaje {
+public class Publicacion extends Mensaje implements Serializable{
 
 	private List<Reaccion> reacciones;
 	private ArrayList<Publicacion> links;
@@ -37,10 +38,10 @@ public class Publicacion extends Mensaje {
 	}
 
 	/**
-	 * Metodo que permite añadir una reaccion a la publicacion.
+	 * Metodo que permite aï¿½adir una reaccion a la publicacion.
 	 * 
-	 * @param reaccion Reaccion a añadir
-	 * @return Retorna true si se pudo añadir y false en caso contrario.
+	 * @param reaccion Reaccion a aï¿½adir
+	 * @return Retorna true si se pudo aï¿½adir y false en caso contrario.
 	 */
 	public boolean agregarReaccion(Reaccion reaccion) {
 

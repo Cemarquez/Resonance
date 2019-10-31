@@ -207,6 +207,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 		dateChooser.setColorForeground(Color.DARK_GRAY);
 		dateChooser.setColorBackground(Color.GRAY);
 		dateChooser.setBounds(433, 157, 240, 24);
+		dateChooser.setDatoFecha(new Date());
 		panel.add(dateChooser);
 
 		JLabel lblLogoIcon = new JLabel("New label");

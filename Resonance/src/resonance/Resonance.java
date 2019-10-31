@@ -1,5 +1,6 @@
 package resonance;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import resonance.estructura.RedDeUsuarios;
@@ -8,7 +9,7 @@ import resonance.excepciones.LimitException;
 import resonance.usuario.Relacion;
 import resonance.usuario.Usuario;
 
-public class Resonance {
+public class Resonance implements Serializable {
 	private RedDeUsuarios administradorDeUsuarios;
 
 	public Resonance() {
@@ -42,6 +43,7 @@ public class Resonance {
 	}
 
 	public void cargarUsuarios(Usuario user) throws LimitException, ExistException {
+		System.out.println(user.getRelaciones().size());
 		for (Relacion r : user.getRelaciones()) {
 
 			if (!alreadyExist(r.getUsuario().getID())) {

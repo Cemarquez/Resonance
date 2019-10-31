@@ -1,6 +1,8 @@
 package resonance.usuario;
 
-public class Relacion {
+import java.io.Serializable;
+
+public class Relacion implements Serializable{
 
 	private TipoRelacion tipo;
 	private Usuario usuario;

@@ -46,7 +46,7 @@ public class AdministradorDeArchivos {
 		try {
 
 			FileOutputStream fos = new FileOutputStream(
-					disco() + "/Usuarios/" + user.getID() + "/" + user.getID() + ".dat");
+					url + "/Usuarios/" + user.getID() + "/" + user.getID() + ".dat");
 			ObjectOutputStream oos = new ObjectOutputStream(fos);
 			oos.writeObject(user);
 			oos.close();

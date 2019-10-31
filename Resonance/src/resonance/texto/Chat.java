@@ -1,11 +1,12 @@
 package resonance.texto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import resonance.estructura.ListaMensajes;
 import resonance.usuario.Usuario;
 
-public class Chat {
+public class Chat implements Serializable{
 
 	private ListaMensajes mensajes;
 	private Usuario usuario;

@@ -1,6 +1,8 @@
 package resonance.usuario;
 
-public class Perfil {
+import java.io.Serializable;
+
+public class Perfil implements Serializable {
 	private OpcionManager opcionManager;
 	private String nombre, usuario, correo, direccion, contrasena;
 	

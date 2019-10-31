@@ -1,6 +1,8 @@
 package resonance.usuario;
 
-public class Opcion {
+import java.io.Serializable;
+
+public class Opcion implements Serializable{
 
 	private String nombre;
 	private String descripcion;

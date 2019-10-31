@@ -1,9 +1,10 @@
 package resonance.texto;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class Mensaje {
+public class Mensaje implements Serializable{
 
 	private String mensaje;
 	private Date fecha;
