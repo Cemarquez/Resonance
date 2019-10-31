@@ -7,9 +7,12 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.font.TextAttribute;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -17,10 +20,11 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
-public class VentanaSubirFotoPerfil extends JFrame {
+public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 
 	private JPanel contentPane;
 	private JFileChooser file;
@@ -29,6 +33,12 @@ public class VentanaSubirFotoPerfil extends JFrame {
 	private BufferedImage img;
 	private BufferedImage imgBoton;
 	private VentantaLogIN vLogin;
+	private JLabel labelContinuar;
+	private JPanel panelBtnContinuar;
+	private JLabel lblOmitir;
+	private JLabel lblQuitarFoto;
+	private JPanel panelBtnRegresar;
+	private JLabel lblRegresar;
 
 	/**
 	 * Launch the application.
@@ -51,6 +61,7 @@ public class VentanaSubirFotoPerfil extends JFrame {
 	 * Create the frame.
 	 */
 	public VentanaSubirFotoPerfil() {
+		setSize(1366, 768);
 		getContentPane().setSize(new Dimension(1366, 768));
 		getContentPane().setBackground(Color.DARK_GRAY);
 		getContentPane().setLayout(null);
@@ -98,6 +109,10 @@ public class VentanaSubirFotoPerfil extends JFrame {
 					fotoPerfil = new ImageIcon(img2);
 					iconoSubirFotoPerfil.setIcon(fotoPerfil);
 
+					panelBtnContinuar.setVisible(true);
+					lblOmitir.setVisible(false);
+					lblQuitarFoto.setVisible(true);
+
 				}
 
 			}
@@ -121,7 +136,127 @@ public class VentanaSubirFotoPerfil extends JFrame {
 		labelTituloSubirFoto.setBounds(495, 25, 246, 28);
 		panelSubirFoto.add(labelTituloSubirFoto);
 
+		panelBtnContinuar = new JPanel();
+		panelBtnContinuar.setLayout(null);
+		panelBtnContinuar.setForeground(Color.WHITE);
+		panelBtnContinuar.setBorder(new LineBorder(new Color(0, 0, 0), 42, true));
+		panelBtnContinuar.setBackground(Color.WHITE);
+		panelBtnContinuar.setBounds(875, 473, 228, 50);
+		panelBtnContinuar.setVisible(false);
+		panelSubirFoto.add(panelBtnContinuar);
+
+		labelContinuar = new JLabel("Continuar");
+		labelContinuar.setForeground(Color.WHITE);
+		labelContinuar.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		labelContinuar.setBounds(70, 11, 112, 28);
+		panelBtnContinuar.add(labelContinuar);
+
+		lblOmitir = new JLabel("Omitir\r\n");
+		lblOmitir.setHorizontalAlignment(SwingConstants.CENTER);
+		lblOmitir.setForeground(Color.BLACK);
+		lblOmitir.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		Font font = lblOmitir.getFont();
+		Map attributes = font.getAttributes();
+		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		lblOmitir.setFont(font.deriveFont(attributes));
+		lblOmitir.setBounds(473, 441, 246, 28);
+
+		lblOmitir.addMouseListener(this);
+		panelSubirFoto.add(lblOmitir);
+
+		lblQuitarFoto = new JLabel("Quitar foto\r\n");
+		lblQuitarFoto.setHorizontalAlignment(SwingConstants.CENTER);
+		lblQuitarFoto.setForeground(Color.BLACK);
+		lblQuitarFoto.setFont(new Font("Segoe UI", Font.PLAIN, 16));
+		Font fuenteQuitarFoto = lblOmitir.getFont();
+		Map atributos = font.getAttributes();
+		atributos.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
+		lblQuitarFoto.setFont(fuenteQuitarFoto.deriveFont(atributos));
+		lblQuitarFoto.setBounds(473, 441, 246, 28);
+		lblQuitarFoto.setVisible(false);
+		lblQuitarFoto.addMouseListener(this);
+		panelSubirFoto.add(lblQuitarFoto);
+
+		panelBtnRegresar = new JPanel();
+		panelBtnRegresar.setLayout(null);
+		panelBtnRegresar.setForeground(Color.WHITE);
+		panelBtnRegresar.setBorder(new LineBorder(new Color(0, 0, 0), 42, true));
+		panelBtnRegresar.setBackground(Color.WHITE);
+		panelBtnRegresar.setBounds(46, 473, 228, 50);
+		panelSubirFoto.add(panelBtnRegresar);
+
+		lblRegresar = new JLabel("Regresar");
+		lblRegresar.setHorizontalAlignment(SwingConstants.CENTER);
+		lblRegresar.setForeground(Color.WHITE);
+		lblRegresar.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+		lblRegresar.setBounds(59, 11, 91, 28);
+		panelBtnRegresar.add(lblRegresar);
+
+		panelBtnContinuar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// Se abre la ventana con el perfil creado
+
+				// VentanaPerfil miVPerfil = new VentanaPerfil();
+				// miVPerfil.setVisible(true);
+
+			}
+		});
+
 		this.setExtendedState(MAXIMIZED_BOTH);
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+
+		if (e.getSource() == lblQuitarFoto) {
+			iconoSubirFotoPerfil
+					.setIcon(new ImageIcon(VentanaSubirFotoPerfil.class.getResource("/imagenes/fotoperfil_icono.png")));
+
+			fotoPerfil = (ImageIcon) iconoSubirFotoPerfil.getIcon();
+
+			lblQuitarFoto.setVisible(false);
+			lblOmitir.setVisible(true);
+			panelBtnContinuar.setVisible(false);
+
+		}
+
+		if (e.getSource() == lblOmitir) {
+
+			fotoPerfil = (ImageIcon) iconoSubirFotoPerfil.getIcon();
+
+		}
+
+		if (e.getSource() == panelBtnRegresar) {
+
+			// Se devuelve al registro
+
+		}
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
 
 	}
 }
