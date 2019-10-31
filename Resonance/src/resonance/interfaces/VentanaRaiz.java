@@ -13,12 +13,22 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class VentanaRaiz extends JFrame implements ActionListener {
+
+	private PanelChats panelChats;
+	private PanelConfiguracion panelConfiguracion;
+	private static final long serialVersionUID = 1L;
+	private JMenuItem mntmPerfil;
+	private JMenuItem mntmInicio;
+	private JMenuItem mntmChat;
+	private JMenuItem mntmConfiguracion;
+	private JMenuItem mntmCerrarSesion;
+	private VentantaLogIN vLogin;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -33,14 +43,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		});
 	}
 
-	private static final long serialVersionUID = 1L;
-	private JPanel panelNotifiaciones;
-	private JMenuItem mntmPerfil;
-	private JMenuItem mntmInicio;
-	private JMenuItem mntmChat;
-	private JMenuItem mntmConfiguracion;
-	private JMenuItem mntmCerrarSesion;
-	private VentantaLogIN vLogin;
+
 
 	public VentanaRaiz(VentantaLogIN vLogin) {
 		this.vLogin = vLogin;
@@ -86,6 +89,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		mntmPerfil.setFont(new Font("Arial", Font.PLAIN, 22));
 		mntmPerfil.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, Color.BLACK));
 		mntmPerfil.setBackground(SystemColor.controlDkShadow);
+		mntmPerfil.addActionListener(this);
 		panel_7.add(mntmPerfil);
 
 		mntmInicio = new JMenuItem(" Inicio");
@@ -94,6 +98,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		mntmInicio.setFont(new Font("Arial", Font.PLAIN, 22));
 		mntmInicio.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mntmInicio.setBackground(SystemColor.controlDkShadow);
+		mntmInicio.addActionListener(this);
 		panel_7.add(mntmInicio);
 
 		mntmChat = new JMenuItem(" Chat");
@@ -102,6 +107,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		mntmChat.setFont(new Font("Arial", Font.PLAIN, 22));
 		mntmChat.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mntmChat.setBackground(SystemColor.controlDkShadow);
+		mntmChat.addActionListener(this);
 		panel_7.add(mntmChat);
 
 		mntmConfiguracion = new JMenuItem(" Configuracion");
@@ -110,6 +116,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		mntmConfiguracion.setFont(new Font("Arial", Font.PLAIN, 22));
 		mntmConfiguracion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mntmConfiguracion.setBackground(SystemColor.controlDkShadow);
+		mntmConfiguracion.addActionListener(this);
 		panel_7.add(mntmConfiguracion);
 
 		mntmCerrarSesion = new JMenuItem("Cerrar Sesion");
@@ -117,6 +124,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		mntmCerrarSesion.setFont(new Font("Arial", Font.PLAIN, 22));
 		mntmCerrarSesion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mntmCerrarSesion.setBackground(SystemColor.controlDkShadow);
+		mntmCerrarSesion.addActionListener(this);
 		panel_7.add(mntmCerrarSesion);
 
 		JPanel panel_4 = new JPanel();
@@ -131,27 +139,24 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		panel_9.setBackground(SystemColor.controlDkShadow);
 		panel_7.add(panel_9);
 
-		JPanel PConfiguraciones = new JPanel();
-		PConfiguraciones.setBackground(Color.BLACK);
-		PConfiguraciones.setBounds(0, 0, 1366, 768);
-		getContentPane().add(PConfiguraciones);
-		PConfiguraciones.setLayout(null);
+		JPanel panelContenedor = new JPanel();
+		panelContenedor.setBackground(Color.BLACK);
+		panelContenedor.setBounds(0, 0, 1366, 768);
+		getContentPane().add(panelContenedor);
+		panelContenedor.setLayout(null);
 
-		panelNotifiaciones = new JPanel();
-		panelNotifiaciones.setBounds(258, 11, 1095, 717);
-		PConfiguraciones.add(panelNotifiaciones);
-		panelNotifiaciones.setVisible(false);
-		panelNotifiaciones.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelNotifiaciones.setBackground(UIManager.getColor("Button.darkShadow"));
-		panelNotifiaciones.setLayout(null);
-
-		PanelChats panelChats = new PanelChats();
+		panelChats = new PanelChats();
 
 		panelChats.setBounds(258, 11, 1095, 717);
 
-		PConfiguraciones.add(panelChats);
-		panelNotifiaciones.setVisible(false);
-		panelChats.setVisible(true);
+		panelConfiguracion = new PanelConfiguracion();
+
+		panelConfiguracion.setBounds(258, 11, 1095, 717);
+
+		panelContenedor.add(panelConfiguracion);
+		panelContenedor.add(panelChats);
+		panelChats.setVisible(false);
+		panelConfiguracion.setVisible(false);
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
 
@@ -159,5 +164,19 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
+
+		if (arg0.getSource() == mntmChat) {
+			panelChats.setVisible(true);
+			panelConfiguracion.setVisible(false);
+		}
+
+		if (arg0.getSource() == mntmConfiguracion) {
+			panelChats.setVisible(false);
+			panelConfiguracion.setVisible(true);
+		}
+
+		if (arg0.getSource() == mntmCerrarSesion) {
+			JOptionPane.showMessageDialog(null, "callese hp");
+		}
 	}
 }
