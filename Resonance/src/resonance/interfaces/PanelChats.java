@@ -21,12 +21,14 @@ public class PanelChats extends JPanel {
 	private JPanel panelScroll;
 	private JPanel panelMensajes;
 	private JPanel panelCrearMensaje;
+	private int numChats;
 
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelChats() {
+		this.numChats = 30;
 		setBackground(Color.WHITE);
 		setSize(1095, 717);
 		setLayout(new GridLayout(0, 2, 0, 0));
@@ -56,7 +58,7 @@ public class PanelChats extends JPanel {
 		panelContactos.setLayout(new BoxLayout(panelContactos, BoxLayout.Y_AXIS));
 		
 		panelScroll = new JPanel();
-		panelScroll.setPreferredSize(new Dimension(537, 10000));
+		panelScroll.setPreferredSize(new Dimension(537, 65 * numChats));
 		scroll = new JScrollPane(panelScroll, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -147,7 +149,7 @@ public class PanelChats extends JPanel {
 	public void crearPanelesMensajes() {
 
 
-		for (int i = 0; i <= 13; i++) {
+		for (int i = 0; i <= numChats; i++) {
 
 
 
