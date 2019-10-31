@@ -44,11 +44,19 @@ public class PanelChats extends JPanel {
 		
 
 		panelCrearMensaje = new JPanel();
+		panelCrearMensaje.setBackground(Color.WHITE);
 		add(panelCrearMensaje);
-		panelCrearMensaje.setLayout(null);
+		panelCrearMensaje.setLayout(new BoxLayout(panelCrearMensaje, BoxLayout.X_AXIS));
+
+		JPanel panelChat = new JPanel();
+		panelCrearMensaje.add(panelChat);
+
+		JPanel panelContactos = new JPanel();
+		panelCrearMensaje.add(panelContactos);
+		panelContactos.setLayout(new BoxLayout(panelContactos, BoxLayout.Y_AXIS));
 		
 		panelScroll = new JPanel();
-	    panelScroll.setPreferredSize(new Dimension(537,669));
+		panelScroll.setPreferredSize(new Dimension(537, 10000));
 		scroll = new JScrollPane(panelScroll, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 
@@ -185,6 +193,10 @@ public class PanelChats extends JPanel {
 			panel.add(separator_1);
 
 			panel.setMaximumSize(new Dimension(1040, 65));
+
+			int altura = scroll.getHeight();
+			int ancho = scroll.getWidth();
+
 
 		}
 	}
