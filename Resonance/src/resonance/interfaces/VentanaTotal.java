@@ -95,6 +95,13 @@ public class VentanaTotal extends JFrame implements ActionListener {
 		mntmChat.setBackground(SystemColor.controlDkShadow);
 		panel_7.add(mntmChat);
 
+		mntmCerrarSesion = new JMenuItem("Cerrar Sesion");
+		mntmCerrarSesion.setForeground(Color.BLACK);
+		mntmCerrarSesion.setFont(new Font("Arial", Font.PLAIN, 22));
+		mntmCerrarSesion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		mntmCerrarSesion.setBackground(SystemColor.controlDkShadow);
+		panel_7.add(mntmCerrarSesion);
+
 		mntmConfiguracion = new JMenuItem(" Configuracion");
 		mntmConfiguracion.setIcon(new ImageIcon(VentanaTotal.class.getResource("/imagenes/configuracion.png")));
 		mntmConfiguracion.setForeground(Color.BLACK);
@@ -102,13 +109,6 @@ public class VentanaTotal extends JFrame implements ActionListener {
 		mntmConfiguracion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
 		mntmConfiguracion.setBackground(SystemColor.controlDkShadow);
 		panel_7.add(mntmConfiguracion);
-
-		mntmCerrarSesion = new JMenuItem("Cerrar Sesion");
-		mntmCerrarSesion.setForeground(Color.BLACK);
-		mntmCerrarSesion.setFont(new Font("Arial", Font.PLAIN, 22));
-		mntmCerrarSesion.setBorder(new TitledBorder(null, "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		mntmCerrarSesion.setBackground(SystemColor.controlDkShadow);
-		panel_7.add(mntmCerrarSesion);
 
 		JPanel panel_4 = new JPanel();
 		panel_4.setBackground(SystemColor.controlDkShadow);
