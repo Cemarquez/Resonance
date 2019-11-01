@@ -81,7 +81,7 @@ public class AdministradorDeArchivos {
 	}
 
 	public static void cambiarFotoPerfil(File file, String username) {
-		File fileDestino = new File(url + "/Usuarios/" + username + "FotoPerfil.png");
+		File fileDestino = new File(url + "/Usuarios/" + username + "/FotoPerfil.png");
 		try {
 			Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(fileDestino.getAbsolutePath()),
 					StandardCopyOption.REPLACE_EXISTING);
