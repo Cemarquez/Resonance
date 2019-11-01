@@ -1,8 +1,10 @@
 package resonance.estructura;
 
+import java.io.Serializable;
+
 import resonance.texto.Publicacion;
 
-public class ListaPublicaciones {
+public class ListaPublicaciones implements Serializable {
 
 	private Publicacion primero;
 	private Publicacion actual;

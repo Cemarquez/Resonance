@@ -2,7 +2,6 @@ package resonance.interfaces;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
@@ -24,6 +23,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import resonance.archivos.AdministradorDeArchivos;
+
 public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 
 	private JPanel contentPane;
@@ -39,28 +40,17 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 	private JLabel lblQuitarFoto;
 	private JPanel panelBtnRegresar;
 	private JLabel lblRegresar;
+	private File fileFoto;
+	private VentanaSubirFotoPerfil instance = this;
 
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					VentanaSubirFotoPerfil frame = new VentanaSubirFotoPerfil();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
 	/**
 	 * Create the frame.
 	 */
-	public VentanaSubirFotoPerfil() {
+	public VentanaSubirFotoPerfil(VentantaLogIN vLogin) {
+		this.vLogin = vLogin;
 		setSize(1366, 768);
 		getContentPane().setSize(new Dimension(1366, 768));
 		getContentPane().setBackground(Color.DARK_GRAY);
@@ -91,12 +81,12 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 				file.setFileFilter(filter);
 				file.showOpenDialog(panelBtnSubirFoto);
 
-				File archivo = file.getSelectedFile();
+				fileFoto = file.getSelectedFile();
 
-				if (archivo != null) {
+				if (fileFoto != null) {
 
 					try {
-						img = ImageIO.read(archivo);
+						img = ImageIO.read(fileFoto);
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -104,7 +94,7 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 
 					Image img2 = img.getScaledInstance(iconoSubirFotoPerfil.getHeight(),
 							iconoSubirFotoPerfil.getWidth(), Image.SCALE_SMOOTH);
-					String origen = archivo.getPath();
+					String origen = fileFoto.getPath();
 
 					fotoPerfil = new ImageIcon(img2);
 					iconoSubirFotoPerfil.setIcon(fotoPerfil);
@@ -195,10 +185,11 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 		panelBtnContinuar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// Se abre la ventana con el perfil creado
-
-				// VentanaPerfil miVPerfil = new VentanaPerfil();
-				// miVPerfil.setVisible(true);
+				VentanaRaiz vRaiz = new VentanaRaiz(vLogin);
+				System.out.println("este es el path:" + fileFoto.getPath());
+				AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, vLogin.getUserLogin().getID());
+				vRaiz.setVisible(true);
+				instance.dispose();
 
 			}
 		});

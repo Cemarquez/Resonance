@@ -1,8 +1,10 @@
 package resonance.estructura;
 
+import java.io.Serializable;
+
 import resonance.texto.Mensaje;
 
-public class ListaMensajes {
+public class ListaMensajes implements Serializable {
 	private Mensaje primero;
 	private Mensaje actual;
 	private Mensaje ultimo;

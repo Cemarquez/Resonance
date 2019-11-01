@@ -81,7 +81,7 @@ public class AdministradorDeArchivos {
 	}
 
 	public static void cambiarFotoPerfil(File file, String username) {
-		File fileDestino = new File(url + "/Usuarios/" + username);
+		File fileDestino = new File(url + "/Usuarios/" + username + "FotoPerfil.png");
 		try {
 			Files.copy(Paths.get(file.getAbsolutePath()), Paths.get(fileDestino.getAbsolutePath()),
 					StandardCopyOption.REPLACE_EXISTING);
@@ -89,14 +89,25 @@ public class AdministradorDeArchivos {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		File fileFoto = new File(url + "/Usuarios/" + username + "/" + file.getName());
-		fileFoto.renameTo(new File("FotoPerfil." + getFormatoFoto(fileFoto)));
 
 	}
 
 	public static String getFormatoFoto(File file) {
 		String name = file.getName();
 		return name.substring(name.length() - 3, name.length());
+	}
+
+	public static File getFotoPerfil(String user) {
+		File foto = null;
+
+		File carpetaUsuario = new File(url + "/Usuarios/" + user);
+		for (File v : carpetaUsuario.listFiles()) {
+			if (v.getName().contains("FotoPerfil")) {
+				return v;
+			}
+		}
+
+		return foto;
 	}
 
 	public static Usuario deserializarUser(String id) {

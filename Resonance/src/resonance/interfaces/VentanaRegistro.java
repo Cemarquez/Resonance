@@ -143,8 +143,8 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 						AdministradorDeArchivos.crearCarpetaUsuario(username);
 						AdministradorDeArchivos.serializarUser(userLogin);
 
-//						VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil(VentantaLogIN vLogin);
-//						miVFotoPerfil.setVisible(true);
+						VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil(vLogin);
+						miVFotoPerfil.setVisible(true);
 
 						instance.dispose();
 

@@ -1,8 +1,9 @@
 package resonance.usuario;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public class OpcionManager {
+public class OpcionManager implements Serializable {
 
 	private HashMap<String, Opcion> opciones;
 

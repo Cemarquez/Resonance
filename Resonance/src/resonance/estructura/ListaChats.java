@@ -1,8 +1,10 @@
 package resonance.estructura;
 
+import java.io.Serializable;
+
 import resonance.texto.Chat;
 
-public class ListaChats {
+public class ListaChats implements Serializable {
 	private Chat primero;
 	private Chat actual;
 	private Chat ultimo;
