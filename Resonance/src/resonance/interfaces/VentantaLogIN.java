@@ -172,7 +172,7 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 					System.out.println("nonas");
 				} else {
 					if (password.equals(userLogin.getPerfil().getContrasena())) {
-						VentanaTotal vTotal = new VentanaTotal(instance);
+						VentanaRaiz vTotal = new VentanaRaiz(instance);
 						vTotal.setVisible(true);
 						instance.dispose();
 					}

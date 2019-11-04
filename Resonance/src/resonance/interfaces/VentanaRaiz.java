@@ -22,6 +22,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 
 	private PanelChats panelChats;
 	private PanelConfiguracion panelConfiguracion;
+	private PanelInicio panelInicio;
 	private static final long serialVersionUID = 1L;
 	private JMenuItem mntmPerfil;
 	private JMenuItem mntmInicio;
@@ -146,17 +147,22 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		panelContenedor.setLayout(null);
 
 		panelChats = new PanelChats();
-
 		panelChats.setBounds(258, 11, 1095, 717);
-
+		
 		panelConfiguracion = new PanelConfiguracion();
-
 		panelConfiguracion.setBounds(258, 11, 1095, 717);
+		
+		panelInicio = new PanelInicio();
+		panelInicio.setBounds(258, 11, 1095, 717);
 
 		panelContenedor.add(panelConfiguracion);
 		panelContenedor.add(panelChats);
+		panelContenedor.add(panelInicio);
+		
 		panelChats.setVisible(false);
 		panelConfiguracion.setVisible(false);
+		panelInicio.setVisible(true);
+		
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
 
@@ -165,18 +171,26 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 
-		if (arg0.getSource() == mntmChat) {
-			panelChats.setVisible(true);
+		if (arg0.getSource() == mntmInicio) {
+			panelChats.setVisible(false);
 			panelConfiguracion.setVisible(false);
+			panelInicio.setVisible(true);
+		}
+		
+		if (arg0.getSource() == mntmChat) {
+			panelInicio.setVisible(false);
+			panelConfiguracion.setVisible(false);
+			panelChats.setVisible(true);
 		}
 
 		if (arg0.getSource() == mntmConfiguracion) {
+			panelInicio.setVisible(false);
 			panelChats.setVisible(false);
 			panelConfiguracion.setVisible(true);
 		}
 
 		if (arg0.getSource() == mntmCerrarSesion) {
-			JOptionPane.showMessageDialog(null, "callese hp");
+			JOptionPane.showMessageDialog(null, "Cerrando sesion");
 		}
 	}
 }
