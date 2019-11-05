@@ -154,7 +154,6 @@ public class PanelInicio extends JPanel
 
 			JPanel panelP = new JPanel();
 			panelP.setBorder(new LineBorder(new Color(0, 0, 0)));
-//			panelP.setBounds(0, (300*i), 640, 300);
 			panelP.setBackground(SystemColor.controlDkShadow);
 			panelScroll.add(panelP);
 			panelP.setLayout(new BorderLayout(0, 0));
