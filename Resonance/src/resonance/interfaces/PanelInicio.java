@@ -11,15 +11,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
-import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import java.awt.BorderLayout;
 import javax.swing.JMenuItem;
 import java.awt.Panel;
-import javax.swing.UIManager;
 
 public class PanelInicio extends JPanel
 {
@@ -57,12 +54,11 @@ public class PanelInicio extends JPanel
 		scroll = new JScrollPane(panelScroll, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setBounds(0, 0, 640, 709);
-		panelScroll.setLayout(null);
+		panelScroll.setLayout(new BoxLayout(panelScroll, BoxLayout.Y_AXIS));
 		
 		panelPublicacion = new JPanel();
 		panelPublicacion.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelPublicacion.setBackground(SystemColor.controlDkShadow);
-		panelPublicacion.setBounds(0, 0, 620, 300);
 		panelScroll.add(panelPublicacion);
 		panelPublicacion.setLayout(new BorderLayout(0, 0));
 		
@@ -158,7 +154,7 @@ public class PanelInicio extends JPanel
 
 			JPanel panelP = new JPanel();
 			panelP.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelP.setBounds(0, (300*i), 640, 300);
+//			panelP.setBounds(0, (300*i), 640, 300);
 			panelP.setBackground(SystemColor.controlDkShadow);
 			panelScroll.add(panelP);
 			panelP.setLayout(new BorderLayout(0, 0));
