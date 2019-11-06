@@ -4,7 +4,11 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.SystemColor;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -14,11 +18,9 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.ScrollPaneConstants;
 import javax.swing.SwingConstants;
-import java.awt.SystemColor;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
-public class PanelChats extends JPanel {
+public class PanelChats extends JPanel implements MouseListener {
 	/**
 	 * 
 	 */
@@ -29,6 +31,12 @@ public class PanelChats extends JPanel {
 	private JPanel panelMensajes;
 	private JPanel panelCrearMensaje;
 	private int numChats;
+	private int numContactos;
+	private JScrollPane scrollContactos;
+	private JPanel panelContactos;
+	private JPanel panelBtnIniciarChat;
+	private JLabel labelSeleccionaChat;
+	private JPanel panelChat;
 
 
 	/**
@@ -36,6 +44,7 @@ public class PanelChats extends JPanel {
 	 */
 	public PanelChats() {
 		this.numChats = 30;
+		this.numContactos = 5;
 		setBackground(SystemColor.controlDkShadow);
 		setSize(1095, 717);
 		setLayout(new GridLayout(0, 2, 0, 0));
@@ -50,18 +59,64 @@ public class PanelChats extends JPanel {
 		panelCrearMensaje = new JPanel();
 		panelCrearMensaje.setBackground(SystemColor.controlDkShadow);
 		add(panelCrearMensaje);
-		panelCrearMensaje.setLayout(new BoxLayout(panelCrearMensaje, BoxLayout.X_AXIS));
+		panelCrearMensaje.setLayout(null);
 
-		JPanel panelChat = new JPanel();
+		panelChat = new JPanel();
+		panelChat.setBounds(0, 0, 455, 717);
 		panelChat.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelChat.setBackground(SystemColor.controlDkShadow);
-		panelCrearMensaje.add(panelChat);
 
-		JPanel panelContactos = new JPanel();
-		panelContactos.setBackground(SystemColor.controlDkShadow);
-		panelCrearMensaje.add(panelContactos);
-		panelContactos.setLayout(new BoxLayout(panelContactos, BoxLayout.Y_AXIS));
+		panelCrearMensaje.add(panelChat);
+		panelChat.setLayout(null);
+
+		labelSeleccionaChat = new JLabel("Selecciona un mensaje o inicia un chat");
+		labelSeleccionaChat.setFont(new Font("Segoe UI", Font.PLAIN, 24));
+		labelSeleccionaChat.setBounds(25, 221, 420, 32);
+		panelChat.add(labelSeleccionaChat);
+
+		panelBtnIniciarChat = new JPanel();
+		panelBtnIniciarChat.setBorder(new LineBorder(new Color(0, 0, 0), 50, true));
+		panelBtnIniciarChat.setBackground(SystemColor.controlDkShadow);
+		panelBtnIniciarChat.setForeground(Color.BLACK);
+		panelBtnIniciarChat.setBounds(143, 288, 168, 40);
+		panelChat.add(panelBtnIniciarChat);
+		panelBtnIniciarChat.setLayout(null);
+		panelBtnIniciarChat.addMouseListener(this);
+
+		JLabel lblIniciarChat = new JLabel("Iniciar chat");
+		lblIniciarChat.setForeground(Color.WHITE);
+		lblIniciarChat.setVerticalAlignment(SwingConstants.TOP);
+		lblIniciarChat.setFont(new Font("Segoe UI", Font.BOLD, 16));
+		lblIniciarChat.setBounds(36, 11, 85, 22);
+		panelBtnIniciarChat.add(lblIniciarChat);
 		
+		panelContactos = new JPanel();
+		panelContactos.setBackground(Color.WHITE);
+		panelContactos.setBounds(454, 0, 93, 717);
+		panelContactos.setPreferredSize(new Dimension(93, 717 * numContactos));
+		panelContactos.setBorder(BorderFactory.createEmptyBorder());
+
+		scrollContactos = new JScrollPane(panelContactos, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		scrollContactos.setViewportBorder(null);
+		scrollContactos.setBounds(455, 0, 93, 728);
+		scrollContactos.setSize(93, 717);
+		scrollContactos.setViewportBorder(null);
+		panelContactos.setLayout(new BoxLayout(panelContactos, BoxLayout.Y_AXIS));
+
+		JPanel panelTituloContactos = new JPanel();
+		panelTituloContactos.setBackground(Color.WHITE);
+		panelTituloContactos.setMaximumSize(new Dimension(153, 40));
+		panelContactos.add(panelTituloContactos);
+		panelTituloContactos.setLayout(null);
+
+		JLabel lblContactos = new JLabel("Contactos");
+		lblContactos.setFont(new Font("Segoe UI", Font.BOLD, 15));
+		lblContactos.setBounds(0, 11, 83, 14);
+		panelTituloContactos.add(lblContactos);
+
+		panelCrearMensaje.add(scrollContactos);
+
 		panelScroll = new JPanel();
 		panelScroll.setBackground(SystemColor.controlDkShadow);
 		panelScroll.setPreferredSize(new Dimension(537, 65 * numChats));
@@ -105,8 +160,12 @@ public class PanelChats extends JPanel {
 				panel.add(lblTituloMensajes);
 				lblTituloMensajes.setFont(new Font("Segoe UI", Font.PLAIN, 40));
 
+
+
+
 		crearPanelEjemplo();
 		crearPanelesMensajes();
+		crearListaContactosEjemplo();
 	}
 
 //	public static void main(String[] args) {
@@ -223,5 +282,68 @@ public class PanelChats extends JPanel {
 
 
 		}
+
+	}
+
+	public void crearListaContactosEjemplo() {
+
+		for (int i = 0; i <= 20; i++) {
+
+			JPanel panelContacto = new JPanel();
+			panelContacto.setMaximumSize(new Dimension(153, 77));
+			panelContactos.add(panelContacto);
+			panelContacto.setLayout(null);
+
+			JLabel lblFotoContacto = new JLabel("");
+			lblFotoContacto.setIcon(new ImageIcon(PanelChats.class.getResource("/imagenes/Logo1Reducido.png")));
+			lblFotoContacto.setBounds(10, 0, 57, 49);
+			panelContacto.add(lblFotoContacto);
+
+			JLabel lblNombreContacto = new JLabel("Pepito");
+			lblNombreContacto.setFont(new Font("Segoe UI", Font.BOLD, 11));
+			lblNombreContacto.setBounds(20, 46, 46, 14);
+			panelContacto.add(lblNombreContacto);
+
+			JLabel lblUsuarioContacto = new JLabel("@Pepito");
+			lblUsuarioContacto.setFont(new Font("Segoe UI", Font.PLAIN, 11));
+			lblUsuarioContacto.setBounds(10, 60, 67, 14);
+			panelContacto.add(lblUsuarioContacto);
+		}
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		if (e.getSource() == panelBtnIniciarChat) {
+
+			PanelConversacion chat = new PanelConversacion();
+			panelChat.setVisible(false);
+			panelCrearMensaje.add(chat);
+
+		}
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+
 	}
 }
