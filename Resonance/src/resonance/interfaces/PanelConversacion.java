@@ -1,9 +1,8 @@
 package resonance.interfaces;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,7 +12,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
-import javax.swing.SwingConstants;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.MutableAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class PanelConversacion extends JPanel implements ActionListener {
 
@@ -30,42 +33,23 @@ public class PanelConversacion extends JPanel implements ActionListener {
 		setSize(new Dimension(455, 717));
 		setLayout(null);
 
+		JPanel panelNombreUsuario = new JPanel();
+		panelNombreUsuario.setBounds(0, 0, 455, 72);
+		add(panelNombreUsuario);
+		panelNombreUsuario.setLayout(null);
+
 		JLabel labelNombre = new JLabel("Pepito");
-		labelNombre.setFont(new Font("Segoe UI", Font.BOLD, 18));
 		labelNombre.setBounds(10, 0, 86, 30);
-		add(labelNombre);
+		panelNombreUsuario.add(labelNombre);
+		labelNombre.setFont(new Font("Segoe UI", Font.BOLD, 18));
 
 		JLabel labelUsuario = new JLabel("@Pepito");
-		labelUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		labelUsuario.setBounds(10, 21, 57, 30);
-		add(labelUsuario);
-
-
-		JPanel panelEscribirMensaje = new JPanel();
-		panelEscribirMensaje.setBounds(0, 668, 455, 49);
-		add(panelEscribirMensaje);
-		panelEscribirMensaje.setLayout(null);
-
-		lblSubirFoto = new JLabel("");
-		lblSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
-		lblSubirFoto.setBounds(10, 11, 32, 25);
-		panelEscribirMensaje.add(lblSubirFoto);
-
-		JTextField textFieldMensaje = new RoundJTextField(15);
-		textFieldMensaje.setBounds(52, 11, 357, 25);
+		panelNombreUsuario.add(labelUsuario);
+		labelUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 
 
 		textMensaje = new JTextField();
-		// textMensaje.setBounds(64, 23, 357, 25);
-
-
-
-		panelEscribirMensaje.add(textFieldMensaje);
-
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
-		label.setBounds(418, 11, 37, 25);
-		panelEscribirMensaje.add(label);
 
 		panelMensajes = new JPanel();
 		panelMensajes.setBackground(Color.GRAY);
@@ -74,134 +58,129 @@ public class PanelConversacion extends JPanel implements ActionListener {
 
 		scrollMensajes = new JScrollPane(panelMensajes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+		panelMensajes.setLayout(null);
+
+		// Manda el chat a lo ultimo
+
+		// scrollMensajes.getVerticalScrollBar().setValue(scrollMensajes.getVerticalScrollBar().getMaximum());
 		scrollMensajes.setSize(455, 630);
-		scrollMensajes.setBounds(0, 52, 455, 617);
+		scrollMensajes.setBounds(0, 72, 455, 587);
 		add(scrollMensajes);
 
+		JPanel panelEscribirMensaje = new JPanel();
+		panelEscribirMensaje.setBounds(0, 660, 455, 49);
+		add(panelEscribirMensaje);
+		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
 
+		lblSubirFoto = new JLabel("");
+		lblSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
+		panelEscribirMensaje.add(lblSubirFoto, BorderLayout.WEST);
+
+		RoundJTextArea textArea = new RoundJTextArea();
+		JScrollPane jp = new JScrollPane(textArea);
+		panelEscribirMensaje.add(jp, BorderLayout.CENTER);
+
+		JLabel label = new JLabel("");
+		label.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
+		panelEscribirMensaje.add(label, BorderLayout.EAST);
 
 		textMensaje.setColumns(10);
 
-		cargarMensajesEjemplo();
+		try {
+			cargarMensajesEjemplo();
+		} catch (BadLocationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
 
-
 		
-	public void cargarMensajesEjemplo() {
+	public void cargarMensajesEjemplo() throws BadLocationException {
 
 		// Mensaje del contacto
 
-		JPanel mensaje = new JPanel();
-		mensaje.setBounds(0, 0, 200, 39);
-		mensaje.setAlignmentX(Component.LEFT_ALIGNMENT);
-		mensaje.setMaximumSize(new Dimension(200, 39));
-		mensaje.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-//		msj.setText("Esto es un ejemplo de un mensaje muy largo para probar como se comportaria en el panel del chat por favor no hacer caso de ninguna manera"
-//			+ "gracias");
-		JLabel msj = new JLabel("Mensaje", SwingConstants.LEFT);
-		msj.setPreferredSize(new Dimension(200, 30));
-		mensaje.add(msj);
-
-		panelMensajes.setLayout(null);
-		panelMensajes.add(mensaje);
-
-		// Mensaje propio
-
-		JPanel mensajePropio = new JPanel();
-		mensajePropio.setBounds(232, 65, 200, 39);
-		mensajePropio.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		FlowLayout flowLayout = (FlowLayout) mensajePropio.getLayout();
-		flowLayout.setAlignment(FlowLayout.RIGHT);
-		mensajePropio.setMaximumSize(new Dimension(200, 39));
-
-		JLabel msj2 = new JLabel("Mensaje2", SwingConstants.LEFT);
-		msj2.setPreferredSize(new Dimension(200, 30));
-
-		mensajePropio.add(msj2);
-		panelMensajes.add(mensajePropio);
-
-		JPanel mensajePropio2 = new JPanel();
-		mensajePropio2.setBounds(232, 600, 200, 39);
-		mensajePropio2.setAlignmentX(Component.RIGHT_ALIGNMENT);
-		FlowLayout flowLayout2 = (FlowLayout) mensajePropio2.getLayout();
-		flowLayout2.setAlignment(FlowLayout.RIGHT);
-		mensajePropio2.setMaximumSize(new Dimension(200, 39));
-
-		JLabel msj3 = new JLabel("Mensaje2", SwingConstants.LEFT);
-		msj3.setPreferredSize(new Dimension(200, 30));
-
-		mensajePropio2.add(msj3);
-		panelMensajes.add(mensajePropio2);
-
-		JPanel msj5 = generarPanelMensaje("Colombia tierra querida himno de fe y armonia\r\n"
+		RoundJTextPane mensaje = generarPanelMensaje("Colombia tierra querida himno de fe y armonia\r\n"
 				+ "Cantemos, cantemos todos grito de paz y alegria\r\n"
 				+ "Vivemos siempre vivemos a nuestra patria querida\r\n"
 				+ "Tu suelo es una oracion y es un canto de la vida\r\n"
-				+ "Cantando, cantando yo viviré Colombia tierra querida\r\n"
-				+ "Cantando, cantando yo viviré Colombia tierra querida"
-		);
-		int ancho = msj5.getWidth();
-		int alto = msj5.getHeight();
+				+ "Cantando, cantando yo viviré Colombia tierra querida\r\n \n \n"
+				+ "Cantando, cantando yo viviré Colombia tierra querida ");
 
+		mensaje.setLocation(0, 0);
+
+
+
+		panelMensajes.add(mensaje);
 		
 
 
-		// msj5.setBounds(232, 180, 400, 400);
 
-		panelMensajes.add(msj5);
 
 	}
 
-	public JPanel generarPanelMensaje(String mensaje) {
+	public RoundJTextPane generarPanelMensaje(String mensaje) {
 
-		JLabel lblMsj = new JLabel(mensaje);
-		JPanel panelMensajeCreado = new JPanel();
-		System.out.println(mensaje.length());
+		RoundJTextPane panelMensajeCreado = new RoundJTextPane();
+		panelMensajeCreado.setEditable(false);
+		// panelMensajeCreado.setEnabled(false);
+		setJTextPaneFont(panelMensajeCreado, new Font("Segoe UI", Font.PLAIN, 14), Color.BLACK);
+
 
 		if (mensaje.length() > panelMensajes.getWidth()) {
 
-			panelMensajeCreado.setBounds(232, 180, 200, 200);
-			panelMensajeCreado.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			panelMensajeCreado.setPreferredSize(new Dimension(200, 200));
-			JLabel mensajePanel = new JLabel();
-			mensajePanel.setPreferredSize(new Dimension(200, 200));
-			mensajePanel.setText(mensaje);
-			panelMensajeCreado.add(mensajePanel);
+			panelMensajeCreado.setSize(new Dimension(200, 200));
+			panelMensajeCreado.setText(mensaje);
+
 
 		}
 
 		if ((mensaje.length() > 150) && (mensaje.length() < panelMensajes.getWidth())) {
 
 
-			panelMensajeCreado.setBounds(232, 180, 200, 320);
-				panelMensajeCreado.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			panelMensajeCreado.setPreferredSize(new Dimension(180, 600));
-				JLabel mensajePanel = new JLabel();
-			mensajePanel.setBounds(0, 0, 150, 320);
-				mensajePanel.setText(mensaje);
-				panelMensajeCreado.add(mensajePanel);
+			panelMensajeCreado.setSize(new Dimension(200, 320));
+			panelMensajeCreado.setText(mensaje);
 
 		} else {
 
+			panelMensajeCreado.setSize(new Dimension(200, 40));
+			panelMensajeCreado.setText(mensaje);
 
 
-				panelMensajeCreado.setBounds(232, 180, 200, 40);
-				panelMensajeCreado.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-				JLabel mensajePanel = new JLabel();
-				mensajePanel.setMaximumSize(new Dimension(200, 40));
-				mensajePanel.setText(mensaje);
-				panelMensajeCreado.add(mensajePanel);
-
-
-
-			}
-
-
+		}
 
 		return panelMensajeCreado;
 
+	}
+
+	
+	public static void setJTextPaneFont(JTextPane jtp, Font font, Color c) {
+		// Start with the current input attributes for the JTextPane. This
+		// should ensure that we do not wipe out any existing attributes
+		// (such as alignment or other paragraph attributes) currently
+		// set on the text area.
+		MutableAttributeSet attrs = jtp.getInputAttributes();
+
+		// Set the font family, size, and style, based on properties of
+		// the Font object. Note that JTextPane supports a number of
+		// character attributes beyond those supported by the Font class.
+		// For example, underline, strike-through, super- and sub-script.
+		StyleConstants.setFontFamily(attrs, font.getFamily());
+		StyleConstants.setFontSize(attrs, font.getSize());
+		StyleConstants.setItalic(attrs, (font.getStyle() & Font.ITALIC) != 0);
+		StyleConstants.setBold(attrs, (font.getStyle() & Font.BOLD) != 0);
+
+		// Set the font color
+		StyleConstants.setForeground(attrs, c);
+
+		// Retrieve the pane's document object
+		StyledDocument doc = jtp.getStyledDocument();
+
+		// Replace the style for the entire document. We exceed the length
+		// of the document by 1 so that text entered at the end of the
+		// document uses the attributes.
+		doc.setCharacterAttributes(0, doc.getLength() + 1, attrs, false);
 	}
 
 	@Override
