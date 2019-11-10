@@ -151,7 +151,17 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 		lblOmitir.setFont(font.deriveFont(attributes));
 		lblOmitir.setBounds(473, 441, 246, 28);
 
-		lblOmitir.addMouseListener(this);
+		lblOmitir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				fileFoto = new File("/imagenes/fotoperfil_icono.png");
+				VentanaRaiz vRaiz = new VentanaRaiz();
+				AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, vLogin.getUserLogin().getID());
+				vRaiz.setVisible(true);
+				instance.dispose();
+
+			}
+		});
 		panelSubirFoto.add(lblOmitir);
 
 		lblQuitarFoto = new JLabel("Quitar foto\r\n");
@@ -186,7 +196,6 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 				VentanaRaiz vRaiz = new VentanaRaiz();
-				System.out.println("este es el path:" + fileFoto.getPath());
 				AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, vLogin.getUserLogin().getID());
 				vRaiz.setVisible(true);
 				instance.dispose();

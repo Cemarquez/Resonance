@@ -9,8 +9,12 @@ import resonance.excepciones.LimitException;
 import resonance.texto.Publicacion;
 import resonance.usuario.Relacion.TipoRelacion;
 
-public class Usuario implements Serializable{
+public class Usuario implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String id;
 	private ArrayList<Relacion> relaciones;
 	private int limiteAmigos;
@@ -146,6 +150,89 @@ public class Usuario implements Serializable{
 		}
 
 		return lista;
+	}
+
+	/**
+	 * Metodo que obtiene las publicaciones que se mostraran en el menu inicial.
+	 * 
+	 * @return
+	 */
+	public ListaPublicaciones obtenerPublicacionesInicio() {
+		ListaPublicaciones lista = new ListaPublicaciones();
+		for (Usuario u : getAmigos()) {
+			for (int i = 0; i < u.getPublicaciones(getID()).getLongitud(); i++) {
+				Publicacion p = u.getPublicaciones(getID()).getPublicacion(i);
+				lista.agregar(p);
+			}
+		}
+
+		for (int i = 0; i < publicaciones.getLongitud(); i++) {
+			Publicacion p = publicaciones.getPublicacion(i);
+			lista.agregar(p);
+		}
+
+		lista = ordenarPorFecha(covertirArrayList(lista));
+
+		return lista;
+	}
+
+	/**
+	 * Metodo que ordena una lista sencilla de publicaciones por fecha.
+	 * 
+	 * @param lista
+	 * @return
+	 */
+	public ListaPublicaciones ordenarPorFecha(ArrayList<Publicacion> A) {
+		ListaPublicaciones listaR = new ListaPublicaciones();
+
+		Publicacion aux;
+		for (int i = 1; i <= A.size(); i++) {
+			for (int j = 0; j < A.size() - i; j++) {
+				if (A.get(j).getFecha().compareTo(A.get(j + 1).getFecha()) > 0) {
+					aux = A.get(j);
+					A.set(j, A.get(j + 1));
+					A.set(j + 1, aux);
+				}
+			}
+		}
+
+//		int i = A.size()-1;i>=0;i++
+		for (Publicacion p : A) {
+			listaR.agregar(p);
+		}
+		return listaR;
+	}
+
+	public static ArrayList<String> ordenar(ArrayList<String> A) {
+		ArrayList<String> array = new ArrayList<String>();
+		String aux;
+		for (int i = 1; i <= A.size(); i++) {
+			for (int j = 0; j < A.size() - i; j++) {
+				if (A.get(j).compareTo(A.get(j + 1)) > 0) {
+					aux = A.get(j);
+					A.set(j, A.get(j + 1));
+					A.set(j + 1, aux);
+				}
+			}
+		}
+
+		return A;
+	}
+
+	/**
+	 * Metodo que convierte una lista sencilla en un ArrayList
+	 * 
+	 * @param lista
+	 * @return
+	 */
+	public ArrayList<Publicacion> covertirArrayList(ListaPublicaciones lista) {
+		ArrayList<Publicacion> publicaciones = new ArrayList<Publicacion>();
+		for (int i = 0; i < lista.getLongitud(); i++) {
+			Publicacion p = lista.getPublicacion(i);
+			publicaciones.add(p);
+		}
+
+		return publicaciones;
 	}
 
 	/**

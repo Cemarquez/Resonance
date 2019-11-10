@@ -108,4 +108,8 @@ public class ListaPublicaciones implements Serializable {
 		return ultimo;
 	}
 
+	public int getLongitud() {
+		return longitud;
+	}
+
 }

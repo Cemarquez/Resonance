@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 
 import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
+import resonance.usuario.Usuario;
 
 public class PanelInicio extends JPanel {
 
@@ -33,13 +34,15 @@ public class PanelInicio extends JPanel {
 	private JLabel lblFoto;
 	private JPanel panelCentro;
 	private VentantaLogIN vLogin;
+	private Usuario userLogin;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelInicio() {
 		vLogin = ControladoraPrincipal.getI();
-		this.numPublics = 12;
+		userLogin = vLogin.getUserLogin();
+		this.numPublics = userLogin.obtenerPublicacionesInicio().getLongitud();
 		setBackground(SystemColor.controlDkShadow);
 		setSize(1095, 717);
 		setLayout(null);
@@ -169,7 +172,7 @@ public class PanelInicio extends JPanel {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel("  Nombre del autor");
+			JLabel lblNombre = new JLabel(userLogin.getID());
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);
