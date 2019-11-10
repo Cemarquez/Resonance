@@ -18,6 +18,10 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import resonance.interfaces.paneles.PanelChats;
+import resonance.interfaces.paneles.PanelConfiguracion;
+import resonance.interfaces.paneles.PanelInicio;
+
 public class VentanaRaiz extends JFrame implements ActionListener {
 
 	private PanelChats panelChats;
@@ -33,9 +37,10 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
+			@Override
 			public void run() {
 				try {
-					VentanaRaiz frame = new VentanaRaiz(null);
+					VentanaRaiz frame = new VentanaRaiz();
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -44,10 +49,8 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		});
 	}
 
-
-
-	public VentanaRaiz(VentantaLogIN vLogin) {
-		this.vLogin = vLogin;
+	public VentanaRaiz() {
+		this.vLogin = ControladoraPrincipal.getI();
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
@@ -148,21 +151,21 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 
 		panelChats = new PanelChats();
 		panelChats.setBounds(258, 11, 1095, 717);
-		
+
 		panelConfiguracion = new PanelConfiguracion();
 		panelConfiguracion.setBounds(258, 11, 1095, 717);
-		
+
 		panelInicio = new PanelInicio();
 		panelInicio.setBounds(258, 11, 1095, 717);
 
 		panelContenedor.add(panelConfiguracion);
 		panelContenedor.add(panelChats);
 		panelContenedor.add(panelInicio);
-		
+
 		panelChats.setVisible(false);
 		panelConfiguracion.setVisible(false);
 		panelInicio.setVisible(true);
-		
+
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
 
@@ -176,7 +179,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 			panelConfiguracion.setVisible(false);
 			panelInicio.setVisible(true);
 		}
-		
+
 		if (arg0.getSource() == mntmChat) {
 			panelInicio.setVisible(false);
 			panelConfiguracion.setVisible(false);

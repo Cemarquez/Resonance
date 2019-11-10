@@ -41,9 +41,9 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 	private JCheckBox checkCondiciones;
 	private VentanaRegistro instance;
 
-	public VentanaRegistro(VentantaLogIN vLogin) {
+	public VentanaRegistro() {
 		instance = this;
-		this.vLogin = vLogin;
+		this.vLogin = ControladoraPrincipal.getI();
 		this.setExtendedState(MAXIMIZED_BOTH);
 		Dimension tamano = new Dimension(1366, 768);
 		setSize(tamano);
@@ -143,7 +143,7 @@ public class VentanaRegistro extends JFrame implements ActionListener {
 						AdministradorDeArchivos.crearCarpetaUsuario(username);
 						AdministradorDeArchivos.serializarUser(userLogin);
 
-						VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil(vLogin);
+						VentanaSubirFotoPerfil miVFotoPerfil = new VentanaSubirFotoPerfil();
 						miVFotoPerfil.setVisible(true);
 
 						instance.dispose();

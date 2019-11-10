@@ -49,8 +49,8 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 	/**
 	 * Create the frame.
 	 */
-	public VentanaSubirFotoPerfil(VentantaLogIN vLogin) {
-		this.vLogin = vLogin;
+	public VentanaSubirFotoPerfil() {
+		this.vLogin = ControladoraPrincipal.getI();
 		setSize(1366, 768);
 		getContentPane().setSize(new Dimension(1366, 768));
 		getContentPane().setBackground(Color.DARK_GRAY);
@@ -185,7 +185,7 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 		panelBtnContinuar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				VentanaRaiz vRaiz = new VentanaRaiz(vLogin);
+				VentanaRaiz vRaiz = new VentanaRaiz();
 				System.out.println("este es el path:" + fileFoto.getPath());
 				AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, vLogin.getUserLogin().getID());
 				vRaiz.setVisible(true);

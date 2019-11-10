@@ -1,18 +1,18 @@
-package resonance.interfaces;
+package resonance.interfaces.misc;
 
 import java.awt.Graphics;
 import java.awt.Shape;
 import java.awt.geom.RoundRectangle2D;
 
-import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 
-public class RoundJTextArea extends JTextArea {
+public class RoundJTextPane extends JTextPane {
 
 	
 	
 	private Shape shape;
 
-	public RoundJTextArea() {
+	public RoundJTextPane() {
 
 		setOpaque(false);
 	}

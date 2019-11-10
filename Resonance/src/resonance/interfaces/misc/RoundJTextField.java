@@ -1,4 +1,4 @@
-package resonance.interfaces;
+package resonance.interfaces.misc;
 
 import java.awt.Graphics;
 import java.awt.Shape;

@@ -172,7 +172,7 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 					System.out.println("nonas");
 				} else {
 					if (password.equals(userLogin.getPerfil().getContrasena())) {
-						VentanaRaiz vTotal = new VentanaRaiz(instance);
+						VentanaRaiz vTotal = new VentanaRaiz();
 						vTotal.setVisible(true);
 						instance.dispose();
 					}
@@ -197,7 +197,7 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 			@Override
 			public void mousePressed(MouseEvent arg0) {
 
-				VentanaRegistro miVRegistro = new VentanaRegistro(instance);
+				VentanaRegistro miVRegistro = new VentanaRegistro();
 				miVRegistro.setVisible(true);
 				instance.dispose();
 

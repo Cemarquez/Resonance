@@ -1,4 +1,4 @@
-package resonance.interfaces;
+package resonance.interfaces.paneles;
 
 import java.awt.Color;
 import java.awt.Font;

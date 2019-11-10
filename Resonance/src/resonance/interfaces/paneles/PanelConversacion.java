@@ -1,4 +1,4 @@
-package resonance.interfaces;
+package resonance.interfaces.paneles;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -20,6 +20,9 @@ import javax.swing.text.BadLocationException;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
+
+import resonance.interfaces.misc.RoundJTextArea;
+import resonance.interfaces.misc.RoundJTextPane;
 
 public class PanelConversacion extends JPanel implements ActionListener, MouseListener {
 
