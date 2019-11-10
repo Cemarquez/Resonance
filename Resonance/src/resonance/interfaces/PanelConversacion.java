@@ -6,6 +6,9 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -18,17 +21,23 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
-public class PanelConversacion extends JPanel implements ActionListener {
+public class PanelConversacion extends JPanel implements ActionListener, MouseListener {
 
-	private JLabel lblSubirFoto;
+	private PanelConversacion instance;
+	private JLabel btnSubirFoto;
 	private JTextField textMensaje;
 	private JPanel panelMensajes;
 	private JScrollPane scrollMensajes;
+	private JLabel btnEnviar;
+	private ArrayList<RoundJTextPane> historialChat;
+	private RoundJTextArea textArea;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelConversacion() {
+		instance = this;
+		historialChat = new ArrayList<>();
 		setBackground(Color.LIGHT_GRAY);
 		setSize(new Dimension(455, 717));
 		setLayout(null);
@@ -58,7 +67,6 @@ public class PanelConversacion extends JPanel implements ActionListener {
 
 		scrollMensajes = new JScrollPane(panelMensajes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-		panelMensajes.setLayout(null);
 
 		// Manda el chat a lo ultimo
 
@@ -72,17 +80,18 @@ public class PanelConversacion extends JPanel implements ActionListener {
 		add(panelEscribirMensaje);
 		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
 
-		lblSubirFoto = new JLabel("");
-		lblSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
-		panelEscribirMensaje.add(lblSubirFoto, BorderLayout.WEST);
+		btnSubirFoto = new JLabel("");
+		btnSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
+		panelEscribirMensaje.add(btnSubirFoto, BorderLayout.WEST);
 
-		RoundJTextArea textArea = new RoundJTextArea();
+		textArea = new RoundJTextArea();
 		JScrollPane jp = new JScrollPane(textArea);
 		panelEscribirMensaje.add(jp, BorderLayout.CENTER);
 
-		JLabel label = new JLabel("");
-		label.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
-		panelEscribirMensaje.add(label, BorderLayout.EAST);
+		btnEnviar = new JLabel("");
+		btnEnviar.addMouseListener(this);
+		btnEnviar.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
+		panelEscribirMensaje.add(btnEnviar, BorderLayout.EAST);
 
 		textMensaje.setColumns(10);
 
@@ -98,6 +107,7 @@ public class PanelConversacion extends JPanel implements ActionListener {
 
 		
 	public void cargarMensajesEjemplo() throws BadLocationException {
+		panelMensajes.setLayout(null);
 
 		// Mensaje del contacto
 
@@ -108,12 +118,28 @@ public class PanelConversacion extends JPanel implements ActionListener {
 				+ "Cantando, cantando yo viviré Colombia tierra querida\r\n \n \n"
 				+ "Cantando, cantando yo viviré Colombia tierra querida ");
 
-		mensaje.setLocation(0, 0);
+		RoundJTextPane mensaje2 = generarPanelMensaje(
+				"Something in the way she moves "
+
+
+		);
+
 
 
 
 		panelMensajes.add(mensaje);
 		
+		historialChat.add(mensaje);
+
+		// panelMensajes.add(mensaje2);
+
+		// historialChat.add(mensaje2);
+
+		JPanel panel = new JPanel();
+		panel.setBounds(0, 619, 455, 10);
+		panelMensajes.add(panel);
+		
+	
 
 
 
@@ -123,32 +149,36 @@ public class PanelConversacion extends JPanel implements ActionListener {
 	public RoundJTextPane generarPanelMensaje(String mensaje) {
 
 		RoundJTextPane panelMensajeCreado = new RoundJTextPane();
+		panelMensajeCreado.setBounds(0, 0, 455, 619);
 		panelMensajeCreado.setEditable(false);
 		// panelMensajeCreado.setEnabled(false);
 		setJTextPaneFont(panelMensajeCreado, new Font("Segoe UI", Font.PLAIN, 14), Color.BLACK);
 
-
-		if (mensaje.length() > panelMensajes.getWidth()) {
-
-			panelMensajeCreado.setSize(new Dimension(200, 200));
+		/*
+		 * if (mensaje.length() > panelMensajes.getWidth()) {
+		 * 
+		 * panelMensajeCreado.setSize(new Dimension(200, 320));
+		 * panelMensajeCreado.setText(mensaje);
+		 * 
+		 * }
+		 * 
+		 * if ((mensaje.length() > 150) && (mensaje.length() <
+		 * panelMensajes.getWidth())) {
+		 * 
+		 * panelMensajeCreado.setSize(new Dimension(200, 320));
+		 * panelMensajeCreado.setText(mensaje);
+		 * 
+		 * } else {
+		 */
+			if (mensaje.length() > 33) {
+			panelMensajeCreado.setSize(new Dimension(200, 50 + ((mensaje.length() / 33) + 1) * 20));
 			panelMensajeCreado.setText(mensaje);
+			} else {
+			panelMensajeCreado.setSize(new Dimension(200, 50));
+				panelMensajeCreado.setText(mensaje);
+			}
 
-
-		}
-
-		if ((mensaje.length() > 150) && (mensaje.length() < panelMensajes.getWidth())) {
-
-
-			panelMensajeCreado.setSize(new Dimension(200, 320));
-			panelMensajeCreado.setText(mensaje);
-
-		} else {
-
-			panelMensajeCreado.setSize(new Dimension(200, 40));
-			panelMensajeCreado.setText(mensaje);
-
-
-		}
+		// }
 
 		return panelMensajeCreado;
 
@@ -184,7 +214,75 @@ public class PanelConversacion extends JPanel implements ActionListener {
 	}
 
 	@Override
+	public void mousePressed(MouseEvent e) {
+
+		if (e.getSource() == btnEnviar) {
+
+			String mensaje = textArea.getText();
+
+			if (!mensaje.equals("")) {
+
+				RoundJTextPane mensajeCreado = generarPanelMensaje(mensaje);
+
+				RoundJTextPane ultimoMensaje = historialChat.get(historialChat.size() - 1);
+
+
+				if (ultimoMensaje.getX() == 0) {
+					
+					
+
+					if (mensajeCreado.getWidth() == 150) {
+						mensajeCreado.setLocation(285, (int) ultimoMensaje.getLocation().y + 40);
+					
+					} else if (mensajeCreado.getWidth() == 200) {
+						mensajeCreado.setLocation(235,
+								ultimoMensaje.getHeight());
+					}
+					panelMensajes.setPreferredSize(new Dimension(455, 630 + mensajeCreado.getHeight()));
+					instance.repaint();
+					instance.revalidate();
+				} else {
+
+					mensajeCreado.setLocation(ultimoMensaje.getX(), ultimoMensaje.getY() + 50);
+					panelMensajes.setPreferredSize(new Dimension(455, 630 + mensajeCreado.getHeight()));
+					instance.repaint();
+					instance.revalidate();
+
+				}
+				panelMensajes.add(mensajeCreado);
+
+				historialChat.add(mensajeCreado);
+			}
+		}
+
+	}
+
+	@Override
 	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
 		// TODO Auto-generated method stub
 
 	}
