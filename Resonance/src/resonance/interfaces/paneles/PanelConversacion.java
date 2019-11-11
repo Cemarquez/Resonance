@@ -4,18 +4,26 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.imageio.ImageIO;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
@@ -66,14 +74,14 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 		panelMensajes = new JPanel();
 		panelMensajes.setBackground(Color.GRAY);
 		panelMensajes.setBounds(0, 52, 455, 609);
-		panelMensajes.setPreferredSize(new Dimension(455, 630));
+		panelMensajes.setSize(new Dimension(455, 630));
 
 		scrollMensajes = new JScrollPane(panelMensajes, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
 				JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
 		// Manda el chat a lo ultimo
 
-		// scrollMensajes.getVerticalScrollBar().setValue(scrollMensajes.getVerticalScrollBar().getMaximum());
+		scrollMensajes.getVerticalScrollBar().setValue(scrollMensajes.getVerticalScrollBar().getMaximum());
 		scrollMensajes.setSize(455, 630);
 		scrollMensajes.setBounds(0, 72, 455, 587);
 		add(scrollMensajes);
@@ -86,6 +94,7 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 		btnSubirFoto = new JLabel("");
 		btnSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
 		panelEscribirMensaje.add(btnSubirFoto, BorderLayout.WEST);
+		btnSubirFoto.addMouseListener(this);
 
 		textArea = new RoundJTextArea();
 		JScrollPane jp = new JScrollPane(textArea);
@@ -110,7 +119,7 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 
 		
 	public void cargarMensajesEjemplo() throws BadLocationException {
-		panelMensajes.setLayout(null);
+		panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.Y_AXIS));
 
 		// Mensaje del contacto
 
@@ -119,13 +128,9 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 				+ "Vivemos siempre vivemos a nuestra patria querida\r\n"
 				+ "Tu suelo es una oracion y es un canto de la vida\r\n"
 				+ "Cantando, cantando yo viviré Colombia tierra querida\r\n \n \n"
-				+ "Cantando, cantando yo viviré Colombia tierra querida ");
-
-		RoundJTextPane mensaje2 = generarPanelMensaje(
-				"Something in the way she moves "
+				+ "Cantando, cantando yo viviré Colombia tierra querida ", "");
 
 
-		);
 
 
 
@@ -133,14 +138,6 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 		panelMensajes.add(mensaje);
 		
 		historialChat.add(mensaje);
-
-		// panelMensajes.add(mensaje2);
-
-		// historialChat.add(mensaje2);
-
-		JPanel panel = new JPanel();
-		panel.setBounds(0, 619, 455, 10);
-		panelMensajes.add(panel);
 		
 	
 
@@ -149,36 +146,29 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 
 	}
 
-	public RoundJTextPane generarPanelMensaje(String mensaje) {
+	public RoundJTextPane generarPanelMensaje(String mensaje, String tipo) {
 
+		String salida = "";
+
+		salida += "@Pepito" + " 20/1/2020" + "\n";
+		salida += mensaje;
 		RoundJTextPane panelMensajeCreado = new RoundJTextPane();
-		panelMensajeCreado.setBounds(0, 0, 455, 619);
+		if (tipo.equals("propio")) {
+			panelMensajeCreado.setBackground(Color.LIGHT_GRAY);
+		}
+
 		panelMensajeCreado.setEditable(false);
 		// panelMensajeCreado.setEnabled(false);
 		setJTextPaneFont(panelMensajeCreado, new Font("Segoe UI", Font.PLAIN, 14), Color.BLACK);
+		
+		
 
-		/*
-		 * if (mensaje.length() > panelMensajes.getWidth()) {
-		 * 
-		 * panelMensajeCreado.setSize(new Dimension(200, 320));
-		 * panelMensajeCreado.setText(mensaje);
-		 * 
-		 * }
-		 * 
-		 * if ((mensaje.length() > 150) && (mensaje.length() <
-		 * panelMensajes.getWidth())) {
-		 * 
-		 * panelMensajeCreado.setSize(new Dimension(200, 320));
-		 * panelMensajeCreado.setText(mensaje);
-		 * 
-		 * } else {
-		 */
-			if (mensaje.length() > 33) {
-			panelMensajeCreado.setSize(new Dimension(200, 50 + ((mensaje.length() / 33) + 1) * 20));
-			panelMensajeCreado.setText(mensaje);
+		if (mensaje.length() > 33) {
+			panelMensajeCreado.setMaximumSize(new Dimension(200, 50 + ((mensaje.length() / 33) + 1) * 20));
+			panelMensajeCreado.setText(salida);
 			} else {
-			panelMensajeCreado.setSize(new Dimension(200, 50));
-				panelMensajeCreado.setText(mensaje);
+			panelMensajeCreado.setMaximumSize(new Dimension(200, 50));
+			panelMensajeCreado.setText(salida);
 			}
 
 		// }
@@ -225,37 +215,61 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 
 			if (!mensaje.equals("")) {
 
-				RoundJTextPane mensajeCreado = generarPanelMensaje(mensaje);
+				RoundJTextPane mensajeCreado = generarPanelMensaje(mensaje, "propio");
 
-				RoundJTextPane ultimoMensaje = historialChat.get(historialChat.size() - 1);
+				// RoundJTextPane ultimoMensaje = historialChat.get(historialChat.size() - 1);
 
 
-				if (ultimoMensaje.getX() == 0) {
-					
-					
+				instance.repaint();
+				instance.revalidate();
 
-					if (mensajeCreado.getWidth() == 150) {
-						mensajeCreado.setLocation(285, (int) ultimoMensaje.getLocation().y + 40);
-					
-					} else if (mensajeCreado.getWidth() == 200) {
-						mensajeCreado.setLocation(235,
-								ultimoMensaje.getHeight());
-					}
-					panelMensajes.setPreferredSize(new Dimension(455, 630 + mensajeCreado.getHeight()));
-					instance.repaint();
-					instance.revalidate();
-				} else {
-
-					mensajeCreado.setLocation(ultimoMensaje.getX(), ultimoMensaje.getY() + 50);
-					panelMensajes.setPreferredSize(new Dimension(455, 630 + mensajeCreado.getHeight()));
-					instance.repaint();
-					instance.revalidate();
-
-				}
 				panelMensajes.add(mensajeCreado);
-
 				historialChat.add(mensajeCreado);
+				scrollMensajes.getVerticalScrollBar().setValue(scrollMensajes.getVerticalScrollBar().getMaximum());
 			}
+		}
+		
+		
+		if (e.getSource()==btnSubirFoto) {
+			
+			JFileChooser file = new JFileChooser();
+			FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de imagen jpg, png, gif", "jpg",
+					"png", "gif", "jpeg");
+			
+			File fileFoto;
+			file = new JFileChooser();
+			file.setFileFilter(filter);
+			file.showOpenDialog(instance);
+
+			fileFoto = file.getSelectedFile();
+			BufferedImage img;
+			Image img2;
+			if (fileFoto != null) {
+
+
+				try {
+					img = ImageIO.read(fileFoto);
+
+					img2 = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+
+					JLabel lblImg = new JLabel();
+
+					lblImg.setIcon(new ImageIcon(img2));
+
+					panelMensajes.add(lblImg);
+
+					instance.repaint();
+					instance.revalidate();
+
+				} catch (IOException es) {
+					// TODO Auto-generated catch block
+					es.printStackTrace();
+				}
+			}
+
+
+			
+			
 		}
 
 	}
