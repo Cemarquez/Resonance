@@ -256,7 +256,12 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 
 					lblImg.setIcon(new ImageIcon(img2));
 
+					lblImg.setMaximumSize(new Dimension(200, 200));
+					lblImg.setAlignmentX(CENTER_ALIGNMENT);
 					panelMensajes.add(lblImg);
+
+					JLabel usuario = new JLabel("@Pepito" + " 20/2/20");
+					panelMensajes.add(usuario);
 
 					instance.repaint();
 					instance.revalidate();
