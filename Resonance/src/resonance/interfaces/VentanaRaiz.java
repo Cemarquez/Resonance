@@ -21,12 +21,14 @@ import javax.swing.border.TitledBorder;
 import resonance.interfaces.paneles.PanelChats;
 import resonance.interfaces.paneles.PanelConfiguracion;
 import resonance.interfaces.paneles.PanelInicio;
+import resonance.interfaces.paneles.PanelPerfil;
 
 public class VentanaRaiz extends JFrame implements ActionListener {
 
 	private PanelChats panelChats;
 	private PanelConfiguracion panelConfiguracion;
 	private PanelInicio panelInicio;
+	private PanelPerfil panelPerfil;
 	private static final long serialVersionUID = 1L;
 	private JMenuItem mntmPerfil;
 	private JMenuItem mntmInicio;
@@ -158,12 +160,17 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		panelInicio = new PanelInicio();
 		panelInicio.setBounds(258, 11, 1095, 717);
 
+		panelPerfil = new PanelPerfil();
+		panelPerfil.setBounds(258, 11, 1095, 717);
+
 		panelContenedor.add(panelConfiguracion);
 		panelContenedor.add(panelChats);
 		panelContenedor.add(panelInicio);
+		panelContenedor.add(panelPerfil);
 
 		panelChats.setVisible(false);
 		panelConfiguracion.setVisible(false);
+		panelPerfil.setVisible(false);
 		panelInicio.setVisible(true);
 
 		setResizable(false);
@@ -177,19 +184,30 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		if (arg0.getSource() == mntmInicio) {
 			panelChats.setVisible(false);
 			panelConfiguracion.setVisible(false);
+			panelPerfil.setVisible(false);
 			panelInicio.setVisible(true);
 		}
 
 		if (arg0.getSource() == mntmChat) {
 			panelInicio.setVisible(false);
 			panelConfiguracion.setVisible(false);
+			panelPerfil.setVisible(false);
 			panelChats.setVisible(true);
 		}
 
 		if (arg0.getSource() == mntmConfiguracion) {
 			panelInicio.setVisible(false);
 			panelChats.setVisible(false);
+			panelPerfil.setVisible(false);
 			panelConfiguracion.setVisible(true);
+		}
+
+		if (arg0.getSource() == mntmPerfil) {
+			panelInicio.setVisible(false);
+			panelChats.setVisible(false);
+			panelConfiguracion.setVisible(false);
+			panelPerfil.setVisible(true);
+
 		}
 
 		if (arg0.getSource() == mntmCerrarSesion) {
