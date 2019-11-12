@@ -1,5 +1,6 @@
 package resonance;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -16,6 +17,7 @@ public class Resonance implements Serializable {
 
 		administradorDeUsuarios = new RedDeUsuarios();
 	}
+
 
 	public void anadirUsuario(String nombre, Usuario perfil) throws LimitException, ExistException {
 		administradorDeUsuarios.agregar(nombre, perfil);
@@ -60,6 +62,11 @@ public class Resonance implements Serializable {
 	public int getCantidadUsuarios()
 	{
 		return administradorDeUsuarios.getCantUsuarios();
+	}
+	
+	public void setRedUsuarios(RedDeUsuarios red)
+	{
+		this.administradorDeUsuarios = red;
 	}
 
 }

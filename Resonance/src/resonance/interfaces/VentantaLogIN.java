@@ -155,15 +155,6 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 				userLogin = null;
 				if (resonance.alreadyExist(username)) {
 					userLogin = resonance.obtenerUsuario(username);
-				} else if (AdministradorDeArchivos.existUser(username)) {
-					userLogin = AdministradorDeArchivos.deserializarUser(username);
-					try {
-						resonance.anadirUsuario(username, userLogin);
-					} catch (LimitException | ExistException e) {
-
-						e.printStackTrace();
-					}
-
 				}
 
 				if (userLogin == null) {
@@ -275,6 +266,9 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 		}
 	}
 
+	public Resonance getResonance() {
+		return resonance;
+	}
 	public boolean alreadyExist(String name) {
 		return resonance.alreadyExist(name);
 	}

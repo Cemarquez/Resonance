@@ -13,7 +13,6 @@ import java.nio.file.StandardCopyOption;
 import resonance.estructura.RedDeUsuarios;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
-import resonance.usuario.Usuario;
 
 public class AdministradorDeArchivos {
 
@@ -24,8 +23,16 @@ public class AdministradorDeArchivos {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
+		
+		File file1 = new File(url +"/Datos");
+		if(!file1.exists())
+		{
+			file1.mkdirs();
+		}
 	}
 
+//	public void 
+	
 	public static void crearCarpetaUsuario(String name) {
 		File file = new File(url + "/Usuarios/" + name);
 		if (!file.exists()) {
@@ -42,23 +49,18 @@ public class AdministradorDeArchivos {
 		return false;
 	}
 
-	public static void serializarUser(Usuario user) {
-		try {
-
-			FileOutputStream fos = new FileOutputStream(
-					url + "/Usuarios/" + user.getID() + "/" + user.getID() + ".dat");
-			ObjectOutputStream oos = new ObjectOutputStream(fos);
-			oos.writeObject(user);
-			oos.close();
-			fos.close();
+	
+	public static boolean existData()
+	{
+		File file = new File(disco() + "Resonance/Datos/Data.dat");
+		if(file.exists())
+		{
+			return true;
 		}
-
-		catch (IOException ioe) {
-			ioe.printStackTrace();
-		}
-
+		
+		
+		return false;
 	}
-
 	public static String obtenerIdUser(String fileName) {
 
 		return fileName.substring(0, fileName.length() - 4);
@@ -66,16 +68,22 @@ public class AdministradorDeArchivos {
 
 	public static RedDeUsuarios deserializarGrafo() {
 
-		RedDeUsuarios grafo = new RedDeUsuarios();
-		File file = new File(url + "/Usuarios/");
-		for (File f : file.listFiles()) {
-			Usuario aux = deserializarUser(obtenerIdUser(f.getName()));
-			try {
-				grafo.agregar(obtenerIdUser(f.getName()), aux);
-			} catch (LimitException | ExistException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		RedDeUsuarios grafo = null;
+
+		try {
+			FileInputStream fis = new FileInputStream(disco() + "Resonance/Datos/Data.dat");
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			grafo = (RedDeUsuarios) ois.readObject();
+			ois.close();
+			fis.close();
+		}
+
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+
+		catch (ClassNotFoundException cnfe) {
+			cnfe.printStackTrace();
 		}
 		return grafo;
 	}
@@ -110,14 +118,15 @@ public class AdministradorDeArchivos {
 		return foto;
 	}
 
-	public static Usuario deserializarUser(String id) {
+	
+	public static RedDeUsuarios deserializarUser(String id) {
 
-		Usuario user = null;
+		RedDeUsuarios user = null;
 
 		try {
 			FileInputStream fis = new FileInputStream(disco() + "Resonance/Usuarios/" + id + "/" + id + ".dat");
 			ObjectInputStream ois = new ObjectInputStream(fis);
-			user = (Usuario) ois.readObject();
+			user = (RedDeUsuarios) ois.readObject();
 			ois.close();
 			fis.close();
 		}

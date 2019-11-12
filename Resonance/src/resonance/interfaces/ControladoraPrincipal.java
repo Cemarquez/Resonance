@@ -2,6 +2,7 @@ package resonance.interfaces;
 
 import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
+import resonance.estructura.RedDeUsuarios;
 
 public class ControladoraPrincipal {
 
@@ -9,10 +10,10 @@ public class ControladoraPrincipal {
 	private static VentantaLogIN ventanaLogin;
 
 	public ControladoraPrincipal() {
-		resonance = new Resonance();
-		ventanaLogin = new VentantaLogIN(resonance);
 
 		loadFiles();
+		ventanaLogin = new VentantaLogIN(resonance);
+
 		ventanaLogin.setVisible(true);
 	}
 
@@ -28,7 +29,16 @@ public class ControladoraPrincipal {
 	}
 
 	public void loadFiles() {
-
+		resonance = new Resonance();
+		RedDeUsuarios red = null;
+		if(AdministradorDeArchivos.existData()) {
+			red = AdministradorDeArchivos.deserializarGrafo();
+		}
+		
+		if(red !=null)
+		{
+			resonance.setRedUsuarios(red);
+		}
 		AdministradorDeArchivos.inicializar();
 
 	}

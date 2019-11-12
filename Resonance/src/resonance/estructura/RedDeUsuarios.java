@@ -1,5 +1,6 @@
 package resonance.estructura;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,7 +11,7 @@ import resonance.usuario.Relacion;
 import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
 
-public class RedDeUsuarios {
+public class RedDeUsuarios implements Serializable {
 
 	private HashMap<String, Usuario> grafo;
 	private Usuario nodoInicial;
