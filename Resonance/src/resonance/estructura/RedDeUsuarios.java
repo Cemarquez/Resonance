@@ -108,7 +108,7 @@ public class RedDeUsuarios {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "Estado del Grafo: \n Tamaño: " + getCantUsuarios();
+		s += "Estado del Grafo: \n Tamaï¿½o: " + getCantUsuarios();
 
 		Iterator<String> ite = grafo.keySet().iterator();
 		while (ite.hasNext()) {
@@ -140,6 +140,11 @@ public class RedDeUsuarios {
 
 	public void setNodoInicial(Usuario nodoInicial) {
 		this.nodoInicial = nodoInicial;
+	}
+
+	public HashMap<String, Usuario> getGrafo()
+	{
+		return grafo;
 	}
 
 }

@@ -52,4 +52,14 @@ public class Resonance implements Serializable {
 		}
 	}
 
+	public RedDeUsuarios getAdministradorDeUsuarios()
+	{
+		return administradorDeUsuarios;
+	}
+	
+	public int getCantidadUsuarios()
+	{
+		return administradorDeUsuarios.getCantUsuarios();
+	}
+
 }
