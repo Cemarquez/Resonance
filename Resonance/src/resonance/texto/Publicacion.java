@@ -1,14 +1,20 @@
 package resonance.texto;
 
+import java.awt.Image;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import resonance.usuario.Usuario;
+
 public class Publicacion extends Mensaje implements Serializable{
 
 	private List<Reaccion> reacciones;
+	private Usuario usuario;
 	private ArrayList<Publicacion> links;
+	private ArrayList<Comentario> comentarios;
+	private Image imagen;
 
 	/**
 	 * Metodo constructor
@@ -16,11 +22,24 @@ public class Publicacion extends Mensaje implements Serializable{
 	 * @param mensaje
 	 * @param fecha
 	 */
-	public Publicacion(String mensaje, Date fecha) {
+	public Publicacion(String mensaje, Date fecha, Image imagen, Usuario usuario) 
+	{
 		super(mensaje, fecha);
+		this.usuario = usuario;
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
-
+		comentarios = new ArrayList<Comentario>();
+		this.imagen= imagen;
+	}
+	
+	public Publicacion(String mensaje, Date fecha, Usuario usuario) 
+	{
+		super(mensaje, fecha);
+		this.usuario = usuario;
+		reacciones = new ArrayList<Reaccion>();
+		links = new ArrayList<Publicacion>();
+		comentarios = new ArrayList<Comentario>();
+		imagen = null;
 	}
 
 	public void conectar(Publicacion p) {
@@ -69,5 +88,46 @@ public class Publicacion extends Mensaje implements Serializable{
 		reacciones.remove(reaccion);
 
 	}
+	
+	/**
+	 * Metodo que permite anadir un comentario a la publicacion.
+	 * 
+	 * @param comentario a anadir
+	 */
+	public void agregarComentario(Comentario comentario) 
+	{
+		comentarios.add(comentario);
+	}
 
+	/**
+	 * Metodo que permite eliminar una reaccion de la publicacion.
+	 * 
+	 * @param reaccion
+	 */
+	public void eliminarComentario(Comentario comentario) 
+	{
+
+		comentarios.remove(comentario);
+
+	}
+
+	public Image getImagen()
+	{
+		return imagen;
+	}
+
+	public void setImagen(Image imagen)
+	{
+		this.imagen = imagen;
+	}
+
+	public Usuario getUsuario()
+	{
+		return usuario;
+	}
+
+	public void setUsuario(Usuario usuario)
+	{
+		this.usuario = usuario;
+	}
 }
