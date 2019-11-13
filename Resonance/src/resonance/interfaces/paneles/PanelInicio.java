@@ -225,6 +225,19 @@ public class PanelInicio extends JPanel implements ActionListener {
 				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
 				panelAnadir.add(lblAnadir);
 
+				/*
+				 * Metodo que abre perfil seleccionado en nueva ventana
+				 * panelUsuario.addMouseListener(new MouseAdapter() {
+				 * 
+				 * @Override public void mousePressed(MouseEvent arg0) {
+				 * 
+				 * PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
+				 * 
+				 * JFrame frame = new JFrame();
+				 * 
+				 * frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
+				 * frame.add(perfilUsuario); frame.setVisible(true); } });
+				 */
 				y += tamano;
 			}
 
