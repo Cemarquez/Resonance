@@ -11,8 +11,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
 import resonance.estructura.RedDeUsuarios;
-import resonance.excepciones.ExistException;
-import resonance.excepciones.LimitException;
 
 public class AdministradorDeArchivos {
 
@@ -23,16 +21,34 @@ public class AdministradorDeArchivos {
 		if (!file.exists()) {
 			file.mkdirs();
 		}
-		
-		File file1 = new File(url +"/Datos");
-		if(!file1.exists())
-		{
+
+		File file1 = new File(url + "/Datos");
+		if (!file1.exists()) {
 			file1.mkdirs();
 		}
 	}
 
-//	public void 
-	
+	/**
+	 * Método para serializar el objeto que entra como párametro del mismo.
+	 * 
+	 * @param pPasajero Objeto a serializar.
+	 */
+	public static void serializarGrafo(RedDeUsuarios red) {
+		try {
+
+			FileOutputStream fos = new FileOutputStream(disco() + "Resonance/Datos/Data.dat");
+			ObjectOutputStream oos = new ObjectOutputStream(fos);
+			oos.writeObject(red);
+			oos.close();
+			fos.close();
+		}
+
+		catch (IOException ioe) {
+			ioe.printStackTrace();
+		}
+
+	}
+
 	public static void crearCarpetaUsuario(String name) {
 		File file = new File(url + "/Usuarios/" + name);
 		if (!file.exists()) {
@@ -49,18 +65,15 @@ public class AdministradorDeArchivos {
 		return false;
 	}
 
-	
-	public static boolean existData()
-	{
+	public static boolean existData() {
 		File file = new File(disco() + "Resonance/Datos/Data.dat");
-		if(file.exists())
-		{
+		if (file.exists()) {
 			return true;
 		}
-		
-		
+
 		return false;
 	}
+
 	public static String obtenerIdUser(String fileName) {
 
 		return fileName.substring(0, fileName.length() - 4);
@@ -118,7 +131,6 @@ public class AdministradorDeArchivos {
 		return foto;
 	}
 
-	
 	public static RedDeUsuarios deserializarUser(String id) {
 
 		RedDeUsuarios user = null;

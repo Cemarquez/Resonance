@@ -8,7 +8,7 @@ import java.util.List;
 
 import resonance.usuario.Usuario;
 
-public class Publicacion extends Mensaje implements Serializable{
+public class Publicacion extends Mensaje implements Serializable {
 
 	private List<Reaccion> reacciones;
 	private Usuario usuario;
@@ -22,18 +22,16 @@ public class Publicacion extends Mensaje implements Serializable{
 	 * @param mensaje
 	 * @param fecha
 	 */
-	public Publicacion(String mensaje, Date fecha, Image imagen, Usuario usuario) 
-	{
+	public Publicacion(String mensaje, Date fecha, Image imagen, Usuario usuario) {
 		super(mensaje, fecha);
 		this.usuario = usuario;
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
 		comentarios = new ArrayList<Comentario>();
-		this.imagen= imagen;
+		this.imagen = imagen;
 	}
-	
-	public Publicacion(String mensaje, Date fecha, Usuario usuario) 
-	{
+
+	public Publicacion(String mensaje, Date fecha, Usuario usuario) {
 		super(mensaje, fecha);
 		this.usuario = usuario;
 		reacciones = new ArrayList<Reaccion>();
@@ -43,11 +41,14 @@ public class Publicacion extends Mensaje implements Serializable{
 	}
 
 	public void conectar(Publicacion p) {
-		links.set(0, p);
+		links.add(p);
 	}
 
 	@Override
 	public Publicacion seguirEnlace() {
+		if (links.isEmpty()) {
+			return null;
+		}
 		return links.get(0);
 	}
 
@@ -88,14 +89,13 @@ public class Publicacion extends Mensaje implements Serializable{
 		reacciones.remove(reaccion);
 
 	}
-	
+
 	/**
 	 * Metodo que permite anadir un comentario a la publicacion.
 	 * 
 	 * @param comentario a anadir
 	 */
-	public void agregarComentario(Comentario comentario) 
-	{
+	public void agregarComentario(Comentario comentario) {
 		comentarios.add(comentario);
 	}
 
@@ -104,30 +104,25 @@ public class Publicacion extends Mensaje implements Serializable{
 	 * 
 	 * @param reaccion
 	 */
-	public void eliminarComentario(Comentario comentario) 
-	{
+	public void eliminarComentario(Comentario comentario) {
 
 		comentarios.remove(comentario);
 
 	}
 
-	public Image getImagen()
-	{
+	public Image getImagen() {
 		return imagen;
 	}
 
-	public void setImagen(Image imagen)
-	{
+	public void setImagen(Image imagen) {
 		this.imagen = imagen;
 	}
 
-	public Usuario getUsuario()
-	{
+	public Usuario getUsuario() {
 		return usuario;
 	}
 
-	public void setUsuario(Usuario usuario)
-	{
+	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
 	}
 }

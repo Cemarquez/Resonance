@@ -2,12 +2,14 @@ package resonance.usuario;
 
 import java.io.File;
 import java.io.Serializable;
+import java.util.Date;
 
 import resonance.archivos.AdministradorDeArchivos;
 
 public class Perfil implements Serializable {
 	private OpcionManager opcionManager;
 	private String nombre, usuario, correo, direccion, contrasena;
+	private Date fechaNacimiento;
 
 	/**
 	 * Constructor de la clase Perfil
@@ -106,6 +108,14 @@ public class Perfil implements Serializable {
 
 	public void setContrasena(String contrasena) {
 		this.contrasena = contrasena;
+	}
+
+	public Date getFechaNacimiento() {
+		return fechaNacimiento;
+	}
+
+	public void setFechaNacimiento(Date fechaNacimiento) {
+		this.fechaNacimiento = fechaNacimiento;
 	}
 
 }
