@@ -214,9 +214,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 	public void refreshComentarios(Publicacion p)
 	{
 
-		cargarComentarios(p);
-//		refreshPublicaciones();
 		panelScrollComentarios.removeAll();
+		cargarComentarios(p);
 	}
 	
 	public void refreshPublicaciones()
