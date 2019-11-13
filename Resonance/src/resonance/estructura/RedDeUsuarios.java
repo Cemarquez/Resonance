@@ -63,6 +63,15 @@ public class RedDeUsuarios implements Serializable {
 
 	}
 
+	public boolean isBloqueado(String nombreOrigen, String nombreDestino)
+	{
+		if (grafo.get(nombreOrigen) != null && grafo.get(nombreDestino) != null) {
+			
+			return grafo.get(nombreOrigen).isBloqueado(nombreDestino);
+		}else {
+			return false;
+		}
+	}
 	public Relacion seguirEnlance(String nombre, int indice) throws ExistException {
 		Relacion nodo = null;
 		if (grafo.get(nombre) != null) {

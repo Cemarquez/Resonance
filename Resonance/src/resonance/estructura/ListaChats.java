@@ -66,7 +66,7 @@ public class ListaChats implements Serializable {
 		longitud--;
 	}
 
-	public Chat getPublicacion(int indice) {
+	public Chat getChat(int indice) {
 		irAlPrimero();
 		for (int i = 0; i < indice; i++) {
 			irSiguiente();
@@ -106,4 +106,14 @@ public class ListaChats implements Serializable {
 	public Chat getUltimo() {
 		return ultimo;
 	}
+
+	public int getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(int longitud) {
+		this.longitud = longitud;
+	}
+	
+	
 }

@@ -36,6 +36,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 	private JMenuItem mntmConfiguracion;
 	private JMenuItem mntmCerrarSesion;
 	private VentantaLogIN vLogin;
+	private JPanel panelContenedor;
 
 
 	public VentanaRaiz() {
@@ -132,13 +133,13 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		panel_9.setBackground(SystemColor.controlDkShadow);
 		panel_7.add(panel_9);
 
-		JPanel panelContenedor = new JPanel();
+		panelContenedor = new JPanel();
 		panelContenedor.setBackground(Color.BLACK);
 		panelContenedor.setBounds(0, 0, 1366, 768);
 		getContentPane().add(panelContenedor);
 		panelContenedor.setLayout(null);
 
-		panelChats = new PanelChats();
+		panelChats = new PanelChats(ControladoraPrincipal.getI().getUserLogin());
 		panelChats.setBounds(258, 11, 1095, 717);
 
 		panelConfiguracion = new PanelConfiguracion();
@@ -176,6 +177,9 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		}
 
 		if (arg0.getSource() == mntmChat) {
+			panelChats = new PanelChats(ControladoraPrincipal.getI().getUserLogin());
+			panelChats.setBounds(258, 11, 1095, 717);
+			panelContenedor.add(panelChats);
 			panelInicio.setVisible(false);
 			panelConfiguracion.setVisible(false);
 			panelPerfil.setVisible(false);

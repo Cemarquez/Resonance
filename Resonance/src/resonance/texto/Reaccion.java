@@ -6,7 +6,7 @@ import resonance.usuario.Usuario;
 
 public class Reaccion implements Serializable {
 
-	private Usuario usuario;
+	private String idUser;
 	private TipoReaccion tipoReaccion;
 	
 	
@@ -16,9 +16,9 @@ public class Reaccion implements Serializable {
 	 * @param usuario
 	 * @param tipo
 	 */
-	public Reaccion(Usuario usuario, TipoReaccion tipo)
+	public Reaccion(String usuario, TipoReaccion tipo)
 	{
-		this.usuario = usuario;
+		this.setIdUser(usuario);
 		this.tipoReaccion = tipo;
 	}
 	
@@ -38,13 +38,7 @@ public class Reaccion implements Serializable {
 	
 
 
-	public Usuario getUsuario() {
-		return usuario;
-	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
 
 	public TipoReaccion getTipoReaccion() {
 		return tipoReaccion;
@@ -52,6 +46,14 @@ public class Reaccion implements Serializable {
 
 	public void setTipoReaccion(TipoReaccion tipoReaccion) {
 		this.tipoReaccion = tipoReaccion;
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
 	}
 	
 	

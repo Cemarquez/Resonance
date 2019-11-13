@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import resonance.estructura.ListaChats;
 import resonance.estructura.ListaPublicaciones;
 import resonance.excepciones.LimitException;
+import resonance.interfaces.ControladoraPrincipal;
+import resonance.texto.Chat;
 import resonance.texto.Publicacion;
 import resonance.usuario.Relacion.TipoRelacion;
 
@@ -58,6 +60,8 @@ public class Usuario implements Serializable {
 		return false;
 	}
 
+	
+	
 	public void setLimiteAmigos(int limiteAmigos) {
 		this.limiteAmigos = limiteAmigos;
 	}
@@ -111,8 +115,13 @@ public class Usuario implements Serializable {
 	 */
 	public boolean modificarConexion(Usuario usuario, TipoRelacion relacion) {
 		for (Relacion r : relaciones) {
-			if (r.getUsuario() == usuario) {
-				r.setTipo(relacion);
+			if (r.getUsuario().getID().equals(usuario.getID())) {
+				if((r.getTipo() != TipoRelacion.BLOQUEADO)) {
+
+
+					r.setTipo(relacion);
+					
+				}
 				return true;
 			}
 		}
@@ -120,7 +129,23 @@ public class Usuario implements Serializable {
 		return false;
 
 	}
+	public Chat getChat(String user) {
 
+		ArrayList<Chat> chats = covertirArrayList(getChats());
+
+		Chat chatEncontrado = new Chat(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios().obtenerUsuario(user));
+
+		for (int i = 0; i < chats.size(); i++) {
+
+			if (chats.get(i).getUsuario().getID().equals(user)) {
+				chatEncontrado = chats.get(i);
+			}
+
+		}
+		return chatEncontrado;
+	}
+	
+	
 	/**
 	 * Metodo que elimina todo tipo de relacion con una persona.
 	 * 
@@ -254,6 +279,22 @@ public class Usuario implements Serializable {
 		return publicaciones;
 	}
 
+	/**
+	 * Metodo que convierte una lista sencilla en un ArrayList
+	 * 
+	 * @param lista
+	 * @return
+	 */
+	public ArrayList<Chat> covertirArrayList(ListaChats lista) {
+		ArrayList<Chat> chats = new ArrayList<>();
+		for (int i = 0; i < lista.getLongitud(); i++) {
+			Chat p = lista.getChat(i);
+			chats.add(p);
+		}
+
+		return chats;
+	}
+	
 	/**
 	 * Metodo que permite agregar una publicacion
 	 * 

@@ -25,6 +25,7 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -43,10 +44,12 @@ import resonance.estructura.RedDeUsuarios;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
+import resonance.interfaces.VentanaMeGusta;
 import resonance.interfaces.VentantaLogIN;
 import resonance.interfaces.misc.RoundJTextArea;
 import resonance.texto.Comentario;
 import resonance.texto.Publicacion;
+import resonance.texto.Reaccion;
 import resonance.texto.Reaccion.TipoReaccion;
 import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
@@ -187,6 +190,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 				if(publicacionSelected!=null)
 				{
 					publicacionSelected.agregarComentario(c);
+
+					AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 					refreshComentarios(publicacionSelected);
 				}
 			}
@@ -305,7 +310,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			Object obj = ite.next();
 			Usuario a = grafo.get(obj);
 
-			if (!(userLogin.getID().equals(a.getID()))) {
+			if (!(userLogin.getID().equals(a.getID()) && !(a.isBloqueado(userLogin.getID())))) {
 				JPanel panelUsuario = new JPanel();
 				panelUsuario.setBorder(new LineBorder(new Color(0, 0, 0)));
 				panelUsuario.setBackground(SystemColor.controlDkShadow);
@@ -341,7 +346,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 							try {
 								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), a.getID(), TipoRelacion.PENDIENTE);
-								System.out.println(userLogin.obtenerSolicitudesPendientes().size());
+								AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 
 							} catch (LimitException e) {
 								// TODO Auto-generated catch block
@@ -368,19 +373,19 @@ public class PanelInicio extends JPanel implements ActionListener {
 					panelAnadir.add(lblAnadir);
 
 				}
-				/*
-				 * Metodo que abre perfil seleccionado en nueva ventana
-				 * panelUsuario.addMouseListener(new MouseAdapter() {
-				 * 
-				 * @Override public void mousePressed(MouseEvent arg0) {
-				 * 
-				 * PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
-				 * 
-				 * JFrame frame = new JFrame();
-				 * 
-				 * frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
-				 * frame.add(perfilUsuario); frame.setVisible(true); } });
-				 */
+				
+//				 Metodo que abre perfil seleccionado en nueva ventana
+				  panelUsuario.addMouseListener(new MouseAdapter() {
+				  
+				  @Override public void mousePressed(MouseEvent arg0) {
+				 
+				  PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
+				  
+				 JFrame frame = new JFrame();
+				  
+				  frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
+				  frame.add(perfilUsuario); frame.setVisible(true); } });
+				 
 				y += tamano;
 			}
 
@@ -433,7 +438,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel("   " + publicacion.getIdUser());
+			JLabel lblNombre = new JLabel("   " + publicacion.getIdUser() + "                    " + publicacion.getFecha());
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);
@@ -474,7 +479,26 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 			JMenuItem mntmMeGusta = new JMenuItem("Me gusta");
 			mntmMeGusta.setBackground(SystemColor.controlDkShadow);
-			mntmMeGusta.setForeground(Color.BLACK);
+			if(publicacion.yaReacciono(userLogin.getID()))
+			{
+
+				mntmMeGusta.setForeground(Color.BLUE);
+			}else {
+
+				mntmMeGusta.setForeground(Color.BLACK);
+			}
+			
+			mntmMeGusta.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					publicacion.agregarReaccion(new Reaccion(userLogin.getID(), TipoReaccion.MEGUSTA));
+					VentanaMeGusta ventana = new VentanaMeGusta(publicacion);
+					ventana.setVisible(true);
+					refreshPublicaciones();
+					
+				}
+			});
 			panelMeGusta.add(mntmMeGusta);
 
 			JPanel panelComentar = new JPanel();
@@ -508,6 +532,19 @@ public class PanelInicio extends JPanel implements ActionListener {
 			JMenuItem mntmCompartir = new JMenuItem("Compartir");
 			mntmCompartir.setBackground(SystemColor.controlDkShadow);
 			mntmCompartir.setForeground(Color.BLACK);
+			mntmCompartir.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					String mensaje = "Compartido de: " + publicacion.getIdUser() +" Publicado en: "+  publicacion.getFecha()+  "\n" + publicacion.getMensaje();
+					Publicacion p = new Publicacion(mensaje, new Date(), userLogin.getID());
+					userLogin.agregarPublicacion(p);
+
+					AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+					refreshPublicaciones();
+					
+				}
+			});
 			panelCompartir.add(mntmCompartir);
 
 			panelP.setBounds(0, y, 640, tamano);
@@ -525,6 +562,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 		Publicacion p = new Publicacion(mensaje, date, vLogin.getUserLogin().getID());
 		vLogin.getUserLogin().agregarPublicacion(p);
 		AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
+
+		AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 		refreshPublicaciones();
 	}
 }

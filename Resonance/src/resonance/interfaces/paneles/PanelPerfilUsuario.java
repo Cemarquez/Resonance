@@ -20,9 +20,16 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import resonance.excepciones.ExistException;
+import resonance.excepciones.LimitException;
+import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
 import resonance.interfaces.misc.ImagePanel;
+import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class PanelPerfilUsuario extends JPanel implements MouseListener {
 
@@ -140,6 +147,19 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 		panelBusqueda.setForeground(Color.BLACK);
 		panelBusqueda.setBounds(640, 0, 445, 717);
 		add(panelBusqueda);
+		
+		JButton btnBloquear = new JButton("Bloquear");
+		btnBloquear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), user.getID(), TipoRelacion.BLOQUEADO);
+				} catch (ExistException | LimitException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+		});
+		panelBusqueda.add(btnBloquear);
 
 
 	}

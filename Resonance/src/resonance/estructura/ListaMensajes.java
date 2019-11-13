@@ -10,6 +10,15 @@ public class ListaMensajes implements Serializable {
 	private Mensaje ultimo;
 	private int longitud;
 
+	
+	public int getLongitud() {
+		return longitud;
+	}
+
+	public void setLongitud(int longitud) {
+		this.longitud = longitud;
+	}
+
 	public ListaMensajes() {
 		primero = null;
 		actual = null;

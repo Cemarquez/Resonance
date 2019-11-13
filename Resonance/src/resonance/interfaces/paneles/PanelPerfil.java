@@ -9,6 +9,7 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Panel;
 import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.io.File;
@@ -35,11 +36,14 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaPublicaciones;
+import resonance.excepciones.ExistException;
+import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
 import resonance.interfaces.misc.ImagePanel;
 import resonance.texto.Publicacion;
 import resonance.usuario.Usuario;
+import resonance.usuario.Relacion.TipoRelacion;
 
 public class PanelPerfil extends JPanel implements MouseListener {
 
@@ -384,9 +388,29 @@ public class PanelPerfil extends JPanel implements MouseListener {
 				panelUsuario.add(panelAnadir);
 				panelAnadir.setLayout(null);
 
-				JLabel lblAnadir = new JLabel("Enviar Solicitud");
+				JLabel lblAnadir = new JLabel("Pendiente");
 				lblAnadir.setBounds(10, 11, 101, 20);
 				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
+				lblAnadir.addMouseListener(new MouseAdapter() {
+					
+					public void mousePressed(MouseEvent e)
+					{
+						System.out.println("me dieron click");
+						try {
+							ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), user.getID(), TipoRelacion.AMIGOS);
+							System.out.println(userLogin.getAmigos().size());
+							System.out.println(userLogin.getRelaciones().size());
+						} catch (ExistException | LimitException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+                       if(userLogin.isAmigo(user.getID()))
+                       {
+                    	   System.out.println("soy amigo del bobito");
+                       }
+						AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+					}
+				});
 				panelAnadir.add(lblAnadir);
 
 				y += tamano;

@@ -54,11 +54,25 @@ public class Publicacion extends Mensaje implements Serializable {
 		return links.get(0);
 	}
 
+	public boolean yaReacciono(String user)
+	{
+		for (Reaccion r : reacciones) {
+
+			if (r.getIdUser().equals(user)) {
+
+				return true;
+			}
+
+		}
+		
+		return false;
+	}
 	@Override
 	public void desconectar() {
 		links.remove(0);
 	}
 
+	
 	/**
 	 * Metodo que permite a�adir una reaccion a la publicacion.
 	 * 
@@ -69,7 +83,7 @@ public class Publicacion extends Mensaje implements Serializable {
 
 		for (Reaccion r : reacciones) {
 
-			if (r.getUsuario() == reaccion.getUsuario()) {
+			if (r.getIdUser().equals(reaccion.getIdUser())) {
 
 				return false;
 			}
