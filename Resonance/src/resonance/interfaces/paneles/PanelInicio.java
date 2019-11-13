@@ -68,7 +68,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 	private JTextArea textAreaPublicacion;
 	private JButton btnPublicar;
 	private JPanel panelScrollComentarios;
-
+    private Publicacion publicacionSelected=null;
 	/**
 	 * Create the panel.
 	 */
@@ -95,58 +95,18 @@ public class PanelInicio extends JPanel implements ActionListener {
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
 		scroll.setBounds(0, 0, 640, 812);
 		panelScroll.setLayout(null);
-
-		JPanel panel = new JPanel();
-		panel.setBackground(Color.WHITE);
-		panel.setBounds(0, 0, 640, 141);
-		panelScroll.add(panel);
-		panel.setLayout(null);
-
-		panel_1 = new JPanel();
-		panel_1.setBounds(0, 0, 640, 29);
-		panel.add(panel_1);
-
-		JLabel lblCrearPublicacin = new JLabel("Crear publicaci\u00F3n.");
-		lblCrearPublicacin.setHorizontalAlignment(SwingConstants.LEFT);
-		panel_1.add(lblCrearPublicacin);
-		lblCrearPublicacin.setBackground(Color.LIGHT_GRAY);
-
-		textAreaPublicacion = new JTextArea();
-		textAreaPublicacion.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
-		textAreaPublicacion.setBounds(0, 29, 640, 86);
-		panel.add(textAreaPublicacion);
-
-		JButton btnFotoPubli = new JButton("");
-		btnFotoPubli.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnFotoPubli.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		btnFotoPubli.setIcon(new ImageIcon(PanelInicio.class.getResource("/imagenes/iconFotoPub.png")));
-		btnFotoPubli.setContentAreaFilled(false);
-		btnFotoPubli.setBorderPainted(false);
-		btnFotoPubli.setBounds(58, 118, 27, 23);
-		panel.add(btnFotoPubli);
-
-		JLabel lblFoto_1 = new JLabel("Foto");
-		lblFoto_1.setBounds(84, 118, 46, 22);
-		panel.add(lblFoto_1);
-
-		btnPublicar = new JButton("Publicar");
-		btnPublicar.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String mensaje = textAreaPublicacion.getText();
-				Date date = new Date();
-				Publicacion p = new Publicacion(mensaje, date, vLogin.getUserLogin().getID());
-				vLogin.getUserLogin().agregarPublicacion(p);
-				AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
-				generarPublicaciones();
-				System.out.println(vLogin.getUserLogin().obtenerPublicacionesInicio().getLongitud());
-			}
-		});
-		btnPublicar.setBackground(Color.YELLOW);
-		btnPublicar.setBounds(443, 118, 89, 23);
-		panel.add(btnPublicar);
-
+		crearPanelHacerPublicacion();
+		
 		panelPublicaciones.add(scroll);
+		crearPanelBusquedas();
+		generarPublicaciones();
+		generarUsuarios();
+
+	}
+
+	
+	public void crearPanelBusquedas()
+	{
 		panelBusqueda = new JPanel();
 		panelBusqueda.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelBusqueda.setBackground(SystemColor.controlDkShadow);
@@ -220,8 +180,15 @@ public class PanelInicio extends JPanel implements ActionListener {
 			@Override
 			public void mousePressed(MouseEvent e)
 			{
-				
-				
+				String mensaje = textArea.getText();
+				Date fecha = new Date();
+				String idUser = userLogin.getID();
+				Comentario c = new Comentario(idUser, mensaje, fecha);
+				if(publicacionSelected!=null)
+				{
+					publicacionSelected.agregarComentario(c);
+					refreshComentarios(publicacionSelected);
+				}
 			}
 			
 		});
@@ -230,20 +197,105 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 		
 		panelBusqueda.add(panelEscribirMensaje);
-		generarPublicaciones();
-		generarUsuarios();
-
 	}
-
-	
 	public void cargarComentarios(Publicacion p)
 	{
+		
+		panelScrollComentarios.removeAll();
+		refreshPublicaciones();
 		ArrayList<Comentario> comentarios = p.getComentarios();
 		
 		for(Comentario c : comentarios) {
 			
+			panelScrollComentarios.add(new PanelComentario(c));
 		}
 	}
+	
+	public void refreshComentarios(Publicacion p)
+	{
+
+		cargarComentarios(p);
+//		refreshPublicaciones();
+		panelScrollComentarios.removeAll();
+	}
+	
+	public void refreshPublicaciones()
+	{
+		this.removeAll();
+		vLogin = ControladoraPrincipal.getI();
+		this.resonance = vLogin.getResonance();
+		userLogin = vLogin.getUserLogin();
+		this.numPublics = userLogin.obtenerPublicacionesInicio().getLongitud();
+		setBackground(SystemColor.controlDkShadow);
+		setSize(1095, 717);
+		setLayout(null);
+
+		panelPublicaciones = new JPanel();
+		panelPublicaciones.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelPublicaciones.setBounds(0, 0, 640, 717);
+		panelPublicaciones.setBackground(SystemColor.controlDkShadow);
+		add(panelPublicaciones);
+		panelPublicaciones.setLayout(null);
+
+		panelScroll = new JPanel();
+		panelScroll.setBackground(SystemColor.controlDkShadow);
+		panelScroll.setPreferredSize(new Dimension(640, 300 * numPublics));
+		scroll = new JScrollPane(panelScroll, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED,
+				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+		scroll.setBounds(0, 0, 640, 812);
+		panelScroll.setLayout(null);
+		crearPanelHacerPublicacion();
+		
+		panelPublicaciones.add(scroll);
+		crearPanelBusquedas();
+		generarPublicaciones();
+		generarUsuarios();
+		
+	}
+	
+	public void crearPanelHacerPublicacion()
+	{
+		JPanel panel = new JPanel();
+		panel.setBackground(Color.WHITE);
+		panel.setBounds(0, 0, 640, 141);
+		panelScroll.add(panel);
+		panel.setLayout(null);
+
+		panel_1 = new JPanel();
+		panel_1.setBounds(0, 0, 640, 29);
+		panel.add(panel_1);
+
+		JLabel lblCrearPublicacin = new JLabel("Crear publicaci\u00F3n.");
+		lblCrearPublicacin.setHorizontalAlignment(SwingConstants.LEFT);
+		panel_1.add(lblCrearPublicacin);
+		lblCrearPublicacin.setBackground(Color.LIGHT_GRAY);
+
+		textAreaPublicacion = new JTextArea();
+		textAreaPublicacion.setBorder(new LineBorder(new Color(0, 0, 0), 2, true));
+		textAreaPublicacion.setBounds(0, 29, 640, 86);
+		panel.add(textAreaPublicacion);
+
+		JButton btnFotoPubli = new JButton("");
+		btnFotoPubli.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnFotoPubli.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
+		btnFotoPubli.setIcon(new ImageIcon(PanelInicio.class.getResource("/imagenes/iconFotoPub.png")));
+		btnFotoPubli.setContentAreaFilled(false);
+		btnFotoPubli.setBorderPainted(false);
+		btnFotoPubli.setBounds(58, 118, 27, 23);
+		panel.add(btnFotoPubli);
+
+		JLabel lblFoto_1 = new JLabel("Foto");
+		lblFoto_1.setBounds(84, 118, 46, 22);
+		panel.add(lblFoto_1);
+
+		btnPublicar = new JButton("Publicar");
+		btnPublicar.addActionListener(this);
+		btnPublicar.setBackground(Color.YELLOW);
+		btnPublicar.setBounds(443, 118, 89, 23);
+		panel.add(btnPublicar);
+
+	}
+	
 	public void generarUsuarios() {
 		int y = 0, tamano = 65;
 		RedDeUsuarios red = resonance.getAdministradorDeUsuarios();
@@ -347,14 +399,13 @@ public class PanelInicio extends JPanel implements ActionListener {
 		int y = 0;
 		ListaPublicaciones listaP = userLogin.obtenerPublicacionesInicio();
 		listaP.irAlPrimero();
-		Publicacion publicacion;
 
 		if (numPublics == 0) {
 		}
 		for (int i = 0; i < numPublics; i++) {
 			int tamano = 200;
 
-			publicacion = listaP.getActual();
+			final Publicacion publicacion = listaP.getActual();
 			JPanel panelP = new JPanel();
 			panelP.setBorder(new LineBorder(new Color(0, 0, 0)));
 			panelP.setBackground(SystemColor.controlDkShadow);
@@ -435,6 +486,15 @@ public class PanelInicio extends JPanel implements ActionListener {
 			panelComentar.setLayout(new BoxLayout(panelComentar, BoxLayout.X_AXIS));
 
 			JMenuItem mntmComentar = new JMenuItem("Comentar");
+			mntmComentar.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+				  publicacionSelected = publicacion;
+				  refreshComentarios(publicacion);
+					
+				}
+			});
 			mntmComentar.setBackground(SystemColor.controlDkShadow);
 			mntmComentar.setForeground(Color.BLACK);
 			panelComentar.add(mntmComentar);
@@ -458,9 +518,14 @@ public class PanelInicio extends JPanel implements ActionListener {
 		}
 	}
 
+	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-
+		String mensaje = textAreaPublicacion.getText();
+		Date date = new Date();
+		Publicacion p = new Publicacion(mensaje, date, vLogin.getUserLogin().getID());
+		vLogin.getUserLogin().agregarPublicacion(p);
+		AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
+		refreshPublicaciones();
 	}
 }
