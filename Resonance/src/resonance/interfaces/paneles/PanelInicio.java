@@ -205,7 +205,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 				panelUsuario.setLayout(null);
 
 				JLabel lblFoto = new JLabel("");
-				lblFoto.setIcon((Icon) a.getPerfil().getFotoPerfil());
+//				lblFoto.setIcon((Icon) a.getPerfil().getFotoPerfil());
 				lblFoto.setBounds(14, 0, 50, 65);
 				panelUsuario.add(lblFoto);
 
