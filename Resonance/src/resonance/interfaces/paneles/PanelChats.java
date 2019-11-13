@@ -397,7 +397,7 @@ public class PanelChats extends JPanel implements MouseListener {
 					PanelConversacionUsuario conversacion = new PanelConversacionUsuario(userLogin, amigo);
 
 					panelChat.setVisible(false);
-					panelMensajes.add(conversacion);
+					panelCrearMensaje.add(conversacion);
 					conversacion.setBounds(0, 0, 455, 717);
 					conversacion.setVisible(true);
 				}

@@ -133,12 +133,15 @@ public class Usuario implements Serializable {
 
 		ArrayList<Chat> chats = covertirArrayList(getChats());
 
-		Chat chatEncontrado = new Chat(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios().obtenerUsuario(user));
-
+		Chat chatEncontrado = null;
+        
+		
+		System.out.println(chats.size());
 		for (int i = 0; i < chats.size(); i++) {
 
 			if (chats.get(i).getUsuario().getID().equals(user)) {
 				chatEncontrado = chats.get(i);
+				System.out.println("chat encontrado");
 			}
 
 		}
@@ -180,6 +183,11 @@ public class Usuario implements Serializable {
 		return lista;
 	}
 
+	
+	public void crearChat(Usuario user)
+	{
+		chats.agregar(new Chat(user));
+	}
 	/**
 	 * Metodo que obtiene las publicaciones que se mostraran en el menu inicial.
 	 * 

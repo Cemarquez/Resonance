@@ -23,7 +23,9 @@ import javax.swing.text.MutableAttributeSet;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
+import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaMensajes;
+import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.misc.RoundJTextArea;
 import resonance.interfaces.misc.RoundJTextPane;
 import resonance.texto.Mensaje;
@@ -116,12 +118,12 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 	panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.Y_AXIS));
 
 
-	   
-
-	    if(user.getID() ==null)
-	    {
-	    	System.out.println("no soy nulo");
-	    }
+	   if(userLogin.getChat(user.getID())==null)
+	   {
+		   userLogin.crearChat(user);
+		   user.crearChat(userLogin);
+	   }
+ 
 		ListaMensajes mensajes = userLogin.getChat(user.getID()).getMensajes();
 		
 		mensajes.irAlPrimero();
@@ -142,7 +144,7 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 				historialChat.add(mensaje);
 			}
 
-			actual.seguirEnlace();
+			mensajes.irSiguiente();
 
 		}
 
@@ -161,7 +163,7 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 		String salida = "";
 
-		salida += "@" + user + fecha.toString() + "\n";
+		salida += "@" + user +"  "+ toStringFecha(fecha) + "\n";
 		salida += mensaje;
 		RoundJTextPane panelMensajeCreado = new RoundJTextPane();
 		if (tipo.equals("propio")) {
@@ -189,6 +191,17 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 	}
 
 	
+	
+	public String toStringFecha(Date fecha)
+	{
+		String f ="";
+		int d = fecha.getDay();
+		int m = fecha.getMonth();
+		int a = fecha.getYear();
+		
+		f = d+"/"+m+"/"+a+"/"+ " " + fecha.getHours()+":" +fecha.getMinutes();
+		return f;
+	}
 	public static void setJTextPaneFont(JTextPane jtp, Font font, Color c) {
 		// Start with the current input attributes for the JTextPane. This
 		// should ensure that we do not wipe out any existing attributes
@@ -232,9 +245,13 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 				// RoundJTextPane ultimoMensaje = historialChat.get(historialChat.size() - 1);
 
-				userLogin.getChat(user.getID()).anadirMensaje(new Mensaje(mensaje, date, user.getID()));
+				userLogin.getChat(user.getID()).anadirMensaje(new Mensaje(mensaje, date, userLogin.getID()));
 				user.getChat(userLogin.getID()).anadirMensaje(new Mensaje(mensaje, date, userLogin.getID()));
-
+				
+				int a = userLogin.getChat(user.getID()).getMensajes().getLongitud();
+				System.out.println("tamano mensaje "+ a);
+				AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+				
 				instance.repaint();
 				instance.revalidate();
 

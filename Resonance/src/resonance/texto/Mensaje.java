@@ -52,10 +52,14 @@ public class Mensaje implements Serializable{
 	}
 
 	public void conectar(Mensaje p) {
-		links.set(0, p);
+		links.add(p);
 	}
 
 	public Mensaje seguirEnlace() {
+		if(links.isEmpty())
+		{
+			return null;
+		}
 		return links.get(0);
 	}
 
