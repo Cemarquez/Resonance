@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.omg.PortableServer.ID_ASSIGNMENT_POLICY_ID;
+
 import resonance.usuario.Usuario;
 
 public class Publicacion extends Mensaje implements Serializable {
@@ -16,7 +18,6 @@ public class Publicacion extends Mensaje implements Serializable {
 	private ArrayList<Publicacion> links;
 	private ArrayList<Comentario> comentarios;
 	private Image imagen;
-	private String idUser;
 
 	/**
 	 * Metodo constructor
@@ -24,8 +25,8 @@ public class Publicacion extends Mensaje implements Serializable {
 	 * @param mensaje
 	 * @param fecha
 	 */
-	public Publicacion(String mensaje, Date fecha, Image imagen) {
-		super(mensaje, fecha);
+	public Publicacion(String mensaje, Date fecha, Image imagen, String idUser) {
+		super(mensaje, fecha, idUser);
 
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
@@ -33,8 +34,8 @@ public class Publicacion extends Mensaje implements Serializable {
 		this.imagen = imagen;
 	}
 
-	public Publicacion(String mensaje, Date fecha) {
-		super(mensaje, fecha);
+	public Publicacion(String mensaje, Date fecha, String idUser) {
+		super(mensaje, fecha, idUser);
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
 		comentarios = new ArrayList<Comentario>();
@@ -127,12 +128,22 @@ public class Publicacion extends Mensaje implements Serializable {
 		this.fotoPerfilUsuario = fotoPerfilUsuario;
 	}
 
-	public String getIdUser() {
-		return idUser;
+	
+	public List<Reaccion> getReacciones() {
+		return reacciones;
 	}
 
-	public void setIdUser(String idUser) {
-		this.idUser = idUser;
+	public void setReacciones(List<Reaccion> reacciones) {
+		this.reacciones = reacciones;
 	}
+
+	public ArrayList<Comentario> getComentarios() {
+		return comentarios;
+	}
+
+	public void setComentarios(ArrayList<Comentario> comentarios) {
+		this.comentarios = comentarios;
+	}
+
 
 }

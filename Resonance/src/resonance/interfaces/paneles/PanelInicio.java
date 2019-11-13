@@ -15,6 +15,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,6 +44,8 @@ import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
+import resonance.interfaces.misc.RoundJTextArea;
+import resonance.texto.Comentario;
 import resonance.texto.Publicacion;
 import resonance.texto.Reaccion.TipoReaccion;
 import resonance.usuario.Relacion.TipoRelacion;
@@ -64,6 +67,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 	private JPanel panel_1;
 	private JTextArea textAreaPublicacion;
 	private JButton btnPublicar;
+	private JPanel panelScrollComentarios;
 
 	/**
 	 * Create the panel.
@@ -131,7 +135,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String mensaje = textAreaPublicacion.getText();
 				Date date = new Date();
-				Publicacion p = new Publicacion(mensaje, date);
+				Publicacion p = new Publicacion(mensaje, date, vLogin.getUserLogin().getID());
 				vLogin.getUserLogin().agregarPublicacion(p);
 				AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
 				generarPublicaciones();
@@ -174,7 +178,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		panelBuscar.add(txtBuscar);
 
 		JScrollPane scrollBuscara = new JScrollPane();
-		scrollBuscara.setBounds(0, 48, 445, 669);
+		scrollBuscara.setBounds(0, 48, 445, 331);
 		panelBusqueda.add(scrollBuscara);
 
 		panelResultados = new JPanel();
@@ -183,15 +187,63 @@ public class PanelInicio extends JPanel implements ActionListener {
 		panelResultados.setPreferredSize(new Dimension(440, 65 * 4));
 		scrollBuscara.setViewportView(panelResultados);
 		panelResultados.setLayout(null);
+		
+		JPanel panelComentarios = new JPanel();
+		panelComentarios.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelComentarios.setBounds(0, 381, 445, 44);
+		panelBusqueda.add(panelComentarios);
+		
+		JLabel lblComentarios = new JLabel("Comentarios                                                               ");
+		lblComentarios.setFont(new Font("Teen Light", Font.BOLD, 15));
+		panelComentarios.add(lblComentarios);
+		
+		JScrollPane scrollPaneComentarios = new JScrollPane();
+		scrollPaneComentarios.setBounds(0, 422, 445, 239);
+		panelBusqueda.add(scrollPaneComentarios);
+		
+		panelScrollComentarios = new JPanel();
+		scrollPaneComentarios.setViewportView(panelScrollComentarios);
+		panelScrollComentarios.setLayout(new BoxLayout(panelScrollComentarios, BoxLayout.Y_AXIS));
+		JPanel panelEscribirMensaje = new JPanel();
+		panelEscribirMensaje.setBounds(0, 660, 455, 49);
+		
+		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
 
-		// Solucionar problema de deserializar para activar y desativar los paneles de
-		// prueba
+		RoundJTextArea textArea = new RoundJTextArea();
+		JScrollPane jp = new JScrollPane(textArea);
+		jp.setBorder(null);
+		panelEscribirMensaje.add(jp, BorderLayout.CENTER);
 
+		JLabel btnEnviar = new JLabel("");
+		btnEnviar.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e)
+			{
+				
+				
+			}
+			
+		});
+		btnEnviar.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
+		panelEscribirMensaje.add(btnEnviar, BorderLayout.EAST);
+
+		
+		panelBusqueda.add(panelEscribirMensaje);
 		generarPublicaciones();
 		generarUsuarios();
 
 	}
 
+	
+	public void cargarComentarios(Publicacion p)
+	{
+		ArrayList<Comentario> comentarios = p.getComentarios();
+		
+		for(Comentario c : comentarios) {
+			
+		}
+	}
 	public void generarUsuarios() {
 		int y = 0, tamano = 65;
 		RedDeUsuarios red = resonance.getAdministradorDeUsuarios();
@@ -411,5 +463,4 @@ public class PanelInicio extends JPanel implements ActionListener {
 		// TODO Auto-generated method stub
 
 	}
-
 }

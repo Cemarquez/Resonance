@@ -9,6 +9,7 @@ public class Mensaje implements Serializable{
 	private String mensaje;
 	private Date fecha;
 	private ArrayList<Mensaje> links;
+	private String idUser;
 
 	/**
 	 * Constructor de la clase mensaje
@@ -16,10 +17,10 @@ public class Mensaje implements Serializable{
 	 * @param mensaje Mensaje a crear
 	 * @param fecha   Fecha en la que el mensaje es creado
 	 */
-	public Mensaje(String mensaje, Date fecha) {
+	public Mensaje(String mensaje, Date fecha, String idUser) {
 		this.mensaje = mensaje;
 		this.fecha = fecha;
-
+         this.setIdUser(idUser);
 		links = new ArrayList<Mensaje>();
 	}
 
@@ -39,7 +40,7 @@ public class Mensaje implements Serializable{
 	 */
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
-	}
+	} 
 
 	/**
 	 * Obtiene la fecha del mensaje
@@ -60,6 +61,14 @@ public class Mensaje implements Serializable{
 
 	public void desconectar() {
 		links.remove(0);
+	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
 	}
 
 }
