@@ -313,8 +313,6 @@ public class PanelInicio extends JPanel implements ActionListener {
 			lblF.setSize(36, 36);
 			try {
 				Image ima = ImageIO.read(publicacion.getFotoPerfilUsuario());
-//				ImageIcon icon = new ImageIcon(
-//						publicacion.getUsuario().getPerfil().getFotoPerfil().toPath().toUri().toURL());
 				ImageIcon icon = new ImageIcon(
 						ima.getScaledInstance(lblF.getWidth(), lblF.getHeight(), Image.SCALE_SMOOTH));
 

@@ -9,8 +9,6 @@ public class Mensaje implements Serializable{
 	private String mensaje;
 	private Date fecha;
 	private ArrayList<Mensaje> links;
-	// foto
-	// stickers
 
 	/**
 	 * Constructor de la clase mensaje

@@ -35,7 +35,6 @@ import resonance.interfaces.misc.RoundJTextPane;
 public class PanelConversacion extends JPanel implements ActionListener, MouseListener {
 
 	private PanelConversacion instance;
-	private JLabel btnSubirFoto;
 	private JTextField textMensaje;
 	private JPanel panelMensajes;
 	private JScrollPane scrollMensajes;
@@ -90,11 +89,6 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 		panelEscribirMensaje.setBounds(0, 660, 455, 49);
 		add(panelEscribirMensaje);
 		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
-
-		btnSubirFoto = new JLabel("");
-		btnSubirFoto.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_foto_chat.png")));
-		panelEscribirMensaje.add(btnSubirFoto, BorderLayout.WEST);
-		btnSubirFoto.addMouseListener(this);
 
 		textArea = new RoundJTextArea();
 		JScrollPane jp = new JScrollPane(textArea);
@@ -227,54 +221,6 @@ public class PanelConversacion extends JPanel implements ActionListener, MouseLi
 				historialChat.add(mensajeCreado);
 				scrollMensajes.getVerticalScrollBar().setValue(scrollMensajes.getVerticalScrollBar().getMaximum());
 			}
-		}
-		
-		
-		if (e.getSource()==btnSubirFoto) {
-			
-			JFileChooser file = new JFileChooser();
-			FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos de imagen jpg, png, gif", "jpg",
-					"png", "gif", "jpeg");
-			
-			File fileFoto;
-			file = new JFileChooser();
-			file.setFileFilter(filter);
-			file.showOpenDialog(instance);
-
-			fileFoto = file.getSelectedFile();
-			BufferedImage img;
-			Image img2;
-			if (fileFoto != null) {
-
-
-				try {
-					img = ImageIO.read(fileFoto);
-
-					img2 = img.getScaledInstance(200, 200, Image.SCALE_SMOOTH);
-
-					JLabel lblImg = new JLabel();
-
-					lblImg.setIcon(new ImageIcon(img2));
-
-					lblImg.setMaximumSize(new Dimension(200, 200));
-					lblImg.setAlignmentX(CENTER_ALIGNMENT);
-					panelMensajes.add(lblImg);
-
-					JLabel usuario = new JLabel("@Pepito" + " 20/2/20");
-					panelMensajes.add(usuario);
-
-					instance.repaint();
-					instance.revalidate();
-
-				} catch (IOException es) {
-					// TODO Auto-generated catch block
-					es.printStackTrace();
-				}
-			}
-
-
-			
-			
 		}
 
 	}
