@@ -10,7 +10,9 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -72,9 +74,9 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 		Image img = new ImageIcon(Panel.class.getResource("/imagenes/segunda.jpg")).getImage();
 
-		Image img2 = new ImageIcon(Panel.class.getResource("/imagenes/tercera.jpg")).getImage();;
-		
-/*
+		Image img2 = new ImageIcon(Panel.class.getResource("/imagenes/tercera.jpg")).getImage();
+		;
+
 		try {
 			img2 = ImageIO.read(userLogin.getPerfil().getFotoPerfil());
 
@@ -84,14 +86,13 @@ public class PanelPerfil extends JPanel implements MouseListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-*/
-		paneFotoPerfil = new ImagePanel(img2, 200, 200);
+
+//		paneFotoPerfil = new ImagePanel(img2, 200, 200);
 		panelEditarPerfil = new JPanel();
 		panelEditarPerfil.setMaximumSize(new Dimension(1300, 310));
 		panelScroll.add(panelEditarPerfil);
 		panelEditarPerfil.setLayout(null);
 
-		
 		paneFotoPerfil.setBackground(Color.BLACK);
 		paneFotoPerfil.setBounds(10, 152, 120, 120);
 		panelEditarPerfil.add(paneFotoPerfil);
