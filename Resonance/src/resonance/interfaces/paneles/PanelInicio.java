@@ -39,10 +39,12 @@ import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaPublicaciones;
 import resonance.estructura.RedDeUsuarios;
+import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
 import resonance.texto.Publicacion;
+import resonance.texto.Reaccion.TipoReaccion;
 import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
 
@@ -129,7 +131,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			public void actionPerformed(ActionEvent e) {
 				String mensaje = textAreaPublicacion.getText();
 				Date date = new Date();
-				Publicacion p = new Publicacion(mensaje, date, vLogin.getUserLogin());
+				Publicacion p = new Publicacion(mensaje, date);
 				vLogin.getUserLogin().agregarPublicacion(p);
 				AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
 				generarPublicaciones();
@@ -235,10 +237,13 @@ public class PanelInicio extends JPanel implements ActionListener {
 					public void mousePressed(MouseEvent arg0) {
 
 							try {
-								a.determinarRelacion(userLogin, TipoRelacion.PENDIENTE);
-								System.out.println("Enviada");
+								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), a.getID(), TipoRelacion.PENDIENTE);
+								System.out.println(userLogin.obtenerSolicitudesPendientes().size());
 
 							} catch (LimitException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (ExistException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
@@ -307,7 +312,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			lblF.setVerticalAlignment(SwingConstants.TOP);
 			lblF.setSize(36, 36);
 			try {
-				Image ima = ImageIO.read(publicacion.getUsuario().getPerfil().getFotoPerfil());
+				Image ima = ImageIO.read(publicacion.getFotoPerfilUsuario());
 //				ImageIcon icon = new ImageIcon(
 //						publicacion.getUsuario().getPerfil().getFotoPerfil().toPath().toUri().toURL());
 				ImageIcon icon = new ImageIcon(
@@ -328,7 +333,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel("   " + publicacion.getUsuario().getID());
+			JLabel lblNombre = new JLabel("   " + publicacion.getIdUser());
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);

@@ -9,6 +9,7 @@ import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.usuario.Relacion;
 import resonance.usuario.Usuario;
+import resonance.usuario.Relacion.TipoRelacion;
 
 public class Resonance implements Serializable {
 	private RedDeUsuarios administradorDeUsuarios;
@@ -19,6 +20,10 @@ public class Resonance implements Serializable {
 	}
 
 
+	public void conectar(String nombreOrigen, String nombreDestino, TipoRelacion tipoRelacion)
+			throws ExistException, LimitException {
+		administradorDeUsuarios.conectar(nombreOrigen, nombreDestino, tipoRelacion);
+	}
 	public void anadirUsuario(String nombre, Usuario perfil) throws LimitException, ExistException {
 		administradorDeUsuarios.agregar(nombre, perfil);
 		cargarUsuarios(perfil);

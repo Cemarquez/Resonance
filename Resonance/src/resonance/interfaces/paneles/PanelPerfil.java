@@ -352,7 +352,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 
 		int y = 0, tamano = 65;
-		System.out.println("Solicitudes lista tamano: " + userLogin.obtenerSolicitudesPendientes());
 
 		if (userLogin.obtenerSolicitudesPendientes().size() != 0)
 
@@ -427,7 +426,7 @@ public class PanelPerfil extends JPanel implements MouseListener {
 			lblF.setVerticalAlignment(SwingConstants.TOP);
 			lblF.setSize(36, 36);
 			try {
-				Image ima = ImageIO.read(publicacion.getUsuario().getPerfil().getFotoPerfil());
+				Image ima = ImageIO.read(publicacion.getFotoPerfilUsuario());
 //				ImageIcon icon = new ImageIcon(
 //						publicacion.getUsuario().getPerfil().getFotoPerfil().toPath().toUri().toURL());
 				ImageIcon icon = new ImageIcon(
@@ -448,7 +447,7 @@ public class PanelPerfil extends JPanel implements MouseListener {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel("   " + publicacion.getUsuario().getID());
+			JLabel lblNombre = new JLabel("   " + publicacion.getIdUser());
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);

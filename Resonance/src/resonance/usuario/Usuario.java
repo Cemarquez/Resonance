@@ -82,7 +82,7 @@ public class Usuario implements Serializable {
 			}
 		} else {
 			relaciones.add(new Relacion(relacion, destino));
-			destino.getRelaciones().add(new Relacion(relacion, instance));
+			
 		}
 
 	}
@@ -260,6 +260,8 @@ public class Usuario implements Serializable {
 	 * @param p
 	 */
 	public void agregarPublicacion(Publicacion p) {
+		p.setFotoPerfilUsuario(perfil.getFotoPerfil());
+		p.setIdUser(id);
 		publicaciones.agregar(p);
 	}
 

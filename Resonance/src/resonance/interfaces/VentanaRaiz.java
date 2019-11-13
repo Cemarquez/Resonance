@@ -37,19 +37,6 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 	private JMenuItem mntmCerrarSesion;
 	private VentantaLogIN vLogin;
 
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					VentanaRaiz frame = new VentanaRaiz();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	public VentanaRaiz() {
 		this.vLogin = ControladoraPrincipal.getI();
@@ -206,6 +193,7 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 			panelInicio.setVisible(false);
 			panelChats.setVisible(false);
 			panelConfiguracion.setVisible(false);
+			panelPerfil.refresh();
 			panelPerfil.setVisible(true);
 
 		}

@@ -1,6 +1,7 @@
 package resonance.texto;
 
 import java.awt.Image;
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,10 +12,11 @@ import resonance.usuario.Usuario;
 public class Publicacion extends Mensaje implements Serializable {
 
 	private List<Reaccion> reacciones;
-	private Usuario usuario;
+	private File fotoPerfilUsuario;
 	private ArrayList<Publicacion> links;
 	private ArrayList<Comentario> comentarios;
 	private Image imagen;
+	private String idUser;
 
 	/**
 	 * Metodo constructor
@@ -22,18 +24,17 @@ public class Publicacion extends Mensaje implements Serializable {
 	 * @param mensaje
 	 * @param fecha
 	 */
-	public Publicacion(String mensaje, Date fecha, Image imagen, Usuario usuario) {
+	public Publicacion(String mensaje, Date fecha, Image imagen) {
 		super(mensaje, fecha);
-		this.usuario = usuario;
+
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
 		comentarios = new ArrayList<Comentario>();
 		this.imagen = imagen;
 	}
 
-	public Publicacion(String mensaje, Date fecha, Usuario usuario) {
+	public Publicacion(String mensaje, Date fecha) {
 		super(mensaje, fecha);
-		this.usuario = usuario;
 		reacciones = new ArrayList<Reaccion>();
 		links = new ArrayList<Publicacion>();
 		comentarios = new ArrayList<Comentario>();
@@ -118,11 +119,20 @@ public class Publicacion extends Mensaje implements Serializable {
 		this.imagen = imagen;
 	}
 
-	public Usuario getUsuario() {
-		return usuario;
+	public File getFotoPerfilUsuario() {
+		return fotoPerfilUsuario;
 	}
 
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
+	public void setFotoPerfilUsuario(File fotoPerfilUsuario) {
+		this.fotoPerfilUsuario = fotoPerfilUsuario;
 	}
+
+	public String getIdUser() {
+		return idUser;
+	}
+
+	public void setIdUser(String idUser) {
+		this.idUser = idUser;
+	}
+
 }
