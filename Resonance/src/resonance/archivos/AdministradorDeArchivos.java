@@ -122,6 +122,7 @@ public class AdministradorDeArchivos {
 		File foto = null;
 
 		File carpetaUsuario = new File(url + "/Usuarios/" + user);
+
 		for (File v : carpetaUsuario.listFiles()) {
 			if (v.getName().contains("FotoPerfil")) {
 				return v;

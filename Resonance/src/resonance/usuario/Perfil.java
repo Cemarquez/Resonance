@@ -47,7 +47,7 @@ public class Perfil implements Serializable {
 	}
 
 	public File getFotoPerfil() {
-		return AdministradorDeArchivos.getFotoPerfil(nombre);
+		return AdministradorDeArchivos.getFotoPerfil(usuario);
 	}
 	// Getters and setters
 

@@ -6,15 +6,18 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -237,7 +240,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		if (numPublics == 0) {
 		}
 		for (int i = 0; i < numPublics; i++) {
-			int tamano = 130;
+			int tamano = 200;
 
 			publicacion = listaP.getActual();
 			JPanel panelP = new JPanel();
@@ -247,12 +250,19 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 			JLabel lblF = new JLabel("");
 			lblF.setVerticalAlignment(SwingConstants.TOP);
+			lblF.setSize(36, 36);
 			try {
+				Image ima = ImageIO.read(publicacion.getUsuario().getPerfil().getFotoPerfil());
+//				ImageIcon icon = new ImageIcon(
+//						publicacion.getUsuario().getPerfil().getFotoPerfil().toPath().toUri().toURL());
 				ImageIcon icon = new ImageIcon(
-						publicacion.getUsuario().getPerfil().getFotoPerfil().toPath().toUri().toURL());
+						ima.getScaledInstance(lblF.getWidth(), lblF.getHeight(), Image.SCALE_SMOOTH));
 
 				lblF.setIcon(icon);
 			} catch (MalformedURLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -263,7 +273,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel(publicacion.getUsuario().getID());
+			JLabel lblNombre = new JLabel("   " + publicacion.getUsuario().getID());
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);
