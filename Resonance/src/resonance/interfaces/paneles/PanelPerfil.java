@@ -61,6 +61,8 @@ public class PanelPerfil extends JPanel implements MouseListener {
 	private JTextArea textAreaPublicacion;
 	private JPanel panel_1;
 	private JButton btnPublicar;
+	private JScrollPane scrollSolicitudes;
+	private JPanel panelResultados;
 
 	/**
 	 * Create the panel.
@@ -178,6 +180,8 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 		crearPublicacionPanel();
 		generarPublicaciones();
+		crearPanelSolicitudes();
+		obtenerSolicitudes();
 	}
 
 	public void crearPanelesMensajes() {
@@ -342,6 +346,64 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 
 
+	}
+
+	public void obtenerSolicitudes() {
+
+
+		int y = 0, tamano = 65;
+		System.out.println("Solicitudes lista tamano: " + userLogin.obtenerSolicitudesPendientes());
+
+		if (userLogin.obtenerSolicitudesPendientes().size() != 0)
+
+		{
+
+			for (int i = 0; i < userLogin.obtenerSolicitudesPendientes().size(); i++) {
+
+				Usuario user = userLogin.obtenerSolicitudesPendientes().get(i);
+
+				JPanel panelUsuario = new JPanel();
+				panelUsuario.setBorder(new LineBorder(new Color(0, 0, 0)));
+				panelUsuario.setBackground(SystemColor.controlDkShadow);
+				panelUsuario.setBounds(0, y, 443, tamano);
+				panelResultados.add(panelUsuario);
+				panelUsuario.setLayout(null);
+
+				JLabel lblFoto = new JLabel("");
+//				lblFoto.setIcon((Icon) a.getPerfil().getFotoPerfil());
+				lblFoto.setBounds(14, 0, 50, 65);
+				panelUsuario.add(lblFoto);
+
+				JLabel lblNombre = new JLabel(user.getID());
+				lblNombre.setFont(new Font("Tahoma", Font.BOLD, 16));
+				lblNombre.setBounds(74, 0, 299, 65);
+				panelUsuario.add(lblNombre);
+
+				JPanel panelAnadir = new JPanel();
+				panelAnadir.setBackground(new Color(0, 128, 0));
+				panelAnadir.setBounds(315, 11, 118, 43);
+				panelUsuario.add(panelAnadir);
+				panelAnadir.setLayout(null);
+
+				JLabel lblAnadir = new JLabel("Enviar Solicitud");
+				lblAnadir.setBounds(10, 11, 101, 20);
+				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
+				panelAnadir.add(lblAnadir);
+
+				y += tamano;
+
+			}
+
+		} else {
+
+			JLabel lblSinSolicitudes = new JLabel("No hay solicitudes");
+			lblSinSolicitudes.setFont(new Font("Segoe UI", Font.PLAIN, 17));
+			lblSinSolicitudes.setBounds(177, 262, 150, 24);
+			panelResultados.add(lblSinSolicitudes);
+			panelResultados.add(lblSinSolicitudes);
+
+
+		}
 	}
 
 	public void generarPublicaciones() {
@@ -568,8 +630,46 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 		crearPublicacionPanel();
 		generarPublicaciones();
+		crearPanelSolicitudes();
+		obtenerSolicitudes();
 		repaint();
 		revalidate();
+	}
+
+	public void crearPanelSolicitudes() {
+		panelBusqueda.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBusqueda.setBackground(SystemColor.controlDkShadow);
+		panelBusqueda.setForeground(Color.BLACK);
+		panelBusqueda.setBounds(640, 0, 445, 717);
+		add(panelBusqueda);
+		panelBusqueda.setLayout(null);
+
+		JPanel panelBuscar = new JPanel();
+		panelBuscar.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelBuscar.setLayout(null);
+		panelBuscar.setPreferredSize(new Dimension(1040, 60));
+		panelBuscar.setMaximumSize(new Dimension(1040, 50));
+		panelBuscar.setBackground(SystemColor.controlDkShadow);
+		panelBuscar.setBounds(0, 0, 445, 50);
+		panelBusqueda.add(panelBuscar);
+
+		JLabel lblBuscar = new JLabel("Solicitudes");
+		lblBuscar.setForeground(Color.BLACK);
+		lblBuscar.setFont(new Font("Segoe UI", Font.PLAIN, 18));
+		lblBuscar.setBounds(10, -1, 110, 50);
+		panelBuscar.add(lblBuscar);
+
+		JScrollPane scrollBuscara = new JScrollPane();
+		scrollBuscara.setBounds(0, 48, 445, 669);
+		panelBusqueda.add(scrollBuscara);
+
+		panelResultados = new JPanel();
+		panelResultados.setBorder(new LineBorder(new Color(0, 0, 0)));
+		panelResultados.setBackground(SystemColor.controlDkShadow);
+		panelResultados.setPreferredSize(new Dimension(440, 65 * 4));
+		scrollBuscara.setViewportView(panelResultados);
+		panelResultados.setLayout(null);
+
 	}
 
 

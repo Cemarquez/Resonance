@@ -33,6 +33,14 @@ public class Relacion implements Serializable{
 		return tipo == TipoRelacion.AMIGOS;
 	}
 	
+	public boolean isPendiente() {
+		return tipo == TipoRelacion.PENDIENTE;
+	}
+
+	public boolean isBloqueado() {
+		return tipo == TipoRelacion.BLOQUEADO;
+	}
+
 	public enum TipoRelacion {
 		BLOQUEADO, PENDIENTE, AMIGOS
 	}

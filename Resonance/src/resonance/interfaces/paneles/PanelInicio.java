@@ -11,6 +11,8 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Date;
@@ -37,9 +39,11 @@ import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaPublicaciones;
 import resonance.estructura.RedDeUsuarios;
+import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
 import resonance.texto.Publicacion;
+import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
 
 public class PanelInicio extends JPanel implements ActionListener {
@@ -214,17 +218,48 @@ public class PanelInicio extends JPanel implements ActionListener {
 				lblNombre.setBounds(74, 0, 299, 65);
 				panelUsuario.add(lblNombre);
 
+				if (a.estaRelacionado(userLogin.getPerfil().getNombre()) == false) {
+
 				JPanel panelAnadir = new JPanel();
 				panelAnadir.setBackground(new Color(0, 128, 0));
 				panelAnadir.setBounds(315, 11, 118, 43);
 				panelUsuario.add(panelAnadir);
-				panelAnadir.setLayout(null);
+					panelAnadir.setLayout(null);
 
-				JLabel lblAnadir = new JLabel("Enviar Solicitud");
+					JLabel lblAnadir = new JLabel("Enviar Solicitud");
 				lblAnadir.setBounds(10, 11, 101, 20);
 				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
 				panelAnadir.add(lblAnadir);
+				panelAnadir.addMouseListener(new MouseAdapter() {
+					@Override
+					public void mousePressed(MouseEvent arg0) {
 
+							try {
+								a.determinarRelacion(userLogin, TipoRelacion.PENDIENTE);
+								System.out.println("Enviada");
+
+							} catch (LimitException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+
+							refreshPanelBusqueda();
+					}
+				});
+				}
+
+				else {
+					JPanel panelAnadir = new JPanel();
+					panelAnadir.setBackground(Color.CYAN);
+					panelAnadir.setBounds(315, 11, 118, 43);
+					panelUsuario.add(panelAnadir);
+					panelAnadir.setLayout(null);
+					JLabel lblAnadir = new JLabel("Enviada");
+					lblAnadir.setBounds(10, 11, 101, 20);
+					lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
+					panelAnadir.add(lblAnadir);
+
+				}
 				/*
 				 * Metodo que abre perfil seleccionado en nueva ventana
 				 * panelUsuario.addMouseListener(new MouseAdapter() {
@@ -242,6 +277,13 @@ public class PanelInicio extends JPanel implements ActionListener {
 			}
 
 		}
+	}
+
+	public void refreshPanelBusqueda() {
+
+		panelResultados.removeAll();
+		generarUsuarios();
+
 	}
 
 	public void generarPublicaciones() {

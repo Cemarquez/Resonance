@@ -15,6 +15,7 @@ public class Usuario implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Usuario instance;
 	private String id;
 	private ArrayList<Relacion> relaciones;
 	private int limiteAmigos;
@@ -31,6 +32,7 @@ public class Usuario implements Serializable {
 	 * @param perfil
 	 */
 	public Usuario(String nombre, Perfil perfil) {
+		this.instance = this;
 		this.setPerfil(perfil);
 		this.id = nombre;
 		publicaciones = new ListaPublicaciones();
@@ -80,6 +82,7 @@ public class Usuario implements Serializable {
 			}
 		} else {
 			relaciones.add(new Relacion(relacion, destino));
+			destino.getRelaciones().add(new Relacion(relacion, instance));
 		}
 
 	}
@@ -219,6 +222,22 @@ public class Usuario implements Serializable {
 		return A;
 	}
 
+	public ArrayList<Usuario> obtenerSolicitudesPendientes() {
+
+		ArrayList<Usuario> listaSolicitudes = new ArrayList<Usuario>();
+
+		for (int i = 0; i < relaciones.size(); i++) {
+
+			if (relaciones.get(i).getTipo() == TipoRelacion.PENDIENTE) {
+
+				listaSolicitudes.add(relaciones.get(i).getUsuario());
+			}
+		}
+
+		return listaSolicitudes;
+
+	}
+
 	/**
 	 * Metodo que convierte una lista sencilla en un ArrayList
 	 * 
@@ -263,6 +282,44 @@ public class Usuario implements Serializable {
 		for (Relacion r : relaciones) {
 			if (id.equals(user)) {
 				if (r.isAmigo()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Metodo que permite verificar que el usuario ingresado tenga o no solicitud
+	 * pendiente
+	 * 
+	 * @param user
+	 * @return
+	 */
+
+	public boolean isPendiente(String user) {
+		for (Relacion r : relaciones) {
+			if (id.equals(user)) {
+				if (r.isPendiente()) {
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Metodo que permite verificar si el usuario ingresado esta bloqueado o no
+	 * 
+	 * @param user
+	 * @return
+	 */
+	public boolean isBloqueado(String user) {
+		for (Relacion r : relaciones) {
+			if (id.equals(user)) {
+				if (r.isBloqueado()) {
 					return true;
 				}
 			}
