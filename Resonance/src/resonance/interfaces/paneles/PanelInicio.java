@@ -336,7 +336,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 				lblNombre.setBounds(74, 0, 299, 65);
 				panelUsuario.add(lblNombre);
 
-				if (a.estaRelacionado(userLogin.getPerfil().getNombre()) == false) {
+				if (!a.estaRelacionado(userLogin.getID())) {
 
 					JPanel panelAnadir = new JPanel();
 					panelAnadir.setBackground(new Color(0, 128, 0));

@@ -185,7 +185,7 @@ public class RedDeUsuarios implements Serializable {
 		while (it.hasNext()) {
 			Object obj = it.next();
 			Usuario a = grafo.get(obj);
-			promedio += a.getPublicaciones(a.getID()).getLongitud();
+			promedio += a.getPublicaciones().getLongitud();
 		}
 
 		promedio = promedio / grafo.size();

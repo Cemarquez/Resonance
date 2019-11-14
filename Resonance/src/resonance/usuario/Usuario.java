@@ -168,14 +168,9 @@ public class Usuario implements Serializable {
 	 * @param user
 	 * @return
 	 */
-	public ListaPublicaciones getPublicaciones(String user) {
-		ListaPublicaciones lista = new ListaPublicaciones();
+	public ListaPublicaciones getPublicaciones() {
 
-		if (isAmigo(user)) {
 			return publicaciones;
-		}
-
-		return lista;
 	}
 
 	public void crearChat(Usuario user) {
@@ -189,9 +184,13 @@ public class Usuario implements Serializable {
 	 */
 	public ListaPublicaciones obtenerPublicacionesInicio() {
 		ListaPublicaciones lista = new ListaPublicaciones();
-		for (Usuario u : getAmigos()) {
-			for (int i = 0; i < u.getPublicaciones(getID()).getLongitud(); i++) {
-				Publicacion p = u.getPublicaciones(getID()).getPublicacion(i);
+		for (int i = 0; i<getAmigos().size(); i++) 
+		{
+			Usuario u = getAmigos().get(i);
+			
+			for (int j = 0; j < u.getPublicaciones().getLongitud(); j++) 
+			{
+				Publicacion p = u.getPublicaciones().getPublicacion(j);
 				lista.agregar(p);
 			}
 		}
