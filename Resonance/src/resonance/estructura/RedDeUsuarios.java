@@ -7,6 +7,7 @@ import java.util.Iterator;
 
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
+import resonance.texto.Publicacion;
 import resonance.usuario.Relacion;
 import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
@@ -231,6 +232,18 @@ public class RedDeUsuarios implements Serializable {
 
 	public void setLimiteAmigos(int limiteAmigos) {
 		this.limiteAmigos = limiteAmigos;
+	}
+
+	public void enviarMensajeGlobal(Publicacion p) {
+		Iterator<String> it = grafo.keySet().iterator();
+
+		while (it.hasNext()) {
+			Object obj = it.next();
+			Usuario a = grafo.get(obj);
+
+			a.agregarPublicacionAdmin(p);
+		}
+
 	}
 
 }

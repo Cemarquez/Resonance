@@ -419,7 +419,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		String f = "";
 		int d = fecha.getDay();
 		int m = fecha.getMonth();
-		int a = fecha.getYear();
+		int a = 2019;
 
 		f = d + "/" + m + "/" + a + "/" + " " + fecha.getHours() + ":" + fecha.getMinutes();
 		return f;
@@ -435,7 +435,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 			jbl.setBounds(40, 300, 600, 70);
 			panelScroll.add(jbl);
 		}
-		for (int i = 0; i < numPublics; i++) {
+		for (int i = numPublics; i > 0; i--) {
 			int tamano = 200;
 
 			final Publicacion publicacion = listaP.getActual();

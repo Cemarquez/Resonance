@@ -182,7 +182,7 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 		String f = "";
 		int d = fecha.getDay();
 		int m = fecha.getMonth();
-		int a = fecha.getYear();
+		int a = 19;
 
 		f = d + "/" + m + "/" + a + "/" + " " + fecha.getHours() + ":" + fecha.getMinutes();
 		return f;

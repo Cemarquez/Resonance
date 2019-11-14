@@ -10,18 +10,22 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import resonance.Resonance;
+import resonance.archivos.AdministradorDeArchivos;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
+import resonance.texto.Publicacion;
 import resonance.usuario.Usuario;
 
 public class VentanaAdministrador extends JFrame implements ActionListener, KeyListener {
@@ -176,6 +180,21 @@ public class VentanaAdministrador extends JFrame implements ActionListener, KeyL
 		});
 		btnVolver.setBounds(10, 705, 89, 23);
 		panelEstadistadisticas.add(btnVolver);
+
+		JButton btnEnviarMensajeGlobal = new JButton("Enviar mensaje global");
+		btnEnviarMensajeGlobal.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String mensaje = "Este es un mensaje del administrador de la red:  \n";
+				mensaje += JOptionPane.showInputDialog("Ingrese el mensaje para la red");
+
+				Publicacion p = new Publicacion(mensaje, new Date(), "DIALOG ADMIN");
+				resonance.getAdministradorDeUsuarios().enviarMensajeGlobal(p);
+
+				AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
+			}
+		});
+		btnEnviarMensajeGlobal.setBounds(313, 676, 198, 23);
+		panelEstadistadisticas.add(btnEnviarMensajeGlobal);
 
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);

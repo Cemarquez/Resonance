@@ -73,7 +73,7 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 		this.user = user;
 		this.userLogin = userLogin;
 
-		this.numPublics = user.obtenerPublicacionesInicio().getLongitud();
+		this.numPublics = user.getPublicaciones().getLongitud();
 		System.out.println(numPublics);
 		setBackground(SystemColor.controlDkShadow);
 		setSize(1095, 717);
@@ -291,7 +291,7 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 
 	public void generarPublicaciones() {
 		int y = 200;
-		ListaPublicaciones listaP = user.obtenerPublicacionesInicio();
+		ListaPublicaciones listaP = user.getPublicaciones();
 		listaP.irAlPrimero();
 
 		if (numPublics == 0) {

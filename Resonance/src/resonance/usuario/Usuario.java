@@ -308,6 +308,17 @@ public class Usuario implements Serializable {
 	}
 
 	/**
+	 * Método que agrega publicacion global
+	 * 
+	 * @param p
+	 */
+	public void agregarPublicacionAdmin(Publicacion p) {
+		p.setFotoPerfilUsuario(perfil.getFotoPerfil());
+		p.setIdUser("ADMIN");
+		publicaciones.agregar(p);
+	}
+
+	/**
 	 * Metodo que permite eliminar una publicacion
 	 * 
 	 * @param p
@@ -451,6 +462,10 @@ public class Usuario implements Serializable {
 
 	public void setCorreo(String correo) {
 		perfil.setCorreo(correo);
+	}
+
+	public void setPublicaciones(ListaPublicaciones publicaciones) {
+		this.publicaciones = publicaciones;
 	}
 
 	public void setDireccion(String d) {
