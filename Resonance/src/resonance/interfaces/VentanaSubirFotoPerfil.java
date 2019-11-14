@@ -36,7 +36,6 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 	private VentantaLogIN vLogin;
 	private JLabel labelContinuar;
 	private JPanel panelBtnContinuar;
-	private JLabel lblOmitir;
 	private JLabel lblQuitarFoto;
 	private JPanel panelBtnRegresar;
 	private JLabel lblRegresar;
@@ -100,7 +99,7 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 					iconoSubirFotoPerfil.setIcon(fotoPerfil);
 
 					panelBtnContinuar.setVisible(true);
-					lblOmitir.setVisible(false);
+
 					lblQuitarFoto.setVisible(true);
 
 				}
@@ -141,36 +140,14 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 		labelContinuar.setBounds(70, 11, 112, 28);
 		panelBtnContinuar.add(labelContinuar);
 
-		lblOmitir = new JLabel("Omitir\r\n");
-		lblOmitir.setHorizontalAlignment(SwingConstants.CENTER);
-		lblOmitir.setForeground(Color.BLACK);
-		lblOmitir.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		Font font = lblOmitir.getFont();
-		Map attributes = font.getAttributes();
-		attributes.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
-		lblOmitir.setFont(font.deriveFont(attributes));
-		lblOmitir.setBounds(473, 441, 246, 28);
 
-		lblOmitir.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mousePressed(MouseEvent arg0) {
-				fileFoto = new File("/imagenes/fotoperfil_icono.png");
-
-				AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, vLogin.getUserLogin().getID());
-				VentanaRaiz vRaiz = new VentanaRaiz();
-				vRaiz.setVisible(true);
-				instance.dispose();
-
-			}
-		});
-		panelSubirFoto.add(lblOmitir);
 
 		lblQuitarFoto = new JLabel("Quitar foto\r\n");
 		lblQuitarFoto.setHorizontalAlignment(SwingConstants.CENTER);
 		lblQuitarFoto.setForeground(Color.BLACK);
 		lblQuitarFoto.setFont(new Font("Segoe UI", Font.PLAIN, 16));
-		Font fuenteQuitarFoto = lblOmitir.getFont();
-		Map atributos = font.getAttributes();
+		Font fuenteQuitarFoto = lblQuitarFoto.getFont();
+		Map atributos = fuenteQuitarFoto.getAttributes();
 		atributos.put(TextAttribute.UNDERLINE, TextAttribute.UNDERLINE_ON);
 		lblQuitarFoto.setFont(fuenteQuitarFoto.deriveFont(atributos));
 		lblQuitarFoto.setBounds(473, 441, 246, 28);
@@ -237,16 +214,12 @@ public class VentanaSubirFotoPerfil extends JFrame implements MouseListener {
 			fotoPerfil = (ImageIcon) iconoSubirFotoPerfil.getIcon();
 
 			lblQuitarFoto.setVisible(false);
-			lblOmitir.setVisible(true);
+
 			panelBtnContinuar.setVisible(false);
 
 		}
 
-		if (e.getSource() == lblOmitir) {
 
-			fotoPerfil = (ImageIcon) iconoSubirFotoPerfil.getIcon();
-
-		}
 
 		if (e.getSource() == panelBtnRegresar) {
 

@@ -168,7 +168,7 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 			panelMensajeCreado.setMaximumSize(new Dimension(200, 50 + ((mensaje.length() / 33) + 1) * 20));
 			panelMensajeCreado.setText(salida);
 		} else {
-			panelMensajeCreado.setMaximumSize(new Dimension(200, 50));
+			panelMensajeCreado.setMaximumSize(new Dimension(200, 100));
 			panelMensajeCreado.setText(salida);
 		}
 

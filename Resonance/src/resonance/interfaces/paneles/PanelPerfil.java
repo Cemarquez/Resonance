@@ -42,8 +42,8 @@ import resonance.interfaces.ControladoraPrincipal;
 import resonance.interfaces.VentantaLogIN;
 import resonance.interfaces.misc.ImagePanel;
 import resonance.texto.Publicacion;
-import resonance.usuario.Usuario;
 import resonance.usuario.Relacion.TipoRelacion;
+import resonance.usuario.Usuario;
 
 public class PanelPerfil extends JPanel implements MouseListener {
 
@@ -188,90 +188,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 		obtenerSolicitudes();
 	}
 
-	public void crearPanelesMensajes() {
-
-		for (int i = 1; i <= numPublics; i++) {
-
-			JPanel panelP = new JPanel();
-			panelP.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelP.setBackground(SystemColor.controlDkShadow);
-			panelScroll.add(panelP);
-			panelP.setLayout(new BorderLayout(0, 0));
-
-			JLabel lblF = new JLabel("");
-			lblF.setVerticalAlignment(SwingConstants.TOP);
-			lblF.setIcon(new ImageIcon(PanelPerfil.class.getResource("/imagenes/Logo1Reducido.png")));
-			panelP.add(lblF, BorderLayout.WEST);
-
-			JPanel panelC = new JPanel();
-			panelC.setBackground(SystemColor.controlDkShadow);
-			panelP.add(panelC, BorderLayout.CENTER);
-			panelC.setLayout(null);
-
-			JLabel lblNombre = new JLabel(userLogin.getID());
-			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
-			lblNombre.setForeground(Color.BLACK);
-			lblNombre.setBounds(0, 0, 558, 43);
-			panelC.add(lblNombre);
-
-			JLabel lblAquiVaEl = new JLabel(
-					"Aqui va el texto de dicha publicacion, hay que mirar como hacer el salto de pagina");
-			lblAquiVaEl.setForeground(Color.BLACK);
-			lblAquiVaEl.setFont(new Font("Tahoma", Font.PLAIN, 16));
-			lblAquiVaEl.setBounds(0, 43, 558, 43);
-			panelC.add(lblAquiVaEl);
-
-			JLabel lblImage = new JLabel("");
-			lblImage.setIcon(new ImageIcon(PanelPerfil.class.getResource("/imagenes/Imagen.jpg")));
-			lblImage.setBounds(0, 86, 558, 177);
-			panelC.add(lblImage);
-
-			JPanel panelAcciones = new JPanel();
-			panelAcciones.setBackground(SystemColor.controlDkShadow);
-			panelP.add(panelAcciones, BorderLayout.SOUTH);
-			panelAcciones.setLayout(new GridLayout(0, 1, 0, 0));
-
-			Panel panel = new Panel();
-			panelAcciones.add(panel);
-			panel.setLayout(new GridLayout(0, 3, 0, 0));
-
-			JPanel panelMeGusta = new JPanel();
-			panelMeGusta.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelMeGusta.setForeground(Color.BLACK);
-			panelMeGusta.setBackground(SystemColor.controlDkShadow);
-			panel.add(panelMeGusta);
-			panelMeGusta.setLayout(new BoxLayout(panelMeGusta, BoxLayout.X_AXIS));
-
-			JMenuItem mntmMeGusta = new JMenuItem("Me gusta");
-			mntmMeGusta.setBackground(SystemColor.controlDkShadow);
-			mntmMeGusta.setForeground(Color.BLACK);
-			panelMeGusta.add(mntmMeGusta);
-
-			JPanel panelComentar = new JPanel();
-			panelComentar.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelComentar.setForeground(Color.BLACK);
-			panelComentar.setBackground(SystemColor.controlDkShadow);
-			panel.add(panelComentar);
-			panelComentar.setLayout(new BoxLayout(panelComentar, BoxLayout.X_AXIS));
-
-			JMenuItem mntmComentar = new JMenuItem("Comentar");
-			mntmComentar.setBackground(SystemColor.controlDkShadow);
-			mntmComentar.setForeground(Color.BLACK);
-			panelComentar.add(mntmComentar);
-
-			JPanel panelCompartir = new JPanel();
-			panelCompartir.setBorder(new LineBorder(new Color(0, 0, 0)));
-			panelCompartir.setBackground(SystemColor.controlDkShadow);
-			panelCompartir.setForeground(Color.BLACK);
-			panel.add(panelCompartir);
-			panelCompartir.setLayout(new BoxLayout(panelCompartir, BoxLayout.X_AXIS));
-
-			JMenuItem mntmCompartir = new JMenuItem("Compartir");
-			mntmCompartir.setBackground(SystemColor.controlDkShadow);
-			mntmCompartir.setForeground(Color.BLACK);
-			panelCompartir.add(mntmCompartir);
-		}
-	}
 
 	@Override
 	public void mousePressed(MouseEvent arg0) {
