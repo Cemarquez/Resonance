@@ -15,6 +15,7 @@ public class RedDeUsuarios implements Serializable {
 
 	private HashMap<String, Usuario> grafo;
 	private Usuario nodoInicial;
+	private int limiteAmigos = 0;
 
 	public RedDeUsuarios() {
 		grafo = new HashMap<>();
@@ -63,15 +64,15 @@ public class RedDeUsuarios implements Serializable {
 
 	}
 
-	public boolean isBloqueado(String nombreOrigen, String nombreDestino)
-	{
+	public boolean isBloqueado(String nombreOrigen, String nombreDestino) {
 		if (grafo.get(nombreOrigen) != null && grafo.get(nombreDestino) != null) {
-			
+
 			return grafo.get(nombreOrigen).isBloqueado(nombreDestino);
-		}else {
+		} else {
 			return false;
 		}
 	}
+
 	public Relacion seguirEnlance(String nombre, int indice) throws ExistException {
 		Relacion nodo = null;
 		if (grafo.get(nombre) != null) {
@@ -118,7 +119,7 @@ public class RedDeUsuarios implements Serializable {
 	@Override
 	public String toString() {
 		String s = "";
-		s += "Estado del Grafo: \n Tama�o: " + getCantUsuarios();
+		s += "Estado del Grafo: \n Tamano: " + getCantUsuarios();
 
 		Iterator<String> ite = grafo.keySet().iterator();
 		while (ite.hasNext()) {
@@ -132,6 +133,10 @@ public class RedDeUsuarios implements Serializable {
 
 	public Usuario getNodoInicial() {
 		return nodoInicial;
+	}
+
+	public boolean isEmpty() {
+		return grafo.isEmpty();
 	}
 
 	public boolean estaRelacionado(String nombreOrigen, String userDestino) throws ExistException {
@@ -152,9 +157,80 @@ public class RedDeUsuarios implements Serializable {
 		this.nodoInicial = nodoInicial;
 	}
 
-	public HashMap<String, Usuario> getGrafo()
-	{
+	public HashMap<String, Usuario> getGrafo() {
 		return grafo;
+	}
+
+	public double getPromedioDeAmigos() {
+		double promedio = 0;
+
+		Iterator<String> it = grafo.keySet().iterator();
+
+		while (it.hasNext()) {
+			Object obj = it.next();
+			Usuario a = grafo.get(obj);
+			promedio += a.getAmigos().size();
+		}
+
+		promedio = promedio / grafo.size();
+
+		return promedio;
+	}
+
+	public double getPromedioDePublicaciones() {
+		double promedio = 0;
+
+		Iterator<String> it = grafo.keySet().iterator();
+
+		while (it.hasNext()) {
+			Object obj = it.next();
+			Usuario a = grafo.get(obj);
+			promedio += a.getPublicaciones(a.getID()).getLongitud();
+		}
+
+		promedio = promedio / grafo.size();
+
+		return promedio;
+	}
+
+	public double getPromedioDeChats() {
+		double promedio = 0;
+
+		Iterator<String> it = grafo.keySet().iterator();
+
+		while (it.hasNext()) {
+			Object obj = it.next();
+			Usuario a = grafo.get(obj);
+			promedio += a.getChats().getLongitud();
+		}
+
+		promedio = promedio / grafo.size();
+
+		return promedio;
+	}
+
+	public int getLimiteAmigos() {
+		return limiteAmigos;
+	}
+
+	public int getMayorNumAmigos() {
+		int mayor = 0;
+		Iterator<String> it = grafo.keySet().iterator();
+
+		while (it.hasNext()) {
+			Object obj = it.next();
+			Usuario a = grafo.get(obj);
+			if (mayor < a.getAmigos().size()) {
+				mayor = a.getAmigos().size();
+			}
+
+		}
+
+		return mayor;
+	}
+
+	public void setLimiteAmigos(int limiteAmigos) {
+		this.limiteAmigos = limiteAmigos;
 	}
 
 }

@@ -71,7 +71,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 	private JTextArea textAreaPublicacion;
 	private JButton btnPublicar;
 	private JPanel panelScrollComentarios;
-    private Publicacion publicacionSelected=null;
+	private Publicacion publicacionSelected = null;
+
 	/**
 	 * Create the panel.
 	 */
@@ -99,7 +100,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		scroll.setBounds(0, 0, 640, 812);
 		panelScroll.setLayout(null);
 		crearPanelHacerPublicacion();
-		
+
 		panelPublicaciones.add(scroll);
 		crearPanelBusquedas();
 		generarPublicaciones();
@@ -107,9 +108,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 	}
 
-	
-	public void crearPanelBusquedas()
-	{
+	public void crearPanelBusquedas() {
 		panelBusqueda = new JPanel();
 		panelBusqueda.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelBusqueda.setBackground(SystemColor.controlDkShadow);
@@ -150,26 +149,27 @@ public class PanelInicio extends JPanel implements ActionListener {
 		panelResultados.setPreferredSize(new Dimension(440, 65 * 4));
 		scrollBuscara.setViewportView(panelResultados);
 		panelResultados.setLayout(null);
-		
+
 		JPanel panelComentarios = new JPanel();
 		panelComentarios.setBorder(new LineBorder(new Color(0, 0, 0)));
 		panelComentarios.setBounds(0, 381, 445, 44);
 		panelBusqueda.add(panelComentarios);
-		
-		JLabel lblComentarios = new JLabel("Comentarios                                                               ");
+
+		JLabel lblComentarios = new JLabel(
+				"Comentarios                                                               ");
 		lblComentarios.setFont(new Font("Teen Light", Font.BOLD, 15));
 		panelComentarios.add(lblComentarios);
-		
+
 		JScrollPane scrollPaneComentarios = new JScrollPane();
 		scrollPaneComentarios.setBounds(0, 422, 445, 239);
 		panelBusqueda.add(scrollPaneComentarios);
-		
+
 		panelScrollComentarios = new JPanel();
 		scrollPaneComentarios.setViewportView(panelScrollComentarios);
 		panelScrollComentarios.setLayout(new BoxLayout(panelScrollComentarios, BoxLayout.Y_AXIS));
 		JPanel panelEscribirMensaje = new JPanel();
 		panelEscribirMensaje.setBounds(0, 660, 455, 49);
-		
+
 		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
 
 		RoundJTextArea textArea = new RoundJTextArea();
@@ -179,52 +179,48 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 		JLabel btnEnviar = new JLabel("");
 		btnEnviar.addMouseListener(new MouseAdapter() {
-			
+
 			@Override
-			public void mousePressed(MouseEvent e)
-			{
+			public void mousePressed(MouseEvent e) {
 				String mensaje = textArea.getText();
 				Date fecha = new Date();
 				String idUser = userLogin.getID();
 				Comentario c = new Comentario(idUser, mensaje, fecha);
-				if(publicacionSelected!=null)
-				{
+				if (publicacionSelected != null) {
 					publicacionSelected.agregarComentario(c);
 
-					AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+					AdministradorDeArchivos
+							.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 					refreshComentarios(publicacionSelected);
 				}
 			}
-			
+
 		});
 		btnEnviar.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
 		panelEscribirMensaje.add(btnEnviar, BorderLayout.EAST);
 
-		
 		panelBusqueda.add(panelEscribirMensaje);
 	}
-	public void cargarComentarios(Publicacion p)
-	{
-		
+
+	public void cargarComentarios(Publicacion p) {
+
 		panelScrollComentarios.removeAll();
 		refreshPublicaciones();
 		ArrayList<Comentario> comentarios = p.getComentarios();
-		
-		for(Comentario c : comentarios) {
-			
+
+		for (Comentario c : comentarios) {
+
 			panelScrollComentarios.add(new PanelComentario(c));
 		}
 	}
-	
-	public void refreshComentarios(Publicacion p)
-	{
+
+	public void refreshComentarios(Publicacion p) {
 
 		panelScrollComentarios.removeAll();
 		cargarComentarios(p);
 	}
-	
-	public void refreshPublicaciones()
-	{
+
+	public void refreshPublicaciones() {
 		this.removeAll();
 		vLogin = ControladoraPrincipal.getI();
 		this.resonance = vLogin.getResonance();
@@ -249,16 +245,15 @@ public class PanelInicio extends JPanel implements ActionListener {
 		scroll.setBounds(0, 0, 640, 812);
 		panelScroll.setLayout(null);
 		crearPanelHacerPublicacion();
-		
+
 		panelPublicaciones.add(scroll);
 		crearPanelBusquedas();
 		generarPublicaciones();
 		generarUsuarios();
-		
+
 	}
-	
-	public void crearPanelHacerPublicacion()
-	{
+
+	public void crearPanelHacerPublicacion() {
 		JPanel panel = new JPanel();
 		panel.setBackground(Color.WHITE);
 		panel.setBounds(0, 0, 640, 141);
@@ -299,7 +294,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		panel.add(btnPublicar);
 
 	}
-	
+
 	public void generarUsuarios() {
 		int y = 0, tamano = 65;
 		RedDeUsuarios red = resonance.getAdministradorDeUsuarios();
@@ -319,7 +314,20 @@ public class PanelInicio extends JPanel implements ActionListener {
 				panelUsuario.setLayout(null);
 
 				JLabel lblFoto = new JLabel("");
-//				lblFoto.setIcon((Icon) a.getPerfil().getFotoPerfil());
+				lblFoto.setSize(48, 48);
+				try {
+					Image ima = ImageIO.read(a.getPerfil().getFotoPerfil());
+					ImageIcon icon = new ImageIcon(
+							ima.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH));
+
+					lblFoto.setIcon(icon);
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				lblFoto.setBounds(14, 0, 50, 65);
 				panelUsuario.add(lblFoto);
 
@@ -330,23 +338,27 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 				if (a.estaRelacionado(userLogin.getPerfil().getNombre()) == false) {
 
-				JPanel panelAnadir = new JPanel();
-				panelAnadir.setBackground(new Color(0, 128, 0));
-				panelAnadir.setBounds(315, 11, 118, 43);
-				panelUsuario.add(panelAnadir);
+					JPanel panelAnadir = new JPanel();
+					panelAnadir.setBackground(new Color(0, 128, 0));
+					panelAnadir.setBounds(315, 11, 118, 43);
+					panelUsuario.add(panelAnadir);
 					panelAnadir.setLayout(null);
 
 					JLabel lblAnadir = new JLabel("Enviar Solicitud");
-				lblAnadir.setBounds(10, 11, 101, 20);
-				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
-				panelAnadir.add(lblAnadir);
-				panelAnadir.addMouseListener(new MouseAdapter() {
-					@Override
-					public void mousePressed(MouseEvent arg0) {
+					lblAnadir.setBounds(10, 11, 101, 20);
+					lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
+					panelAnadir.add(lblAnadir);
+					panelAnadir.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mousePressed(MouseEvent arg0) {
 
 							try {
-								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), a.getID(), TipoRelacion.PENDIENTE);
-								AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), a.getID(),
+										TipoRelacion.PENDIENTE);
+								AdministradorDeArchivos.serializarGrafo(
+										ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+								lblAnadir.setText("Enviada");
+								panelAnadir.setBackground(Color.CYAN);
 
 							} catch (LimitException e) {
 								// TODO Auto-generated catch block
@@ -357,8 +369,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 							}
 
 							refreshPanelBusqueda();
-					}
-				});
+						}
+					});
 				}
 
 				else {
@@ -373,19 +385,23 @@ public class PanelInicio extends JPanel implements ActionListener {
 					panelAnadir.add(lblAnadir);
 
 				}
-				
+
 //				 Metodo que abre perfil seleccionado en nueva ventana
-				  panelUsuario.addMouseListener(new MouseAdapter() {
-				  
-				  @Override public void mousePressed(MouseEvent arg0) {
-				 
-				  PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
-				  
-				 JFrame frame = new JFrame();
-				  
-				  frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
-				  frame.add(perfilUsuario); frame.setVisible(true); } });
-				 
+				panelUsuario.addMouseListener(new MouseAdapter() {
+
+					@Override
+					public void mousePressed(MouseEvent arg0) {
+
+						PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
+
+						JFrame frame = new JFrame();
+
+						frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
+						frame.add(perfilUsuario);
+						frame.setVisible(true);
+					}
+				});
+
 				y += tamano;
 			}
 
@@ -399,12 +415,25 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 	}
 
+	public String toStringFecha(Date fecha) {
+		String f = "";
+		int d = fecha.getDay();
+		int m = fecha.getMonth();
+		int a = fecha.getYear();
+
+		f = d + "/" + m + "/" + a + "/" + " " + fecha.getHours() + ":" + fecha.getMinutes();
+		return f;
+	}
+
 	public void generarPublicaciones() {
-		int y = 0;
+		int y = 200;
 		ListaPublicaciones listaP = userLogin.obtenerPublicacionesInicio();
 		listaP.irAlPrimero();
 
 		if (numPublics == 0) {
+			JLabel jbl = new JLabel("No hay nada para mostrar");
+			jbl.setBounds(40, 300, 600, 70);
+			panelScroll.add(jbl);
 		}
 		for (int i = 0; i < numPublics; i++) {
 			int tamano = 200;
@@ -438,7 +467,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 			panelP.add(panelC, BorderLayout.CENTER);
 			panelC.setLayout(null);
 
-			JLabel lblNombre = new JLabel("   " + publicacion.getIdUser() + "                    " + publicacion.getFecha());
+			JLabel lblNombre = new JLabel(
+					"   " + publicacion.getIdUser() + "                    " + toStringFecha(publicacion.getFecha()));
 			lblNombre.setFont(new Font("Tahoma", Font.BOLD, 18));
 			lblNombre.setForeground(Color.BLACK);
 			lblNombre.setBounds(0, 0, 558, 43);
@@ -479,24 +509,23 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 			JMenuItem mntmMeGusta = new JMenuItem("Me gusta");
 			mntmMeGusta.setBackground(SystemColor.controlDkShadow);
-			if(publicacion.yaReacciono(userLogin.getID()))
-			{
+			if (publicacion.yaReacciono(userLogin.getID())) {
 
 				mntmMeGusta.setForeground(Color.BLUE);
-			}else {
+			} else {
 
 				mntmMeGusta.setForeground(Color.BLACK);
 			}
-			
+
 			mntmMeGusta.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					publicacion.agregarReaccion(new Reaccion(userLogin.getID(), TipoReaccion.MEGUSTA));
 					VentanaMeGusta ventana = new VentanaMeGusta(publicacion);
 					ventana.setVisible(true);
 					refreshPublicaciones();
-					
+
 				}
 			});
 			panelMeGusta.add(mntmMeGusta);
@@ -510,12 +539,12 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 			JMenuItem mntmComentar = new JMenuItem("Comentar");
 			mntmComentar.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-				  publicacionSelected = publicacion;
-				  refreshComentarios(publicacion);
-					
+					publicacionSelected = publicacion;
+					refreshComentarios(publicacion);
+
 				}
 			});
 			mntmComentar.setBackground(SystemColor.controlDkShadow);
@@ -533,16 +562,18 @@ public class PanelInicio extends JPanel implements ActionListener {
 			mntmCompartir.setBackground(SystemColor.controlDkShadow);
 			mntmCompartir.setForeground(Color.BLACK);
 			mntmCompartir.addActionListener(new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					String mensaje = "Compartido de: " + publicacion.getIdUser() +" Publicado en: "+  publicacion.getFecha()+  "\n" + publicacion.getMensaje();
+					String mensaje = "Compartido de: " + publicacion.getIdUser() + " Publicado en: "
+							+ publicacion.getFecha() + "\n" + publicacion.getMensaje();
 					Publicacion p = new Publicacion(mensaje, new Date(), userLogin.getID());
 					userLogin.agregarPublicacion(p);
 
-					AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+					AdministradorDeArchivos
+							.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 					refreshPublicaciones();
-					
+
 				}
 			});
 			panelCompartir.add(mntmCompartir);
@@ -554,7 +585,6 @@ public class PanelInicio extends JPanel implements ActionListener {
 		}
 	}
 
-	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		String mensaje = textAreaPublicacion.getText();
@@ -563,7 +593,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 		vLogin.getUserLogin().agregarPublicacion(p);
 		AdministradorDeArchivos.serializarGrafo(vLogin.getResonance().getAdministradorDeUsuarios());
 
-		AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+		AdministradorDeArchivos
+				.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 		refreshPublicaciones();
 	}
 }

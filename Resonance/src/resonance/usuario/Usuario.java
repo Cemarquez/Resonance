@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import resonance.estructura.ListaChats;
 import resonance.estructura.ListaPublicaciones;
 import resonance.excepciones.LimitException;
-import resonance.interfaces.ControladoraPrincipal;
 import resonance.texto.Chat;
 import resonance.texto.Publicacion;
 import resonance.usuario.Relacion.TipoRelacion;
@@ -60,8 +59,6 @@ public class Usuario implements Serializable {
 		return false;
 	}
 
-	
-	
 	public void setLimiteAmigos(int limiteAmigos) {
 		this.limiteAmigos = limiteAmigos;
 	}
@@ -86,7 +83,7 @@ public class Usuario implements Serializable {
 			}
 		} else {
 			relaciones.add(new Relacion(relacion, destino));
-			
+
 		}
 
 	}
@@ -116,11 +113,10 @@ public class Usuario implements Serializable {
 	public boolean modificarConexion(Usuario usuario, TipoRelacion relacion) {
 		for (Relacion r : relaciones) {
 			if (r.getUsuario().getID().equals(usuario.getID())) {
-				if((r.getTipo() != TipoRelacion.BLOQUEADO)) {
-
+				if ((r.getTipo() != TipoRelacion.BLOQUEADO)) {
 
 					r.setTipo(relacion);
-					
+
 				}
 				return true;
 			}
@@ -129,13 +125,13 @@ public class Usuario implements Serializable {
 		return false;
 
 	}
+
 	public Chat getChat(String user) {
 
 		ArrayList<Chat> chats = covertirArrayList(getChats());
 
 		Chat chatEncontrado = null;
-        
-		
+
 		System.out.println(chats.size());
 		for (int i = 0; i < chats.size(); i++) {
 
@@ -147,8 +143,7 @@ public class Usuario implements Serializable {
 		}
 		return chatEncontrado;
 	}
-	
-	
+
 	/**
 	 * Metodo que elimina todo tipo de relacion con una persona.
 	 * 
@@ -183,11 +178,10 @@ public class Usuario implements Serializable {
 		return lista;
 	}
 
-	
-	public void crearChat(Usuario user)
-	{
+	public void crearChat(Usuario user) {
 		chats.agregar(new Chat(user));
 	}
+
 	/**
 	 * Metodo que obtiene las publicaciones que se mostraran en el menu inicial.
 	 * 
@@ -302,7 +296,7 @@ public class Usuario implements Serializable {
 
 		return chats;
 	}
-	
+
 	/**
 	 * Metodo que permite agregar una publicacion
 	 * 
@@ -427,4 +421,40 @@ public class Usuario implements Serializable {
 		this.admin = admin;
 	}
 
+	@Override
+	public String toString() {
+
+		String s = id + ": ";
+		s += "{" + getPerfil().getNombre() + "}\n";
+		s += "Relaciones: " + relaciones.size() + "\n";
+
+		for (int i = 0; i < relaciones.size(); i++) {
+
+			s += "[" + i + "]:";
+			if (relaciones.get(i) != null) {
+
+				s += relaciones.get(i).getUsuario().getID() + "\n";
+
+			} else {
+
+				s += null + "\n";
+
+			}
+
+		}
+		return s;
+	}
+
+	public void setNombre(String nombre) {
+
+		perfil.setNombre(nombre);
+	}
+
+	public void setCorreo(String correo) {
+		perfil.setCorreo(correo);
+	}
+
+	public void setDireccion(String d) {
+		perfil.setDireccion(d);
+	}
 }

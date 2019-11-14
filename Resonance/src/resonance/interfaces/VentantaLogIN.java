@@ -22,7 +22,6 @@ import javax.swing.JSeparator;
 import javax.swing.JTextField;
 
 import resonance.Resonance;
-import resonance.archivos.AdministradorDeArchivos;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.usuario.Usuario;
@@ -39,6 +38,7 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 	private Resonance resonance;
 	private VentantaLogIN instance;
 	private Usuario userLogin;
+	private JLabel lblMensajeDeError;
 
 	public VentantaLogIN(Resonance resonance) {
 
@@ -146,6 +146,11 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 		checkCondiciones.setBounds(panelInicioSesion.getWidth() / 4, 516, 333, 23);
 		panelInicioSesion.add(checkCondiciones);
 
+		lblMensajeDeError = new JLabel("Clave o usuario incorrectos, por favor revsie su informacion");
+		lblMensajeDeError.setForeground(Color.RED);
+		lblMensajeDeError.setBounds(151, 573, 352, 14);
+		panelInicioSesion.add(lblMensajeDeError);
+		lblMensajeDeError.setVisible(false);
 		JPanel panelSesion = new JPanel();
 		panelSesion.addMouseListener(new MouseAdapter() {
 			@Override
@@ -153,19 +158,25 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 				String username = tfUsername.getText();
 				String password = tfContrasena.getText();
 				userLogin = null;
+
+				if (username.equals("admin") && password.equals("admin")) {
+					VentanaAdministrador vAdmin = new VentanaAdministrador(getResonance());
+					vAdmin.setVisible(true);
+					instance.setVisible(false);
+					return;
+				}
 				if (resonance.alreadyExist(username)) {
 					userLogin = resonance.obtenerUsuario(username);
 				}
 
 				if (userLogin == null) {
-					// Mensaje de error que no existe un usuario con ese nombre de usuario en la
-					// base de datos.
-					System.out.println("nonas");
+					lblMensajeDeError.setVisible(true);
 				} else {
 					if (password.equals(userLogin.getPerfil().getContrasena())) {
 						VentanaRaiz vTotal = new VentanaRaiz();
 						vTotal.setVisible(true);
-						instance.dispose();
+					} else {
+						lblMensajeDeError.setVisible(true);
 					}
 				}
 
@@ -257,6 +268,12 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 		this.userLogin = user;
 	}
 
+	public void reiniciar() {
+		lblMensajeDeError.setVisible(false);
+		tfUsername.setText("");
+		tfContrasena.setText("");
+	}
+
 	public void anadirUsuario(String nombre, Usuario perfil) {
 		try {
 			resonance.anadirUsuario(nombre, perfil);
@@ -269,8 +286,8 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 	public Resonance getResonance() {
 		return resonance;
 	}
+
 	public boolean alreadyExist(String name) {
 		return resonance.alreadyExist(name);
 	}
-
 }

@@ -69,7 +69,6 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 		panelNombreUsuario.add(labelUsuario);
 		labelUsuario.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 
-
 		textMensaje = new JTextField();
 
 		panelMensajes = new JPanel();
@@ -112,20 +111,16 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 	}
 
-
-		
 	public void cargarMensajesEjemplo() throws BadLocationException {
-	panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.Y_AXIS));
+		panelMensajes.setLayout(new BoxLayout(panelMensajes, BoxLayout.Y_AXIS));
 
+		if (userLogin.getChat(user.getID()) == null) {
+			userLogin.crearChat(user);
+			user.crearChat(userLogin);
+		}
 
-	   if(userLogin.getChat(user.getID())==null)
-	   {
-		   userLogin.crearChat(user);
-		   user.crearChat(userLogin);
-	   }
- 
 		ListaMensajes mensajes = userLogin.getChat(user.getID()).getMensajes();
-		
+
 		mensajes.irAlPrimero();
 
 		for (int i = 0; i < mensajes.getLongitud(); i++) {
@@ -149,13 +144,8 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 		}
 
 		// panelMensajes.add(mensaje);
-		
+
 		// historialChat.add(mensaje);
-		
-	
-
-
-
 
 	}
 
@@ -163,7 +153,7 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 		String salida = "";
 
-		salida += "@" + user +"  "+ toStringFecha(fecha) + "\n";
+		salida += "@" + user + "  " + toStringFecha(fecha) + "\n";
 		salida += mensaje;
 		RoundJTextPane panelMensajeCreado = new RoundJTextPane();
 		if (tipo.equals("propio")) {
@@ -173,16 +163,14 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 		panelMensajeCreado.setEditable(false);
 		// panelMensajeCreado.setEnabled(false);
 		setJTextPaneFont(panelMensajeCreado, new Font("Segoe UI", Font.PLAIN, 14), Color.BLACK);
-		
-		
 
 		if (mensaje.length() > 33) {
 			panelMensajeCreado.setMaximumSize(new Dimension(200, 50 + ((mensaje.length() / 33) + 1) * 20));
 			panelMensajeCreado.setText(salida);
-			} else {
+		} else {
 			panelMensajeCreado.setMaximumSize(new Dimension(200, 50));
 			panelMensajeCreado.setText(salida);
-			}
+		}
 
 		// }
 
@@ -190,18 +178,16 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 	}
 
-	
-	
-	public String toStringFecha(Date fecha)
-	{
-		String f ="";
+	public String toStringFecha(Date fecha) {
+		String f = "";
 		int d = fecha.getDay();
 		int m = fecha.getMonth();
 		int a = fecha.getYear();
-		
-		f = d+"/"+m+"/"+a+"/"+ " " + fecha.getHours()+":" +fecha.getMinutes();
+
+		f = d + "/" + m + "/" + a + "/" + " " + fecha.getHours() + ":" + fecha.getMinutes();
 		return f;
 	}
+
 	public static void setJTextPaneFont(JTextPane jtp, Font font, Color c) {
 		// Start with the current input attributes for the JTextPane. This
 		// should ensure that we do not wipe out any existing attributes
@@ -247,11 +233,12 @@ public class PanelConversacionUsuario extends JPanel implements ActionListener, 
 
 				userLogin.getChat(user.getID()).anadirMensaje(new Mensaje(mensaje, date, userLogin.getID()));
 				user.getChat(userLogin.getID()).anadirMensaje(new Mensaje(mensaje, date, userLogin.getID()));
-				
+
 				int a = userLogin.getChat(user.getID()).getMensajes().getLongitud();
-				System.out.println("tamano mensaje "+ a);
-				AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
-				
+				System.out.println("tamano mensaje " + a);
+				AdministradorDeArchivos
+						.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+
 				instance.repaint();
 				instance.revalidate();
 

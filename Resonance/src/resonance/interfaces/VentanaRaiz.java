@@ -2,7 +2,6 @@ package resonance.interfaces;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
@@ -13,7 +12,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
@@ -37,7 +35,6 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 	private JMenuItem mntmCerrarSesion;
 	private VentantaLogIN vLogin;
 	private JPanel panelContenedor;
-
 
 	public VentanaRaiz() {
 		this.vLogin = ControladoraPrincipal.getI();
@@ -203,7 +200,11 @@ public class VentanaRaiz extends JFrame implements ActionListener {
 		}
 
 		if (arg0.getSource() == mntmCerrarSesion) {
-			JOptionPane.showMessageDialog(null, "Cerrando sesion");
+			ControladoraPrincipal.getI().reiniciar();
+			ControladoraPrincipal.getI().setVisible(true);
+			ControladoraPrincipal.getI().setUserLogin(null);
+			this.setVisible(false);
+			this.dispose();
 		}
 	}
 }
