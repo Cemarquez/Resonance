@@ -443,7 +443,9 @@ public class Usuario implements Serializable {
 	}
 
 	public void removeSolicitud(Usuario user) {
-		solicitudes.remove(user);
+
+		if (solicitudes.contains(user))
+			solicitudes.remove(user);
 	}
 
 	@Override

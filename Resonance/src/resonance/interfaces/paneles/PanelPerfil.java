@@ -313,6 +313,8 @@ public class PanelPerfil extends JPanel implements MouseListener {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							userLogin.removeSolicitud(user);
+							user.removeSolicitud(userLogin);
 							lblAnadir.setText("Aceptada");
 							AdministradorDeArchivos.serializarGrafo(
 									ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());

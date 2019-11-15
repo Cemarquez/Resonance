@@ -146,6 +146,13 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 		panelEditarPerfil.add(panelAmistad);
 
 		lblAmistad = new JLabel("Enviar solicitud");
+
+		if (userLogin.isAmigo(user.getID())) {
+			lblAmistad.setText("Amigos");
+		}
+		if (user.yaMandoSolicitud(userLogin)) {
+			lblAmistad.setText("Solicitud enviada");
+		}
 		lblAmistad.setForeground(Color.WHITE);
 		lblAmistad.setFont(new Font("Segoe UI", Font.PLAIN, 15));
 		lblAmistad.setBounds(39, 0, 143, 28);
@@ -196,25 +203,27 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 
 		if (arg0.getSource() == panelAmistad) {
 
-			if (!user.yaMandoSolicitud(userLogin)) {
+			if (!userLogin.isAmigo(user.getID())) {
+				if (!user.yaMandoSolicitud(userLogin)) {
 
-				try {
-					resonance.getAdministradorDeUsuarios().enviarSolicitud(userLogin.getID(), user.getID(),
-							TipoRelacion.PENDIENTE);
+					try {
+						resonance.getAdministradorDeUsuarios().enviarSolicitud(userLogin.getID(), user.getID(),
+								TipoRelacion.PENDIENTE);
+						AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
+					} catch (ExistException | LimitException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					lblAmistad.setText("Solicitud enviada");
+
+				} else {
+
+					user.removeSolicitud(userLogin);
+					userLogin.eliminarRelacion(user);
 					AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
-				} catch (ExistException | LimitException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					lblAmistad.setText("Enviar solicitud");
+
 				}
-				lblAmistad.setText("Solicitud enviada");
-
-			} else {
-
-				user.removeSolicitud(userLogin);
-				userLogin.eliminarRelacion(user);
-				AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
-				lblAmistad.setText("Enviar solicitud");
-
 			}
 
 		}
