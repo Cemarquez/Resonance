@@ -175,6 +175,7 @@ public class VentantaLogIN extends JFrame implements ActionListener, KeyListener
 					if (password.equals(userLogin.getPerfil().getContrasena())) {
 						VentanaRaiz vTotal = new VentanaRaiz();
 						vTotal.setVisible(true);
+						instance.setVisible(false);
 					} else {
 						lblMensajeDeError.setVisible(true);
 					}

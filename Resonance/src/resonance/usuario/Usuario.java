@@ -24,6 +24,7 @@ public class Usuario implements Serializable {
 	private ListaChats chats;
 	private boolean admin = false;
 	private ListaPublicaciones publicaciones;
+	private ArrayList<Usuario> solicitudes;
 	// Fotos
 
 	/**
@@ -33,6 +34,7 @@ public class Usuario implements Serializable {
 	 * @param perfil
 	 */
 	public Usuario(String nombre, Perfil perfil) {
+		solicitudes = new ArrayList<Usuario>();
 		this.instance = this;
 		this.setPerfil(perfil);
 		this.id = nombre;
@@ -170,7 +172,7 @@ public class Usuario implements Serializable {
 	 */
 	public ListaPublicaciones getPublicaciones() {
 
-			return publicaciones;
+		return publicaciones;
 	}
 
 	public void crearChat(Usuario user) {
@@ -184,12 +186,10 @@ public class Usuario implements Serializable {
 	 */
 	public ListaPublicaciones obtenerPublicacionesInicio() {
 		ListaPublicaciones lista = new ListaPublicaciones();
-		for (int i = 0; i<getAmigos().size(); i++) 
-		{
+		for (int i = 0; i < getAmigos().size(); i++) {
 			Usuario u = getAmigos().get(i);
-			
-			for (int j = 0; j < u.getPublicaciones().getLongitud(); j++) 
-			{
+
+			for (int j = 0; j < u.getPublicaciones().getLongitud(); j++) {
 				Publicacion p = u.getPublicaciones().getPublicacion(j);
 				lista.agregar(p);
 			}
@@ -250,18 +250,7 @@ public class Usuario implements Serializable {
 
 	public ArrayList<Usuario> obtenerSolicitudesPendientes() {
 
-		ArrayList<Usuario> listaSolicitudes = new ArrayList<Usuario>();
-
-		for (int i = 0; i < relaciones.size(); i++) {
-
-			if (relaciones.get(i).getTipo() == TipoRelacion.PENDIENTE) {
-
-				listaSolicitudes.add(relaciones.get(i).getUsuario());
-			}
-		}
-
-		return listaSolicitudes;
-
+		return solicitudes;
 	}
 
 	/**
@@ -335,9 +324,11 @@ public class Usuario implements Serializable {
 	 */
 	public boolean isAmigo(String user) {
 		for (Relacion r : relaciones) {
-			if (id.equals(user)) {
+			if (r.getUsuario().getID().equals(user)) {
 				if (r.isAmigo()) {
 					return true;
+				} else {
+					return false;
 				}
 			}
 		}
@@ -429,6 +420,30 @@ public class Usuario implements Serializable {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+
+	public ArrayList<Usuario> getSolicitudes() {
+		return solicitudes;
+	}
+
+	public void addSolicitud(Usuario user) {
+		if (!yaMandoSolicitud(user))
+			solicitudes.add(user);
+	}
+
+	public boolean yaMandoSolicitud(Usuario user) {
+
+		for (Usuario u : solicitudes) {
+			if (u.getID().equals(user.getID())) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void removeSolicitud(Usuario user) {
+		solicitudes.remove(user);
 	}
 
 	@Override

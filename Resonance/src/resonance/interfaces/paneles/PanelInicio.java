@@ -11,11 +11,8 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,7 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -41,17 +37,13 @@ import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaPublicaciones;
 import resonance.estructura.RedDeUsuarios;
-import resonance.excepciones.ExistException;
-import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
+import resonance.interfaces.VentanaComentarios;
 import resonance.interfaces.VentanaMeGusta;
 import resonance.interfaces.VentantaLogIN;
-import resonance.interfaces.misc.RoundJTextArea;
-import resonance.texto.Comentario;
 import resonance.texto.Publicacion;
 import resonance.texto.Reaccion;
 import resonance.texto.Reaccion.TipoReaccion;
-import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
 
 public class PanelInicio extends JPanel implements ActionListener {
@@ -70,7 +62,6 @@ public class PanelInicio extends JPanel implements ActionListener {
 	private JPanel panel_1;
 	private JTextArea textAreaPublicacion;
 	private JButton btnPublicar;
-	private JPanel panelScrollComentarios;
 	private Publicacion publicacionSelected = null;
 
 	/**
@@ -148,76 +139,7 @@ public class PanelInicio extends JPanel implements ActionListener {
 		panelResultados.setBackground(SystemColor.controlDkShadow);
 		panelResultados.setPreferredSize(new Dimension(440, 65 * 4));
 		scrollBuscara.setViewportView(panelResultados);
-		panelResultados.setLayout(null);
-
-		JPanel panelComentarios = new JPanel();
-		panelComentarios.setBorder(new LineBorder(new Color(0, 0, 0)));
-		panelComentarios.setBounds(0, 381, 445, 44);
-		panelBusqueda.add(panelComentarios);
-
-		JLabel lblComentarios = new JLabel(
-				"Comentarios                                                               ");
-		lblComentarios.setFont(new Font("Teen Light", Font.BOLD, 15));
-		panelComentarios.add(lblComentarios);
-
-		JScrollPane scrollPaneComentarios = new JScrollPane();
-		scrollPaneComentarios.setBounds(0, 422, 445, 239);
-		panelBusqueda.add(scrollPaneComentarios);
-
-		panelScrollComentarios = new JPanel();
-		scrollPaneComentarios.setViewportView(panelScrollComentarios);
-		panelScrollComentarios.setLayout(new BoxLayout(panelScrollComentarios, BoxLayout.Y_AXIS));
-		JPanel panelEscribirMensaje = new JPanel();
-		panelEscribirMensaje.setBounds(0, 660, 455, 49);
-
-		panelEscribirMensaje.setLayout(new BorderLayout(0, 0));
-
-		RoundJTextArea textArea = new RoundJTextArea();
-		JScrollPane jp = new JScrollPane(textArea);
-		jp.setBorder(null);
-		panelEscribirMensaje.add(jp, BorderLayout.CENTER);
-
-		JLabel btnEnviar = new JLabel("");
-		btnEnviar.addMouseListener(new MouseAdapter() {
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				String mensaje = textArea.getText();
-				Date fecha = new Date();
-				String idUser = userLogin.getID();
-				Comentario c = new Comentario(idUser, mensaje, fecha);
-				if (publicacionSelected != null) {
-					publicacionSelected.agregarComentario(c);
-
-					AdministradorDeArchivos
-							.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
-					refreshComentarios(publicacionSelected);
-				}
-			}
-
-		});
-		btnEnviar.setIcon(new ImageIcon(PanelConversacion.class.getResource("/imagenes/icono_enviar_chat.png")));
-		panelEscribirMensaje.add(btnEnviar, BorderLayout.EAST);
-
-		panelBusqueda.add(panelEscribirMensaje);
-	}
-
-	public void cargarComentarios(Publicacion p) {
-
-		panelScrollComentarios.removeAll();
-		refreshPublicaciones();
-		ArrayList<Comentario> comentarios = p.getComentarios();
-
-		for (Comentario c : comentarios) {
-
-			panelScrollComentarios.add(new PanelComentario(c));
-		}
-	}
-
-	public void refreshComentarios(Publicacion p) {
-
-		panelScrollComentarios.removeAll();
-		cargarComentarios(p);
+		panelResultados.setLayout(new BoxLayout(panelResultados, BoxLayout.Y_AXIS));
 	}
 
 	public void refreshPublicaciones() {
@@ -296,7 +218,6 @@ public class PanelInicio extends JPanel implements ActionListener {
 	}
 
 	public void generarUsuarios() {
-		int y = 0, tamano = 65;
 		RedDeUsuarios red = resonance.getAdministradorDeUsuarios();
 		HashMap<String, Usuario> grafo = red.getGrafo();
 
@@ -306,103 +227,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 			Usuario a = grafo.get(obj);
 
 			if (!(userLogin.getID().equals(a.getID()) && !(a.isBloqueado(userLogin.getID())))) {
-				JPanel panelUsuario = new JPanel();
-				panelUsuario.setBorder(new LineBorder(new Color(0, 0, 0)));
-				panelUsuario.setBackground(SystemColor.controlDkShadow);
-				panelUsuario.setBounds(0, y, 443, tamano);
-				panelResultados.add(panelUsuario);
-				panelUsuario.setLayout(null);
-
-				JLabel lblFoto = new JLabel("");
-				lblFoto.setSize(48, 48);
-				try {
-					Image ima = ImageIO.read(a.getPerfil().getFotoPerfil());
-					ImageIcon icon = new ImageIcon(
-							ima.getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH));
-
-					lblFoto.setIcon(icon);
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				lblFoto.setBounds(14, 0, 50, 65);
-				panelUsuario.add(lblFoto);
-
-				JLabel lblNombre = new JLabel(a.getID());
-				lblNombre.setFont(new Font("Tahoma", Font.BOLD, 16));
-				lblNombre.setBounds(74, 0, 299, 65);
-				panelUsuario.add(lblNombre);
-
-				if (!a.estaRelacionado(userLogin.getID())) {
-
-					JPanel panelAnadir = new JPanel();
-					panelAnadir.setBackground(new Color(0, 128, 0));
-					panelAnadir.setBounds(315, 11, 118, 43);
-					panelUsuario.add(panelAnadir);
-					panelAnadir.setLayout(null);
-
-					JLabel lblAnadir = new JLabel("Enviar Solicitud");
-					lblAnadir.setBounds(10, 11, 101, 20);
-					lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
-					panelAnadir.add(lblAnadir);
-					panelAnadir.addMouseListener(new MouseAdapter() {
-						@Override
-						public void mousePressed(MouseEvent arg0) {
-
-							try {
-								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), a.getID(),
-										TipoRelacion.PENDIENTE);
-								AdministradorDeArchivos.serializarGrafo(
-										ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
-								lblAnadir.setText("Enviada");
-								panelAnadir.setBackground(Color.CYAN);
-
-							} catch (LimitException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (ExistException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-							refreshPanelBusqueda();
-						}
-					});
-				}
-
-				else {
-					JPanel panelAnadir = new JPanel();
-					panelAnadir.setBackground(Color.CYAN);
-					panelAnadir.setBounds(315, 11, 118, 43);
-					panelUsuario.add(panelAnadir);
-					panelAnadir.setLayout(null);
-					JLabel lblAnadir = new JLabel("Enviada");
-					lblAnadir.setBounds(10, 11, 101, 20);
-					lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
-					panelAnadir.add(lblAnadir);
-
-				}
-
-//				 Metodo que abre perfil seleccionado en nueva ventana
-				panelUsuario.addMouseListener(new MouseAdapter() {
-
-					@Override
-					public void mousePressed(MouseEvent arg0) {
-
-						PanelPerfilUsuario perfilUsuario = new PanelPerfilUsuario(a, userLogin);
-
-						JFrame frame = new JFrame();
-
-						frame.setBounds(0, 0, perfilUsuario.getWidth(), perfilUsuario.getHeight());
-						frame.add(perfilUsuario);
-						frame.setVisible(true);
-					}
-				});
-
-				y += tamano;
+				PanelResultadoPerfil pr = new PanelResultadoPerfil(a);
+				panelResultados.add(pr);
 			}
 
 		}
@@ -542,8 +368,8 @@ public class PanelInicio extends JPanel implements ActionListener {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					publicacionSelected = publicacion;
-					refreshComentarios(publicacion);
+					VentanaComentarios v = new VentanaComentarios(publicacion);
+					v.setVisible(true);
 
 				}
 			});

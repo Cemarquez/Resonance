@@ -1,13 +1,16 @@
 package resonance.estructura;
 
+import java.io.File;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
+import resonance.archivos.AdministradorDeArchivos;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.texto.Publicacion;
+import resonance.usuario.Perfil;
 import resonance.usuario.Relacion;
 import resonance.usuario.Relacion.TipoRelacion;
 import resonance.usuario.Usuario;
@@ -21,6 +24,55 @@ public class RedDeUsuarios implements Serializable {
 	public RedDeUsuarios() {
 		grafo = new HashMap<>();
 		nodoInicial = null;
+		cargarPruebas();
+	}
+
+	public void cargarPruebas() {
+		if (grafo.get("Cemarquez") == null && grafo.get("RyanDeep") == null && grafo.get("DaftClub") == null
+				&& grafo.get("Kikhe") == null && grafo.get("Sebastian") == null) {
+			File fileFoto = new File(RedDeUsuarios.class.getResource("/imagenes/fotoperfil_icono.png").getFile());
+			Perfil perfilCesar = new Perfil("Cesar Marquez", "Cemarquez", "cesar@hotmail.com", "calle 12", "cesar");
+			Usuario userCesar = new Usuario("Cemarquez", perfilCesar);
+
+			Perfil perfilBrian = new Perfil("Brian Giraldo", "RyanDeep", "brian@hotmail.com", "calle 12", "brian");
+			Usuario userBrian = new Usuario("RyanDeep", perfilBrian);
+
+			Perfil perfilEsteban = new Perfil("Esteban Sanchez", "DaftClub", "esteban@hotmail.com", "calle 12",
+					"esteban");
+			Usuario userEsteban = new Usuario("DaftClub", perfilEsteban);
+
+			Perfil perfilKikhe = new Perfil("Kikhe Suarez", "Kikhe", "kikhe@hotmail.com", "calle 12", "kikhe");
+			Usuario userKikhe = new Usuario("Kikhe", perfilKikhe);
+
+			Perfil perfilSebastian = new Perfil("Sebastian Medina", "Sebastian", "sebastian@hotmail.com", "calle 12",
+					"sebas");
+			Usuario userSebastian = new Usuario("Sebastian", perfilSebastian);
+
+			try {
+				agregar(userCesar.getID(), userCesar);
+				agregar(userBrian.getID(), userBrian);
+				agregar(userEsteban.getID(), userEsteban);
+				agregar(userKikhe.getID(), userKikhe);
+				agregar(userSebastian.getID(), userSebastian);
+			} catch (LimitException | ExistException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			AdministradorDeArchivos.crearCarpetaUsuario(userCesar.getID());
+			AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userCesar.getID());
+
+			AdministradorDeArchivos.crearCarpetaUsuario(userBrian.getID());
+			AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userBrian.getID());
+
+			AdministradorDeArchivos.crearCarpetaUsuario(userEsteban.getID());
+			AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userEsteban.getID());
+
+			AdministradorDeArchivos.crearCarpetaUsuario(userKikhe.getID());
+			AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userKikhe.getID());
+
+			AdministradorDeArchivos.crearCarpetaUsuario(userSebastian.getID());
+			AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userSebastian.getID());
+		}
 	}
 
 	public boolean alreadyExist(String name) {
@@ -63,6 +115,16 @@ public class RedDeUsuarios implements Serializable {
 			throw new ExistException("No existen nodos con los nombres ingresados.");
 		}
 
+	}
+
+	public void enviarSolicitud(String nombreOrigen, String nombreDestino, TipoRelacion tipoRelacion)
+			throws ExistException, LimitException {
+		if (grafo.get(nombreOrigen) != null && grafo.get(nombreDestino) != null) {
+			grafo.get(nombreOrigen).determinarRelacion(grafo.get(nombreDestino), tipoRelacion);
+			grafo.get(nombreDestino).addSolicitud(grafo.get(nombreOrigen));
+		} else {
+			throw new ExistException("No existen nodos con los nombres ingresados.");
+		}
 	}
 
 	public boolean isBloqueado(String nombreOrigen, String nombreDestino) {

@@ -33,11 +33,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 
+import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
 import resonance.estructura.ListaPublicaciones;
 import resonance.excepciones.ExistException;
 import resonance.excepciones.LimitException;
 import resonance.interfaces.ControladoraPrincipal;
+import resonance.interfaces.VentanaComentarios;
 import resonance.interfaces.VentanaMeGusta;
 import resonance.interfaces.VentantaLogIN;
 import resonance.interfaces.misc.ImagePanel;
@@ -64,11 +66,13 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 	private JPanel panelAmistad;
 	private JLabel lblAmistad;
 	private Publicacion publicacionSelected = null;
+	private Resonance resonance;
 
 	/**
 	 * Create the panel.
 	 */
 	public PanelPerfilUsuario(Usuario user, Usuario userLogin) {
+		this.resonance = ControladoraPrincipal.getI().getResonance();
 		this.instance = this;
 		this.user = user;
 		this.userLogin = userLogin;
@@ -144,7 +148,7 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 		lblAmistad = new JLabel("Enviar solicitud");
 		lblAmistad.setForeground(Color.WHITE);
 		lblAmistad.setFont(new Font("Segoe UI", Font.PLAIN, 15));
-		lblAmistad.setBounds(39, 0, 110, 28);
+		lblAmistad.setBounds(39, 0, 143, 28);
 		panelAmistad.add(lblAmistad);
 		panelAmistad.addMouseListener(this);
 
@@ -192,7 +196,26 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 
 		if (arg0.getSource() == panelAmistad) {
 
-			lblAmistad.setText("Solicitud enviada");
+			if (!user.yaMandoSolicitud(userLogin)) {
+
+				try {
+					resonance.getAdministradorDeUsuarios().enviarSolicitud(userLogin.getID(), user.getID(),
+							TipoRelacion.PENDIENTE);
+					AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
+				} catch (ExistException | LimitException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				lblAmistad.setText("Solicitud enviada");
+
+			} else {
+
+				user.removeSolicitud(userLogin);
+				userLogin.eliminarRelacion(user);
+				AdministradorDeArchivos.serializarGrafo(resonance.getAdministradorDeUsuarios());
+				lblAmistad.setText("Enviar solicitud");
+
+			}
 
 		}
 	}
@@ -405,7 +428,8 @@ public class PanelPerfilUsuario extends JPanel implements MouseListener {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					publicacionSelected = publicacion;
+					VentanaComentarios v = new VentanaComentarios(publicacion);
+					v.setVisible(true);
 
 				}
 			});

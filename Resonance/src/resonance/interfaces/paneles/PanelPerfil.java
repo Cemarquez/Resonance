@@ -98,12 +98,10 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 		Image img2 = new ImageIcon(Panel.class.getResource("/imagenes/tercera.jpg")).getImage();
 
-
 		try {
 			img2 = ImageIO.read(userLogin.getPerfil().getFotoPerfil());
 
 			Image fotoPerfilEscalada = img2.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
-
 
 			paneFotoPerfil = new ImagePanel(fotoPerfilEscalada, 120, 120);
 
@@ -112,7 +110,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 			e.printStackTrace();
 		}
 		panelScroll.setLayout(new BoxLayout(panelScroll, BoxLayout.Y_AXIS));
-
 
 		panelEditarPerfil = new JPanel();
 		panelEditarPerfil.setMaximumSize(new Dimension(1300, 310));
@@ -188,7 +185,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 		obtenerSolicitudes();
 	}
 
-
 	@Override
 	public void mousePressed(MouseEvent arg0) {
 
@@ -210,15 +206,13 @@ public class PanelPerfil extends JPanel implements MouseListener {
 
 					AdministradorDeArchivos.cambiarFotoPerfil(fileFoto, userLogin.getID());
 
-
-
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 
 			}
-			
+
 		}
 		refresh();
 
@@ -264,12 +258,9 @@ public class PanelPerfil extends JPanel implements MouseListener {
 		btnPublicar.setBounds(443, 118, 89, 23);
 		panel.add(btnPublicar);
 
-
-
 	}
 
 	public void obtenerSolicitudes() {
-
 
 		int y = 0, tamano = 65;
 
@@ -304,27 +295,29 @@ public class PanelPerfil extends JPanel implements MouseListener {
 				panelUsuario.add(panelAnadir);
 				panelAnadir.setLayout(null);
 
-				JLabel lblAnadir = new JLabel("Pendiente");
+				JLabel lblAnadir = new JLabel("Aceptar");
+				if (userLogin.isAmigo(user.getID())) {
+					lblAnadir.setText("Aceptada");
+				}
 				lblAnadir.setBounds(10, 11, 101, 20);
 				lblAnadir.setFont(new Font("Tw Cen MT Condensed", Font.BOLD, 18));
 				lblAnadir.addMouseListener(new MouseAdapter() {
-					
-					public void mousePressed(MouseEvent e)
-					{
-						System.out.println("me dieron click");
-						try {
-							ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), user.getID(), TipoRelacion.AMIGOS);
-							System.out.println(userLogin.getAmigos().size());
-							System.out.println(userLogin.getRelaciones().size());
-						} catch (ExistException | LimitException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+
+					@Override
+					public void mousePressed(MouseEvent e) {
+						if (!userLogin.isAmigo(user.getID())) {
+							try {
+								ControladoraPrincipal.getI().getResonance().conectar(userLogin.getID(), user.getID(),
+										TipoRelacion.AMIGOS);
+							} catch (ExistException | LimitException e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}
+							lblAnadir.setText("Aceptada");
+							AdministradorDeArchivos.serializarGrafo(
+									ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
 						}
-                       if(userLogin.isAmigo(user.getID()))
-                       {
-                    	   System.out.println("soy amigo del bobito");
-                       }
-						AdministradorDeArchivos.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+
 					}
 				});
 				panelAnadir.add(lblAnadir);
@@ -340,7 +333,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 			lblSinSolicitudes.setBounds(177, 262, 150, 24);
 			panelResultados.add(lblSinSolicitudes);
 			panelResultados.add(lblSinSolicitudes);
-
 
 		}
 	}
@@ -464,8 +456,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 	}
 
 	public void refresh() {
-
-
 
 		instance.removeAll();
 		panelPublicaciones = new JPanel();
@@ -610,7 +600,6 @@ public class PanelPerfil extends JPanel implements MouseListener {
 		panelResultados.setLayout(null);
 
 	}
-
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {

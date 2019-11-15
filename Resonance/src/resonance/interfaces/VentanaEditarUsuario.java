@@ -17,6 +17,7 @@ import javax.swing.border.LineBorder;
 
 import resonance.Resonance;
 import resonance.archivos.AdministradorDeArchivos;
+import resonance.excepciones.ExistException;
 import resonance.usuario.Usuario;
 
 public class VentanaEditarUsuario extends JFrame {
@@ -147,6 +148,31 @@ public class VentanaEditarUsuario extends JFrame {
 		btnSalvar.setForeground(SystemColor.controlShadow);
 		btnSalvar.setBounds(327, 353, 89, 23);
 		panel.add(btnSalvar);
+
+		JButton btnEliminarUsuario = new JButton("Eliminar Usuario");
+		btnEliminarUsuario.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios().eliminar(usuario.getID());
+				} catch (ExistException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				AdministradorDeArchivos
+						.serializarGrafo(ControladoraPrincipal.getI().getResonance().getAdministradorDeUsuarios());
+				instance.setVisible(false);
+				instance.dispose();
+
+				VentanaAdministrarUsuarios v = new VentanaAdministrarUsuarios();
+				v.setVisible(true);
+
+			}
+		});
+		btnEliminarUsuario.setForeground(Color.WHITE);
+		btnEliminarUsuario.setBackground(Color.RED);
+		btnEliminarUsuario.setBounds(494, 162, 130, 23);
+		panel.add(btnEliminarUsuario);
 
 		setResizable(false);
 		setExtendedState(MAXIMIZED_BOTH);
